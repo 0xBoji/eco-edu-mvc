@@ -41,7 +41,7 @@ public partial class EcoEduContext : DbContext
     {
         modelBuilder.Entity<Competition>(entity =>
         {
-            entity.HasKey(e => e.CompetitionId).HasName("PK__Competit__87D31213D5D3D154");
+            entity.HasKey(e => e.CompetitionId).HasName("PK__Competit__87D3121326235D57");
 
             entity.Property(e => e.CompetitionId).HasColumnName("Competition_Id");
             entity.Property(e => e.Description).HasColumnType("text");
@@ -57,7 +57,7 @@ public partial class EcoEduContext : DbContext
 
         modelBuilder.Entity<CompetitionEntry>(entity =>
         {
-            entity.HasKey(e => e.EntryId).HasName("PK__Competit__41CE7C8CB5215084");
+            entity.HasKey(e => e.EntryId).HasName("PK__Competit__41CE7C8C6365503E");
 
             entity.ToTable("Competition_Entries");
 
@@ -85,7 +85,7 @@ public partial class EcoEduContext : DbContext
 
         modelBuilder.Entity<Contact>(entity =>
         {
-            entity.HasKey(e => e.ContactId).HasName("PK__Contacts__82ACC1ED5BB45711");
+            entity.HasKey(e => e.ContactId).HasName("PK__Contacts__82ACC1ED7B670D33");
 
             entity.Property(e => e.ContactId).HasColumnName("Contact_Id");
             entity.Property(e => e.Content).HasColumnType("text");
@@ -96,7 +96,7 @@ public partial class EcoEduContext : DbContext
 
         modelBuilder.Entity<Faq>(entity =>
         {
-            entity.HasKey(e => e.FaqId).HasName("PK__FAQs__838154948C3D669D");
+            entity.HasKey(e => e.FaqId).HasName("PK__FAQs__83815494655C6FEC");
 
             entity.ToTable("FAQs");
 
@@ -107,7 +107,7 @@ public partial class EcoEduContext : DbContext
 
         modelBuilder.Entity<Response>(entity =>
         {
-            entity.HasKey(e => e.ResponseId).HasName("PK__Response__B736E934BE4DB55C");
+            entity.HasKey(e => e.ResponseId).HasName("PK__Response__B736E93408A78023");
 
             entity.ToTable("Response");
 
@@ -123,7 +123,7 @@ public partial class EcoEduContext : DbContext
 
         modelBuilder.Entity<Seminar>(entity =>
         {
-            entity.HasKey(e => e.SeminarId).HasName("PK__Seminars__E0812679CAC25FCC");
+            entity.HasKey(e => e.SeminarId).HasName("PK__Seminars__E08126791926289C");
 
             entity.Property(e => e.SeminarId).HasColumnName("Seminar_Id");
             entity.Property(e => e.Location).HasColumnType("text");
@@ -140,7 +140,7 @@ public partial class EcoEduContext : DbContext
 
         modelBuilder.Entity<Survey>(entity =>
         {
-            entity.HasKey(e => e.SurveyId).HasName("PK__Surveys__6C04F4542EFCE876");
+            entity.HasKey(e => e.SurveyId).HasName("PK__Surveys__6C04F4542581AD07");
 
             entity.Property(e => e.SurveyId).HasColumnName("Survey_Id");
             entity.Property(e => e.AccessId).HasColumnName("Access_Id");
@@ -171,7 +171,7 @@ public partial class EcoEduContext : DbContext
 
         modelBuilder.Entity<SurveyQuestion>(entity =>
         {
-            entity.HasKey(e => e.QuestionId).HasName("PK__Survey_Q__B0B2E4E64FFE3B41");
+            entity.HasKey(e => e.QuestionId).HasName("PK__Survey_Q__B0B2E4E63AB1A05D");
 
             entity.ToTable("Survey_Questions");
 
@@ -191,11 +191,11 @@ public partial class EcoEduContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4C18E89E18");
+            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4C34E8625C");
 
-            entity.HasIndex(e => e.UserCode, "UQ__Users__3E6D1F3410FAFFE1").IsUnique();
+            entity.HasIndex(e => e.UserCode, "UQ__Users__3E6D1F343DB9D54A").IsUnique();
 
-            entity.HasIndex(e => e.Username, "UQ__Users__536C85E4A2F8EA98").IsUnique();
+            entity.HasIndex(e => e.Username, "UQ__Users__536C85E4DC6CF91C").IsUnique();
 
             entity.Property(e => e.CitizenId)
                 .HasMaxLength(20)
@@ -219,7 +219,9 @@ public partial class EcoEduContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.IsAccept).HasColumnName("Is_Accept");
-            entity.Property(e => e.Password).HasMaxLength(256);
+            entity.Property(e => e.Password)
+                .HasMaxLength(256)
+                .IsUnicode(false);
             entity.Property(e => e.Role)
                 .HasMaxLength(7)
                 .IsUnicode(false);
