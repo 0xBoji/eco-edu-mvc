@@ -11,7 +11,7 @@ public partial class User
 
     public string UserCode { get; set; } = null!;
 
-    public byte[] Password { get; set; } = null!;
+    public string Password { get; set; } = null!;
 
     public string Fullname { get; set; } = null!;
 
