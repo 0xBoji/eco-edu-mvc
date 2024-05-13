@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
 namespace eco_edu_mvc.Controllers;
-public class adminController : Controller
+public class AdminController : Controller
 {
-    public IActionResult Index()
-    {
-        return View();
-    }
+    public IActionResult Index() => View();
+    
+    public IActionResult Survey() => View();
 }

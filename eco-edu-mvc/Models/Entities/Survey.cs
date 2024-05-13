@@ -26,4 +26,5 @@ public partial class Survey
     public virtual User Access { get; set; } = null!;
 
     public virtual ICollection<SurveyQuestion> SurveyQuestions { get; set; } = new List<SurveyQuestion>();
+
 }
