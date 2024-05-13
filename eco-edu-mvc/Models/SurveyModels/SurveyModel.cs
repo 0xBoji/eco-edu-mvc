@@ -2,6 +2,7 @@
 
 public class SurveyModel
 {
+	public int SurveyId { get; set; }
 	public int AccessId { get; set; }
 	public string Title { get; set; } = null!;
 	public string Topic { get; set; } = null!;

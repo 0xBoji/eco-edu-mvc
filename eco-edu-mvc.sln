@@ -5,7 +5,7 @@ VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eco-edu-mvc", "eco-edu-mvc\eco-edu-mvc.csproj", "{1A3EF9C9-05A9-45C2-BF0E-3130813DAFE8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{551F236C-2A1C-43CC-ABD8-ADE2E558106F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{551F236C-2A1C-43CC-ABD8-ADE2E558106F}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
