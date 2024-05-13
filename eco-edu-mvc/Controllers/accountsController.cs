@@ -6,18 +6,18 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace eco_edu_mvc.Controllers;
-public class accountsController : Controller
+public class AccountsController : Controller
 {
 	private readonly EcoEduContext context;
 	private readonly IEmailSender emailSender;
 	private readonly IMemoryCache _memoryCache;
 
-	public accountsController(IEmailSender emailSender)
+	public AccountsController(IEmailSender emailSender)
 	{
 		this.emailSender = emailSender;
 	}
 
-	public accountsController(IMemoryCache memoryCache)
+	public AccountsController(IMemoryCache memoryCache)
 	{
 		_memoryCache = memoryCache;
 	}
@@ -234,7 +234,6 @@ public class accountsController : Controller
 				return RedirectToAction("login");
 			}
 			var userId = int.Parse(HttpContext.Session.GetString("UserId"));
-
 			var user = await context.Users.FindAsync(userId);
 			if (user == null)
 			{
@@ -245,7 +244,6 @@ public class accountsController : Controller
 				if (model.code == user.VerificationToken)
 				{
 					user.EmailVerify = true;
-					user.TokenExpiry = DateTime.UtcNow;
 					context.Users.Update(user);
 					await context.SaveChangesAsync();
 					return RedirectToAction("Profile");
