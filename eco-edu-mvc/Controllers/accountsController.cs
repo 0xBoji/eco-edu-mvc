@@ -245,6 +245,7 @@ public class accountsController : Controller
 				if (model.code == user.VerificationToken)
 				{
 					user.EmailVerify = true;
+					user.TokenExpiry = DateTime.UtcNow;
 					context.Users.Update(user);
 					await context.SaveChangesAsync();
 					return RedirectToAction("Profile");
