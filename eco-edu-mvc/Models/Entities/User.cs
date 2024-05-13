@@ -11,7 +11,7 @@ public partial class User
 
     public string UserCode { get; set; } = null!;
 
-    public byte[] Password { get; set; } = null!;
+    public string Password { get; set; } = null!;
 
     public string Fullname { get; set; } = null!;
 
@@ -36,6 +36,8 @@ public partial class User
     public string? VerificationToken { get; set; }
 
     public DateTime? TokenExpiry { get; set; }
+
+    public string? RecoveryCode { get; set; }
 
     public virtual ICollection<CompetitionEntry> CompetitionEntries { get; set; } = new List<CompetitionEntry>();
 
