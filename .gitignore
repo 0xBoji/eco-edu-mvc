@@ -364,3 +364,6 @@ FodyWeavers.xsd
 
 #context
 /Models/Entities/EcoEduContext.cs
+/.gitignore
+/.gitattributes
+/Properties/launchSettings.json
