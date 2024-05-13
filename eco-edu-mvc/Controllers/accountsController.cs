@@ -3,16 +3,23 @@ using eco_edu_mvc.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace eco_edu_mvc.Controllers;
 public class accountsController : Controller
 {
 	private readonly EcoEduContext context;
 	private readonly IEmailSender emailSender;
+	private readonly IMemoryCache _memoryCache;
 
 	public accountsController(IEmailSender emailSender)
 	{
 		this.emailSender = emailSender;
+	}
+
+	public accountsController(IMemoryCache memoryCache)
+	{
+		_memoryCache = memoryCache;
 	}
 
 	public IActionResult Signup() => View();
@@ -277,15 +284,14 @@ public class accountsController : Controller
 
 				var RegainPwCode = GenerateVerificationCode();
 
+				//store the code into cache
+				_memoryCache.Set(user.Email, RegainPwCode, TimeSpan.FromMinutes(10));
+
 				var reiceiver = user.Email;
 				var subject = "Recovery Password";
 				var message = RegainPwCode;
 
 				await emailSender.SendEmailAsync(reiceiver, subject, message);
-
-				user.RecoveryCode = RegainPwCode;
-				context.Users.Update(user);
-				await context.SaveChangesAsync();
 				return RedirectToAction("CheckRecoveryCode");
 			}
 			return View(model);
@@ -317,12 +323,17 @@ public class accountsController : Controller
 			}
 			if (ModelState.IsValid)
 			{
-				if (model.code == user.RecoveryCode)
+
+				if (_memoryCache.TryGetValue(user.Email, out string cachedCode))
 				{
-					HttpContext.Session.SetString("Email", user.Email);
-					HttpContext.Session.SetString("UserId", user.UserId.ToString());
-					return RedirectToAction("ChangePassword");
+					if (model.code == cachedCode)
+					{
+						HttpContext.Session.SetString("Email", user.Email);
+						HttpContext.Session.SetString("UserId", user.UserId.ToString());
+						return RedirectToAction("ChangePassword");
+					}
 				}
+				return View(model);
 			}
 			return View(model);
 		}
@@ -343,7 +354,7 @@ public class accountsController : Controller
 			var userId = int.Parse(HttpContext.Session.GetString("UserId"));
 			var user = await context.Users.FindAsync(userId);
 
-			if(user == null)
+			if (user == null)
 			{
 				return NotFound();
 			}

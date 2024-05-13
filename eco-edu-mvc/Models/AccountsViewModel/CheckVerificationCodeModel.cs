@@ -4,7 +4,7 @@ namespace eco_edu_mvc.Models.AccountsViewModel;
 
 public class CheckVerificationCodeModel
 {
-	[Required]
+	[Required, DataType(DataType.EmailAddress)]
 	public string Email { get; set; }
 
 	[Required]
