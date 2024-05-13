@@ -11,7 +11,7 @@ public partial class User
 
     public string UserCode { get; set; } = null!;
 
-    public byte[] Password { get; set; } = null!;
+    public string Password { get; set; } = null!;
 
     public string Fullname { get; set; } = null!;
 
@@ -37,7 +37,11 @@ public partial class User
 
     public DateTime? TokenExpiry { get; set; }
 
+    public string? Images { get; set; }
+
     public virtual ICollection<CompetitionEntry> CompetitionEntries { get; set; } = new List<CompetitionEntry>();
+
+    public virtual ICollection<Contact> Contacts { get; set; } = new List<Contact>();
 
     public virtual ICollection<Seminar> Seminars { get; set; } = new List<Seminar>();
 
