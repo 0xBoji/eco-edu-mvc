@@ -1,6 +1,7 @@
 ﻿using eco_edu_mvc.Models.AccountsViewModel;
 using eco_edu_mvc.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.EntityFrameworkCore;
 
 namespace eco_edu_mvc.Controllers;
@@ -198,7 +199,7 @@ public class accountsController : Controller
 			var receiver = user.Email;
 			var subject = "Verification Code";
 			var message = verificationCode;
-			
+
 			await emailSender.SendEmailAsync(receiver, subject, message);
 
 			user.VerificationToken = verificationCode;
@@ -213,6 +214,9 @@ public class accountsController : Controller
 		}
 	}
 
+
+	public IActionResult CheckVerificationCode() => View();
+
 	[HttpPost]
 	public async Task<IActionResult> CheckVerificationCode(CheckVerificationCodeModel model)
 	{
@@ -225,22 +229,23 @@ public class accountsController : Controller
 			var userId = int.Parse(HttpContext.Session.GetString("UserId"));
 
 			var user = await context.Users.FindAsync(userId);
-			if(user == null)
+			if (user == null)
 			{
 				return NotFound();
 			}
-			if(ModelState.IsValid)
+			if (ModelState.IsValid)
 			{
-				if(model.code == user.VerificationToken)
+				if (model.code == user.VerificationToken)
 				{
 					user.EmailVerify = true;
 					context.Users.Update(user);
 					await context.SaveChangesAsync();
-					return RedirectToAction();
+					return RedirectToAction("Profile");
 				}
 			}
 			return View(model);
-		}catch (Exception ex)
+		}
+		catch (Exception ex)
 		{
 			ModelState.AddModelError("Error", ex.Message);
 			return View();
@@ -251,4 +256,108 @@ public class accountsController : Controller
 	{
 		return Guid.NewGuid().ToString().Substring(0, 6);
 	}
+
+	public IActionResult ForgotPassword() => View();
+
+	[HttpPost]
+	public async Task<IActionResult> ForgotPassword(CheckVerificationCodeModel model)
+	{
+		try
+		{
+			if (ModelState.IsValid)
+			{
+				var user = await context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+				if (user == null)
+				{
+					return NotFound();
+				}
+
+				HttpContext.Session.SetString("Email", user.Email);
+				HttpContext.Session.SetString("UserId", user.UserId.ToString());
+
+				var RegainPwCode = GenerateVerificationCode();
+
+				var reiceiver = user.Email;
+				var subject = "Recovery Password";
+				var message = RegainPwCode;
+
+				await emailSender.SendEmailAsync(reiceiver, subject, message);
+
+				user.RecoveryCode = RegainPwCode;
+				context.Users.Update(user);
+				await context.SaveChangesAsync();
+				return RedirectToAction("CheckRecoveryCode");
+			}
+			return View(model);
+		}
+		catch (Exception ex)
+		{
+			ModelState.AddModelError("Error", ex.Message);
+			return View();
+		}
+	}
+
+	public IActionResult CheckRecoveryCode() => View();
+
+	[HttpPost]
+	public async Task<IActionResult> CheckRecoveryCode(CheckVerificationCodeModel model)
+	{
+		try
+		{
+			if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+			{
+				return RedirectToAction("login");
+			}
+			var userId = int.Parse(HttpContext.Session.GetString("UserId"));
+
+			var user = await context.Users.FindAsync(userId);
+			if (user == null)
+			{
+				return NotFound();
+			}
+			if (ModelState.IsValid)
+			{
+				if (model.code == user.RecoveryCode)
+				{
+					HttpContext.Session.SetString("Email", user.Email);
+					HttpContext.Session.SetString("UserId", user.UserId.ToString());
+					return RedirectToAction("ChangePassword");
+				}
+			}
+			return View(model);
+		}
+		catch (Exception ex)
+		{
+			ModelState.AddModelError("Error", ex.Message);
+			return View();
+		}
+	}
+
+	public IActionResult ChangePassword() => View();
+
+	[HttpPost]
+	public async Task<IActionResult> ChangePassword(CheckVerificationCodeModel model)
+	{
+		try
+		{
+			var userId = int.Parse(HttpContext.Session.GetString("UserId"));
+			var user = await context.Users.FindAsync(userId);
+
+			if(user == null)
+			{
+				return NotFound();
+			}
+
+			user.Password = BCrypt.Net.BCrypt.HashPassword(model.Password);
+			context.Users.Update(user);
+			await context.SaveChangesAsync();
+			return RedirectToAction("login");
+		}
+		catch (Exception ex)
+		{
+			ModelState.AddModelError("Error", ex.Message);
+			return View();
+		}
+	}
+
 }
