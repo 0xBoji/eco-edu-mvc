@@ -37,6 +37,8 @@ public partial class User
 
     public DateTime? TokenExpiry { get; set; }
 
+    public string? RecoveryCode { get; set; }
+
     public virtual ICollection<CompetitionEntry> CompetitionEntries { get; set; } = new List<CompetitionEntry>();
 
     public virtual ICollection<Seminar> Seminars { get; set; } = new List<Seminar>();
