@@ -38,11 +38,14 @@ public partial class User
     public DateTime? TokenExpiry { get; set; }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     public string? Images { get; set; }
 =======
     public string? RecoveryCode { get; set; }
 >>>>>>> d94fcef7e8cff5852ba5da608000e63484af438d
 
+=======
+>>>>>>> f301acbfef50e2559398e4b46789d81fb230e743
     public virtual ICollection<CompetitionEntry> CompetitionEntries { get; set; } = new List<CompetitionEntry>();
 
     public virtual ICollection<Contact> Contacts { get; set; } = new List<Contact>();
