@@ -1,8 +1,12 @@
 using eco_edu_mvc;
+using eco_edu_mvc.Models.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.AddMemoryCache();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -14,6 +18,10 @@ builder.Services.AddSession(option =>
 	option.Cookie.HttpOnly = true;
 	option.Cookie.IsEssential = true;
 });
+
+builder.Services.AddDbContext<EcoEduContext>(options =>
+	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 var app = builder.Build();
 

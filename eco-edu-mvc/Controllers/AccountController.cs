@@ -6,19 +6,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace eco_edu_mvc.Controllers;
-public class AccountsController : Controller
+public class AccountController : Controller
 {
 	private readonly EcoEduContext context;
 	private readonly IEmailSender emailSender;
 	private readonly IMemoryCache _memoryCache;
 
-	public AccountsController(IEmailSender emailSender)
+	public AccountController(EcoEduContext context, IEmailSender emailSender, IMemoryCache memoryCache)
 	{
+		this.context = context;
 		this.emailSender = emailSender;
-	}
-
-	public AccountsController(IMemoryCache memoryCache)
-	{
 		_memoryCache = memoryCache;
 	}
 
@@ -30,9 +27,9 @@ public class AccountsController : Controller
 		if (ModelState.IsValid)
 		{
 			var existingUserWithUsername = await context.Users.AnyAsync(u => u.Username == model.Username);
-			var existsingUserCode = await context.Users.AnyAsync(u => u.UserCode == model.User_Code);
-			var isValidUserCode = model.User_Code.ToLower().StartsWith("st") || model.User_Code.ToLower().StartsWith("tf");
-			if (existingUserWithUsername || existsingUserCode)
+			var existsingUserCode = await context.Users.AnyAsync(u => u.UserCode == model.UserCode);
+			var isValidUserCode = model.UserCode.ToLower().StartsWith("st") || model.UserCode.ToLower().StartsWith("tf");
+			if (existingUserWithUsername || existsingUserCode || !isValidUserCode)
 			{
 				if (existingUserWithUsername)
 				{
@@ -44,7 +41,7 @@ public class AccountsController : Controller
 				}
 				if (!isValidUserCode)
 				{
-					ModelState.AddModelError("User_Code", "The usercode is not correct!");
+					ModelState.AddModelError("User_Code", "The usercode must start with st for student and tf for staff/faculty");
 				}
 				return View(model);
 			}
@@ -53,10 +50,10 @@ public class AccountsController : Controller
 				Username = model.Username,
 				Password = BCrypt.Net.BCrypt.HashPassword(model.Password),
 				Fullname = model.Fullname,
-				UserCode = model.User_Code,
+				UserCode = model.UserCode,
 				IsAccept = false,
 				EmailVerify = false,
-				CreateDate = DateTime.UtcNow
+				CreateDate = DateTime.Now
 			};
 			context.Users.Add(user);
 			await context.SaveChangesAsync();

@@ -35,13 +35,13 @@ public partial class EcoEduContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-SMPR88L; Initial Catalog=eco-edu;Persist Security Info=True;User ID=pich;Password=123456;Encrypt=True;Trust Server Certificate=True");
+        => optionsBuilder.UseSqlServer("Data Source=(local); Initial Catalog=Eco_Edu;Persist Security Info=True;User ID=sa;Password=Hieu1309;Encrypt=True;Trust Server Certificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Competition>(entity =>
         {
-            entity.HasKey(e => e.CompetitionId).HasName("PK__Competit__87D31213AA357345");
+            entity.HasKey(e => e.CompetitionId).HasName("PK__Competit__87D3121396AD5FA4");
 
             entity.Property(e => e.CompetitionId).HasColumnName("Competition_Id");
             entity.Property(e => e.Description).HasColumnType("text");
@@ -57,7 +57,7 @@ public partial class EcoEduContext : DbContext
 
         modelBuilder.Entity<CompetitionEntry>(entity =>
         {
-            entity.HasKey(e => e.EntryId).HasName("PK__Competit__41CE7C8C32213C61");
+            entity.HasKey(e => e.EntryId).HasName("PK__Competit__41CE7C8C7793EF6D");
 
             entity.ToTable("Competition_Entries");
 
@@ -85,18 +85,23 @@ public partial class EcoEduContext : DbContext
 
         modelBuilder.Entity<Contact>(entity =>
         {
-            entity.HasKey(e => e.ContactId).HasName("PK__Contacts__82ACC1EDD09B4555");
+            entity.HasKey(e => e.ContactId).HasName("PK__Contacts__82ACC1EDDBAF6B9C");
 
             entity.Property(e => e.ContactId).HasColumnName("Contact_Id");
             entity.Property(e => e.Content).HasColumnType("text");
             entity.Property(e => e.LastestUpdate)
                 .HasColumnType("datetime")
                 .HasColumnName("Lastest_Update");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Contacts)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Contacts__UserId__2FCF1A8A");
         });
 
         modelBuilder.Entity<Faq>(entity =>
         {
-            entity.HasKey(e => e.FaqId).HasName("PK__FAQs__83815494094BCC30");
+            entity.HasKey(e => e.FaqId).HasName("PK__FAQs__83815494447B3F8A");
 
             entity.ToTable("FAQs");
 
@@ -107,7 +112,7 @@ public partial class EcoEduContext : DbContext
 
         modelBuilder.Entity<Response>(entity =>
         {
-            entity.HasKey(e => e.ResponseId).HasName("PK__Response__B736E9340D04D0E9");
+            entity.HasKey(e => e.ResponseId).HasName("PK__Response__B736E934312E0861");
 
             entity.ToTable("Response");
 
@@ -123,7 +128,7 @@ public partial class EcoEduContext : DbContext
 
         modelBuilder.Entity<Seminar>(entity =>
         {
-            entity.HasKey(e => e.SeminarId).HasName("PK__Seminars__E0812679B93775B9");
+            entity.HasKey(e => e.SeminarId).HasName("PK__Seminars__E0812679CF517169");
 
             entity.Property(e => e.SeminarId).HasColumnName("Seminar_Id");
             entity.Property(e => e.Location).HasColumnType("text");
@@ -135,12 +140,12 @@ public partial class EcoEduContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.Seminars)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Seminars__Occurs__534D60F1");
+                .HasConstraintName("FK__Seminars__Occurs__32AB8735");
         });
 
         modelBuilder.Entity<Survey>(entity =>
         {
-            entity.HasKey(e => e.SurveyId).HasName("PK__Surveys__6C04F454E2D8E6C1");
+            entity.HasKey(e => e.SurveyId).HasName("PK__Surveys__6C04F45402DA11E8");
 
             entity.Property(e => e.SurveyId).HasColumnName("Survey_Id");
             entity.Property(e => e.AccessId).HasColumnName("Access_Id");
@@ -171,7 +176,7 @@ public partial class EcoEduContext : DbContext
 
         modelBuilder.Entity<SurveyQuestion>(entity =>
         {
-            entity.HasKey(e => e.QuestionId).HasName("PK__Survey_Q__B0B2E4E6C7AC1FA1");
+            entity.HasKey(e => e.QuestionId).HasName("PK__Survey_Q__B0B2E4E6ECD0A50D");
 
             entity.ToTable("Survey_Questions");
 
@@ -191,11 +196,11 @@ public partial class EcoEduContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4C67569BF0");
+            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4C9664F22C");
 
-            entity.HasIndex(e => e.UserCode, "UQ__Users__3E6D1F340663A2CC").IsUnique();
+            entity.HasIndex(e => e.UserCode, "UQ__Users__3E6D1F34A1C95E89").IsUnique();
 
-            entity.HasIndex(e => e.Username, "UQ__Users__536C85E4BA3E4B24").IsUnique();
+            entity.HasIndex(e => e.Username, "UQ__Users__536C85E4572BD4E3").IsUnique();
 
             entity.Property(e => e.CitizenId)
                 .HasMaxLength(20)
