@@ -21,4 +21,15 @@
     <Folder Include="Models\Survey\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\login\css\.DS_Store" />
+    <None Include="wwwroot\login\css\bootstrap\.DS_Store" />
+    <None Include="wwwroot\login\css\bootstrap\mixins\.DS_Store" />
+    <None Include="wwwroot\login\fonts\.DS_Store" />
+    <None Include="wwwroot\login\images\.DS_Store" />
+    <None Include="wwwroot\login\js\.DS_Store" />
+    <None Include="wwwroot\login\scss\.DS_Store" />
+    <None Include="wwwroot\login\scss\bootstrap\.DS_Store" />
+  </ItemGroup>
+
 </Project>

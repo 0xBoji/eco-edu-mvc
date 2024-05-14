@@ -17,7 +17,7 @@ public partial class User
 
     public bool IsAccept { get; set; }
 
-    public DateTime EntryDate { get; set; }
+    public DateTime? EntryDate { get; set; }
 
     public string? Email { get; set; }
 
@@ -37,9 +37,11 @@ public partial class User
 
     public DateTime? TokenExpiry { get; set; }
 
-    public string? RecoveryCode { get; set; }
+    public string? Images { get; set; }
 
     public virtual ICollection<CompetitionEntry> CompetitionEntries { get; set; } = new List<CompetitionEntry>();
+
+    public virtual ICollection<Contact> Contacts { get; set; } = new List<Contact>();
 
     public virtual ICollection<Seminar> Seminars { get; set; } = new List<Seminar>();
 
