@@ -41,7 +41,7 @@ public partial class EcoEduContext : DbContext
     {
         modelBuilder.Entity<Competition>(entity =>
         {
-            entity.HasKey(e => e.CompetitionId).HasName("PK__Competit__87D31213C64426A7");
+            entity.HasKey(e => e.CompetitionId).HasName("PK__Competit__87D3121396AD5FA4");
 
             entity.Property(e => e.CompetitionId).HasColumnName("Competition_Id");
             entity.Property(e => e.Description).HasColumnType("text");
@@ -57,7 +57,7 @@ public partial class EcoEduContext : DbContext
 
         modelBuilder.Entity<CompetitionEntry>(entity =>
         {
-            entity.HasKey(e => e.EntryId).HasName("PK__Competit__41CE7C8C86879CC1");
+            entity.HasKey(e => e.EntryId).HasName("PK__Competit__41CE7C8C7793EF6D");
 
             entity.ToTable("Competition_Entries");
 
@@ -85,7 +85,7 @@ public partial class EcoEduContext : DbContext
 
         modelBuilder.Entity<Contact>(entity =>
         {
-            entity.HasKey(e => e.ContactId).HasName("PK__Contacts__82ACC1EDBFF6C5E4");
+            entity.HasKey(e => e.ContactId).HasName("PK__Contacts__82ACC1EDDBAF6B9C");
 
             entity.Property(e => e.ContactId).HasColumnName("Contact_Id");
             entity.Property(e => e.Content).HasColumnType("text");
@@ -96,12 +96,12 @@ public partial class EcoEduContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.Contacts)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Contacts__UserId__5165187F");
+                .HasConstraintName("FK__Contacts__UserId__2FCF1A8A");
         });
 
         modelBuilder.Entity<Faq>(entity =>
         {
-            entity.HasKey(e => e.FaqId).HasName("PK__FAQs__8381549422F9237B");
+            entity.HasKey(e => e.FaqId).HasName("PK__FAQs__83815494447B3F8A");
 
             entity.ToTable("FAQs");
 
@@ -112,7 +112,7 @@ public partial class EcoEduContext : DbContext
 
         modelBuilder.Entity<Response>(entity =>
         {
-            entity.HasKey(e => e.ResponseId).HasName("PK__Response__B736E93428CED73A");
+            entity.HasKey(e => e.ResponseId).HasName("PK__Response__B736E934312E0861");
 
             entity.ToTable("Response");
 
@@ -128,7 +128,7 @@ public partial class EcoEduContext : DbContext
 
         modelBuilder.Entity<Seminar>(entity =>
         {
-            entity.HasKey(e => e.SeminarId).HasName("PK__Seminars__E0812679432B0DC3");
+            entity.HasKey(e => e.SeminarId).HasName("PK__Seminars__E0812679CF517169");
 
             entity.Property(e => e.SeminarId).HasColumnName("Seminar_Id");
             entity.Property(e => e.Location).HasColumnType("text");
@@ -140,12 +140,12 @@ public partial class EcoEduContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.Seminars)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Seminars__Occurs__5441852A");
+                .HasConstraintName("FK__Seminars__Occurs__32AB8735");
         });
 
         modelBuilder.Entity<Survey>(entity =>
         {
-            entity.HasKey(e => e.SurveyId).HasName("PK__Surveys__6C04F4540B504BA5");
+            entity.HasKey(e => e.SurveyId).HasName("PK__Surveys__6C04F45402DA11E8");
 
             entity.Property(e => e.SurveyId).HasColumnName("Survey_Id");
             entity.Property(e => e.AccessId).HasColumnName("Access_Id");
@@ -176,7 +176,7 @@ public partial class EcoEduContext : DbContext
 
         modelBuilder.Entity<SurveyQuestion>(entity =>
         {
-            entity.HasKey(e => e.QuestionId).HasName("PK__Survey_Q__B0B2E4E62B49C9E2");
+            entity.HasKey(e => e.QuestionId).HasName("PK__Survey_Q__B0B2E4E6ECD0A50D");
 
             entity.ToTable("Survey_Questions");
 
@@ -196,11 +196,11 @@ public partial class EcoEduContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4C63268E02");
+            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4C9664F22C");
 
-            entity.HasIndex(e => e.UserCode, "UQ__Users__3E6D1F34BD0758F8").IsUnique();
+            entity.HasIndex(e => e.UserCode, "UQ__Users__3E6D1F34A1C95E89").IsUnique();
 
-            entity.HasIndex(e => e.Username, "UQ__Users__536C85E41A845EF4").IsUnique();
+            entity.HasIndex(e => e.Username, "UQ__Users__536C85E4572BD4E3").IsUnique();
 
             entity.Property(e => e.CitizenId)
                 .HasMaxLength(20)
@@ -223,12 +223,9 @@ public partial class EcoEduContext : DbContext
             entity.Property(e => e.Fullname)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.Images)
-                .HasMaxLength(255)
-                .IsUnicode(false);
             entity.Property(e => e.IsAccept).HasColumnName("Is_Accept");
             entity.Property(e => e.Password)
-                .HasMaxLength(255)
+                .HasMaxLength(256)
                 .IsUnicode(false);
             entity.Property(e => e.Role)
                 .HasMaxLength(7)
