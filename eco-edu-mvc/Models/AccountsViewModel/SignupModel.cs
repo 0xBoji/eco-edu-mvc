@@ -11,7 +11,7 @@ public class SignupModel
 	public string Fullname { get; set; }
 
 	[Required]
-	public string User_Code { get; set; }
+	public string UserCode { get; set; }
 
 	[Required]
 	public DateTime Entry_Date { get; set; }

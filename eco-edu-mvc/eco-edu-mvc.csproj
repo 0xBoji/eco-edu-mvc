@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\Survey\**" />
+    <Content Remove="Models\Survey\**" />
+    <EmbeddedResource Remove="Models\Survey\**" />
+    <None Remove="Models\Survey\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.4" />
@@ -15,6 +22,17 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\login\css\.DS_Store" />
+    <None Include="wwwroot\login\css\bootstrap\.DS_Store" />
+    <None Include="wwwroot\login\css\bootstrap\mixins\.DS_Store" />
+    <None Include="wwwroot\login\fonts\.DS_Store" />
+    <None Include="wwwroot\login\images\.DS_Store" />
+    <None Include="wwwroot\login\js\.DS_Store" />
+    <None Include="wwwroot\login\scss\.DS_Store" />
+    <None Include="wwwroot\login\scss\bootstrap\.DS_Store" />
   </ItemGroup>
 
 </Project>
