@@ -37,6 +37,7 @@ public class QuestionController(EcoEduContext context) : Controller
 		await _context.SaveChangesAsync();
 
 		return CreatedAtAction(nameof(List), new { id = quest.SurveyId }, quest);
+
 	}
 
 	public async Task<IActionResult> Update(int id)
