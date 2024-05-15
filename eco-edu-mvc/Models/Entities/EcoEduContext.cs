@@ -33,9 +33,7 @@ public partial class EcoEduContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=DEVBLOCK; Initial Catalog=eco-edu;Persist Security Info=True;User ID=sa;Password=05012004;Encrypt=True;Trust Server Certificate=True");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlServer("Data Source=(local); Initial Catalog=eco-edu;Persist Security Info=True;User ID=sa;Password=123;Encrypt=True;Trust Server Certificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -93,10 +91,10 @@ public partial class EcoEduContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("Lastest_Update");
 
-            entity.HasOne(d => d.User).WithMany(p => p.Contacts)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Contacts__UserId__2FCF1A8A");
+            //entity.HasOne(d => d.User).WithMany(p => p.Contacts)
+            //    .HasForeignKey(d => d.UserId)
+            //    .OnDelete(DeleteBehavior.ClientSetNull)
+            //    .HasConstraintName("FK__Contacts__UserId__2FCF1A8A");
         });
 
         modelBuilder.Entity<Faq>(entity =>
@@ -223,9 +221,9 @@ public partial class EcoEduContext : DbContext
             entity.Property(e => e.Fullname)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.Images)
-                .HasMaxLength(255)
-                .IsUnicode(false);
+            //entity.Property(e => e.Images)
+            //    .HasMaxLength(255)
+            //    .IsUnicode(false);
             entity.Property(e => e.IsAccept).HasColumnName("Is_Accept");
             entity.Property(e => e.Password)
                 .HasMaxLength(255)

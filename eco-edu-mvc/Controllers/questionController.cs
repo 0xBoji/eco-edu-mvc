@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace eco_edu_mvc.Controllers;
-public class questionController(EcoEduContext context) : Controller
+public class QuestionController(EcoEduContext context) : Controller
 {
 	private readonly EcoEduContext _context = context;
 
@@ -20,14 +20,14 @@ public class questionController(EcoEduContext context) : Controller
 		return View(quest);
 	}
 
-	public IActionResult Post() => View();
+	public ActionResult Post() => View();
 
 	[HttpPost]
-	public async Task<IActionResult> Post(QuestionModel model, SurveyQuestion quest)
+	public async Task<IActionResult> Post(QuestionModel model)
 	{
-		if (!ModelState.IsValid) return RedirectToAction("Login", "Account");
+		if (!ModelState.IsValid) return View(model);
 
-		quest = new()
+		SurveyQuestion quest = new()
 		{
 			SurveyId = model.SurveyId,
 			Question = model.Question,
@@ -37,18 +37,16 @@ public class questionController(EcoEduContext context) : Controller
 		await _context.SaveChangesAsync();
 
 		return CreatedAtAction(nameof(List), new { id = quest.SurveyId }, quest);
-
 	}
 
-	public async Task<IActionResult> Update(int id, QuestionModel model)
+	public async Task<IActionResult> Update(int id)
 	{
-		if (id != model.QuestionId) return NotFound();
-
 		var quest = await _context.SurveyQuestions.FindAsync(id);
 		if (quest == null) return NotFound();
 
-		model = new()
+		QuestionModel model = new()
 		{
+			QuestionId = quest.QuestionId,
 			SurveyId = quest.SurveyId,
 			Question = quest.Question,
 			QuestionType = quest.QuestionType
@@ -56,38 +54,49 @@ public class questionController(EcoEduContext context) : Controller
 		return View(model);
 	}
 
-	public async Task<IActionResult> UpdateQuestion(int id, QuestionModel model, SurveyQuestion quest)
+	[HttpPost]
+	public async Task<IActionResult> Update(int id, QuestionModel model)
 	{
 		if (id != model.QuestionId) return NotFound();
 
-		var check = await _context.SurveyQuestions.FindAsync(id);
-		if (check == null) return NotFound();
+		if (!ModelState.IsValid) return View(model);
 
-		if (ModelState.IsValid)
+		var quest = await _context.SurveyQuestions.FindAsync(id);
+		if (quest == null) return NotFound();
+
+		try
 		{
-			try
-			{
-				 quest = new()
-				{
-					SurveyId = model.SurveyId,
-					Question = model.Question,
-					QuestionType = model.QuestionType
-				};
-			}
-			catch (Exception ex)
-			{
-				ModelState.AddModelError("Error", ex.Message);
-			}
+			quest.SurveyId = model.SurveyId;
+			quest.Question = model.Question;
+			quest.QuestionType = model.QuestionType;
+
+			_context.Update(quest);
+			await _context.SaveChangesAsync();
+
+			return RedirectToAction(nameof(List));
+		}
+		catch (Exception ex)
+		{
+			ModelState.AddModelError("Error", ex.Message);
 		}
 		return View(model);
 	}
 
 	public async Task<IActionResult> Delete(int id)
 	{
-		var check = await _context.SurveyQuestions.FindAsync(id);
-		if (check == null) return NotFound();
+		var quest = await _context.SurveyQuestions.FindAsync(id);
+		if (quest == null) return NotFound();
 
-		_context.SurveyQuestions.Remove(check);
+		return View(quest);
+	}
+
+	[HttpPost, ActionName("Delete")]
+	public async Task<IActionResult> DeleteConfirm(int id)
+	{
+		var quest = await _context.SurveyQuestions.FindAsync(id);
+		if (quest == null) return NotFound();
+
+		_context.SurveyQuestions.Remove(quest);
 		await _context.SaveChangesAsync();
 
 		return RedirectToAction(nameof(List));

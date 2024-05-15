@@ -1,6 +1,4 @@
-﻿using eco_edu_mvc.Models.SurveysViewModel;
-
-namespace eco_edu_mvc.Models.SurveyModels;
+﻿namespace eco_edu_mvc.Models.SurveyModels;
 
 public class QuestionModel
 {
