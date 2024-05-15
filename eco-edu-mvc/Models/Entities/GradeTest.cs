@@ -9,13 +9,9 @@ public partial class GradeTest
 
     public int EntryId { get; set; }
 
-    public int UserId { get; set; }
-
     public decimal Score { get; set; }
 
     public DateTime? GradeDate { get; set; }
 
     public virtual CompetitionEntry Entry { get; set; } = null!;
-
-    public virtual User User { get; set; } = null!;
 }
