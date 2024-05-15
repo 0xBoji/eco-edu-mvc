@@ -7,7 +7,7 @@ public class ProfileViewModel
     public string Username { get; set; }
     public string FullName { get; set; }
     public string User_Code { get; set; }
-    public DateTime Entry_Date { get; set; }
+    public DateTime? Entry_Date { get; set; }
     public string Email { get; set; }
     public string Section { get; set; }
     public string Class { get; set; }

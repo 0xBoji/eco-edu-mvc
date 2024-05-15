@@ -9,10 +9,10 @@ public class SurveyController(EcoEduContext context) : Controller
 	private readonly EcoEduContext _context = context;
 
 	[HttpGet]
-	public async Task<IActionResult> List() => View(await _context.Surveys.ToListAsync());
+	public async Task<ActionResult> List() => View(await _context.Surveys.ToListAsync());
 
 	[HttpGet]
-	public async Task<IActionResult> Get(int id)
+	public async Task<ActionResult> Get(int id)
 	{
 		var survey = await _context.Surveys.FirstOrDefaultAsync(p => p.SurveyId == id);
 		if (survey == null) return NotFound();
@@ -23,7 +23,7 @@ public class SurveyController(EcoEduContext context) : Controller
 	public ActionResult Post() => View();
 
 	[HttpPost]
-	public async Task<IActionResult> Post(SurveyModel model)
+	public async Task<ActionResult> Post(SurveyModel model)
 	{
 		if (!ModelState.IsValid) return View(model);
 
@@ -43,34 +43,34 @@ public class SurveyController(EcoEduContext context) : Controller
 		return CreatedAtAction(nameof(List), new { id = survey.SurveyId }, survey);
 	}
 
-	public async Task<IActionResult> Update(int id)
+	public async Task<ActionResult> Update(int id)
 	{
-		var check = await _context.Surveys.FindAsync(id);
-		if (check == null) return NotFound();
+		var survey = await _context.Surveys.FindAsync(id);
+		if (survey == null) return NotFound();
 
 		SurveyModel model = new()
 		{
-			SurveyId = check.SurveyId,
-			Title = check.Title,
-			Topic = check.Topic,
-			CreatedBy = check.CreatedBy,
-			CreateDate = check.CreateDate,
-			EndDate = check.EndDate,
-			TargetAudience = check.TargetAudience,
-			Active = check.Active
+			SurveyId = survey.SurveyId,
+			Title = survey.Title,
+			Topic = survey.Topic,
+			CreatedBy = survey.CreatedBy,
+			CreateDate = survey.CreateDate,
+			EndDate = survey.EndDate,
+			TargetAudience = survey.TargetAudience,
+			Active = survey.Active
 		};
 		return View(model);
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> Update(int id, SurveyModel model)
+	public async Task<ActionResult> UpdateSurvey(int id, SurveyModel model)
 	{
 		if (id != model.SurveyId) return NotFound();
 
 		if (!ModelState.IsValid) return View(model);
 
 		var survey = await _context.Surveys.FindAsync(id);
-		if (survey != null) return NotFound();
+		if (survey == null) return NotFound();
 
 		try
 		{
@@ -81,7 +81,7 @@ public class SurveyController(EcoEduContext context) : Controller
 			survey.TargetAudience = model.TargetAudience;
 			survey.Active = model.Active;
 
-			_context.Update(survey);
+			_context.Surveys.Update(survey);
 			await _context.SaveChangesAsync();
 
 			return RedirectToAction(nameof(List));
@@ -102,7 +102,7 @@ public class SurveyController(EcoEduContext context) : Controller
 	}
 
 	[HttpPost, ActionName("Delete")]
-	public async Task<IActionResult> DeleteConfirm(int id)
+	public async Task<ActionResult> DeleteConfirm(int id)
 	{
 		var survey = await _context.Surveys.FindAsync(id);
 		if (survey == null) return NotFound();

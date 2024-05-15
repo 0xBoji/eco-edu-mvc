@@ -9,12 +9,12 @@ public class QuestionController(EcoEduContext context) : Controller
 	private readonly EcoEduContext _context = context;
 
 	[HttpGet]
-	public async Task<IActionResult> List() => View(await _context.SurveyQuestions.ToListAsync());
+	public async Task<IActionResult> List() => View(await _context.Questions.ToListAsync());
 
 	[HttpGet]
 	public async Task<IActionResult> Get(int id)
 	{
-		var quest = await _context.SurveyQuestions.FirstOrDefaultAsync(q => q.QuestionId == id);
+		var quest = await _context.Questions.FirstOrDefaultAsync(q => q.QuestionId == id);
 		if (quest == null) return NotFound();
 
 		return View(quest);
@@ -27,13 +27,13 @@ public class QuestionController(EcoEduContext context) : Controller
 	{
 		if (!ModelState.IsValid) return View(model);
 
-		SurveyQuestion quest = new()
+		Question quest = new()
 		{
 			SurveyId = model.SurveyId,
-			Question = model.Question,
+			QuestionText = model.QuestionText,
 			QuestionType = model.QuestionType
 		};
-		_context.SurveyQuestions.Add(quest);
+		_context.Questions.Add(quest);
 		await _context.SaveChangesAsync();
 
 		return CreatedAtAction(nameof(List), new { id = quest.SurveyId }, quest);
@@ -41,14 +41,14 @@ public class QuestionController(EcoEduContext context) : Controller
 
 	public async Task<IActionResult> Update(int id)
 	{
-		var quest = await _context.SurveyQuestions.FindAsync(id);
+		var quest = await _context.Questions.FindAsync(id);
 		if (quest == null) return NotFound();
 
 		QuestionModel model = new()
 		{
 			QuestionId = quest.QuestionId,
 			SurveyId = quest.SurveyId,
-			Question = quest.Question,
+			QuestionText = quest.QuestionText,
 			QuestionType = quest.QuestionType
 		};
 		return View(model);
@@ -61,13 +61,13 @@ public class QuestionController(EcoEduContext context) : Controller
 
 		if (!ModelState.IsValid) return View(model);
 
-		var quest = await _context.SurveyQuestions.FindAsync(id);
+		var quest = await _context.Questions.FindAsync(id);
 		if (quest == null) return NotFound();
 
 		try
 		{
 			quest.SurveyId = model.SurveyId;
-			quest.Question = model.Question;
+			quest.QuestionText = model.QuestionText;
 			quest.QuestionType = model.QuestionType;
 
 			_context.Update(quest);
@@ -84,7 +84,7 @@ public class QuestionController(EcoEduContext context) : Controller
 
 	public async Task<IActionResult> Delete(int id)
 	{
-		var quest = await _context.SurveyQuestions.FindAsync(id);
+		var quest = await _context.Questions.FindAsync(id);
 		if (quest == null) return NotFound();
 
 		return View(quest);
@@ -93,10 +93,10 @@ public class QuestionController(EcoEduContext context) : Controller
 	[HttpPost, ActionName("Delete")]
 	public async Task<IActionResult> DeleteConfirm(int id)
 	{
-		var quest = await _context.SurveyQuestions.FindAsync(id);
+		var quest = await _context.Questions.FindAsync(id);
 		if (quest == null) return NotFound();
 
-		_context.SurveyQuestions.Remove(quest);
+		_context.Questions.Remove(quest);
 		await _context.SaveChangesAsync();
 
 		return RedirectToAction(nameof(List));

@@ -11,5 +11,5 @@ public partial class Response
 
     public string? Answer { get; set; }
 
-    public virtual SurveyQuestion Question { get; set; } = null!;
+    public virtual Question Question { get; set; } = null!;
 }

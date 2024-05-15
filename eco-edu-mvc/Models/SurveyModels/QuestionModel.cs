@@ -4,6 +4,6 @@ public class QuestionModel
 {
 	public int QuestionId { get; set; }
 	public int SurveyId { get; set; }
-	public string Question { get; set; } = null!;
+	public string QuestionText { get; set; } = null!;
 	public string? QuestionType { get; set; }
 }
