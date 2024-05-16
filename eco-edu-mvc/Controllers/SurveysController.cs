@@ -1,112 +1,113 @@
 ﻿using eco_edu_mvc.Models.Entities;
-using eco_edu_mvc.Models.SurveysViewModel;
+using eco_edu_mvc.Models.SurveyModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace eco_edu_mvc.Controllers;
-public class surveyController(EcoEduContext context) : Controller
+public class SurveyController(EcoEduContext context) : Controller
 {
 	private readonly EcoEduContext _context = context;
 
 	[HttpGet]
-	public async Task<ActionResult> List() => View(await _context.Surveys.ToListAsync());
+	public async Task<IActionResult> List() => View(await _context.Surveys.ToListAsync());
 
 	[HttpGet]
-	public async Task<ActionResult> Get(int id)
+	public async Task<IActionResult> Get(int id)
 	{
-		var sv = await _context.Surveys.FirstOrDefaultAsync(p => p.SurveyId == id);
-		if (sv != null) return View(sv);
+		var survey = await _context.Surveys.FirstOrDefaultAsync(p => p.SurveyId == id);
+		if (survey == null) return NotFound();
 
-		return NotFound();
+		return View(survey);
 	}
 
 	public ActionResult Post() => View();
 
 	[HttpPost]
-	public async Task<ActionResult> Post(SurveyModel model, Survey sv)
+	public async Task<IActionResult> Post(SurveyModel model)
 	{
-		if (ModelState.IsValid)
-		{
-			sv = new()
-			{
-				Title = model.Title,
-				Topic = model.Topic,
-				CreatedBy = model.CreatedBy,
-				CreateDate = DateTime.UtcNow,
-				EndDate = model.EndDate,
-				TargetAudience = model.TargetAudience,
-				Active = model.Active
-			};
-			_context.Surveys.Add(sv);
-			await _context.SaveChangesAsync();
+		if (!ModelState.IsValid) return View(model);
 
-			return CreatedAtAction(nameof(List), new { id = sv.SurveyId }, sv);
-		}
-		return View(model);
+		Survey survey = new()
+		{
+			Title = model.Title,
+			Topic = model.Topic,
+			CreatedBy = model.CreatedBy,
+			CreateDate = DateTime.UtcNow,
+			EndDate = model.EndDate,
+			TargetAudience = model.TargetAudience,
+			Active = model.Active
+		};
+		_context.Surveys.Add(survey);
+		await _context.SaveChangesAsync();
+
+		return CreatedAtAction(nameof(List), new { id = survey.SurveyId }, survey);
 	}
 
-	public async Task<ActionResult> Update(int id, SurveyModel model)
+	public async Task<IActionResult> Update(int id)
 	{
-		if (id != model.SurveyId) return NotFound();
+		var survey = await _context.Surveys.FindAsync(id);
+		if (survey == null) return NotFound();
 
-		var sv = await _context.Surveys.FindAsync(id);
-		if (sv == null) return NotFound();
-
-		model = new()
+		SurveyModel model = new()
 		{
-			SurveyId = sv.SurveyId,
-			Title = sv.Title,
-			Topic = sv.Topic,
-			CreatedBy = sv.CreatedBy,
-			CreateDate = sv.CreateDate,
-			EndDate = sv.EndDate,
-			TargetAudience = sv.TargetAudience,
-			Active = sv.Active
+			SurveyId = survey.SurveyId,
+			Title = survey.Title,
+			Topic = survey.Topic,
+			CreatedBy = survey.CreatedBy,
+			CreateDate = survey.CreateDate,
+			EndDate = survey.EndDate,
+			TargetAudience = survey.TargetAudience,
+			Active = survey.Active
 		};
 		return View(model);
 	}
 
 	[HttpPost]
-	public async Task<ActionResult> UpdateSurvey(int id, SurveyModel model)
+	public async Task<IActionResult> Update(int id, SurveyModel model)
 	{
 		if (id != model.SurveyId) return NotFound();
 
-		var sv = await _context.Surveys.FindAsync(id);
-		if (sv == null) return NotFound();
+		if (!ModelState.IsValid) return View(model);
 
-		if (ModelState.IsValid)
+		var survey = await _context.Surveys.FindAsync(id);
+		if (survey == null) return NotFound();
+
+		try
 		{
-			try
-			{
-				sv = new()
-				{
-					Title = model.Title,
-					Topic = model.Topic,
-					CreateDate = model.CreateDate,
-					EndDate = model.EndDate,
-					TargetAudience = model.TargetAudience,
-					Active = model.Active
-				};
-				_context.Update(sv);
-				await _context.SaveChangesAsync();
+			survey.Title = model.Title;
+			survey.Topic = model.Topic;
+			survey.CreateDate = model.CreateDate;
+			survey.EndDate = model.EndDate;
+			survey.TargetAudience = model.TargetAudience;
+			survey.Active = model.Active;
 
-				return RedirectToAction(nameof(List));
-			}
-			catch (Exception ex)
-			{
-				ModelState.AddModelError("Error", ex.Message);
-			}
+			_context.Surveys.Update(survey);
+			await _context.SaveChangesAsync();
+
+			return RedirectToAction(nameof(List));
+		}
+		catch (Exception ex)
+		{
+			ModelState.AddModelError("Error", ex.Message);
 		}
 		return View(model);
 	}
 
-	[HttpPost]
-	public async Task<ActionResult> Delete(int id)
+	public async Task<IActionResult> Delete(int id)
 	{
-		var sv = await _context.Surveys.FindAsync(id);
-		if (sv == null) return NotFound();
+		var survey = await _context.Surveys.FindAsync(id);
+		if (survey == null) return NotFound();
 
-		_context.Surveys.Remove(sv);
+		return View(survey);
+	}
+
+	[HttpPost, ActionName("Delete")]
+	public async Task<IActionResult> DeleteConfirm(int id)
+	{
+		var survey = await _context.Surveys.FindAsync(id);
+		if (survey == null) return NotFound();
+
+		_context.Surveys.Remove(survey);
 		await _context.SaveChangesAsync();
 
 		return RedirectToAction(nameof(List));

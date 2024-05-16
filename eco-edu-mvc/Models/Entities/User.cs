@@ -36,8 +36,9 @@ public partial class User
     public string? VerificationToken { get; set; }
 
     public DateTime? TokenExpiry { get; set; }
+
     public string? Images { get; set; }
-    public string? RecoveryCode { get; set; }
+
     public virtual ICollection<CompetitionEntry> CompetitionEntries { get; set; } = new List<CompetitionEntry>();
 
     public virtual ICollection<Contact> Contacts { get; set; } = new List<Contact>();
