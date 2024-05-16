@@ -13,9 +13,6 @@ public class SignupModel
 	[Required]
 	public string UserCode { get; set; }
 
-	[Required]
-	public DateTime Entry_Date { get; set; }
-
 	[Required, DataType(DataType.Password)]
 	public string Password { get; set; }
 

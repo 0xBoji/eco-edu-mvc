@@ -1,5 +1,5 @@
 ﻿using eco_edu_mvc.Models.Entities;
-using eco_edu_mvc.Models.SurveysViewModel;
+using eco_edu_mvc.Models.SurveyModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

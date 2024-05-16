@@ -2,6 +2,7 @@
 using eco_edu_mvc.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -113,7 +114,10 @@ public class AccountController : Controller
 			Email = user.Email,
 			Section = user.Section,
 			Class = user.Class,
-			Citizen_Id = user.CitizenId
+			Citizen_Id = user.CitizenId,
+			Images = user.Images,
+			Email_Verify = user.EmailVerify,
+			CreateDate = user.CreateDate
 		};
 
 		return View(profile);
@@ -144,7 +148,7 @@ public class AccountController : Controller
 		return View(profile);
 	}
 
-	public async Task<IActionResult> Edit(ProfileEditModel model)
+	public async Task<IActionResult> Edit(ProfileEditModel model, IFormFile file)
 	{
 		if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
 		{
@@ -154,14 +158,30 @@ public class AccountController : Controller
 		try
 		{
 			var existingEmail = await context.Users.AnyAsync(u => u.Email == model.Email);
+			var existingIdentity = await context.Users.AnyAsync(u => u.CitizenId == model.Citizen_Id);
 			if (existingEmail)
 			{
 				ModelState.AddModelError("Email", "Email is already taken.");
+			}
+			if (existingIdentity)
+			{
+				ModelState.AddModelError("CitizenId", "Citizen Id is already taken.");
 			}
 			var user = await context.Users.FindAsync(userId);
 			if (user == null)
 			{
 				return NotFound();
+			}
+
+			if (file != null && file.Length > 0)
+			{
+				var filename = DateTime.Now.Ticks + file.FileName;
+				var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images", filename);
+				using (var stream = new FileStream(filePath, FileMode.Create)) //to upload the pic into the folder we've created
+				{
+					await file.CopyToAsync(stream);
+				}
+				user.Images = filename;
 			}
 
 			user.Email = model.Email;
@@ -366,5 +386,4 @@ public class AccountController : Controller
 			return View();
 		}
 	}
-
 }

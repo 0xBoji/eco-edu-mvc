@@ -362,6 +362,7 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-/Models/Entities/EcoEduContext.cs
-./gitattributes
-/Properties/launchSettings.json/Properties/launchSettings.json
+Models/Entities/EcoEduContext.cs
+.gitattributes
+Properties/launchSettings.json
+/eco-edu-mvc/Models/Entities/EcoEduContext.cs

@@ -1,4 +1,4 @@
-﻿namespace eco_edu_mvc.Models.SurveysViewModel;
+﻿namespace eco_edu_mvc.Models.SurveyModels;
 
 public class SurveyModel
 {
@@ -8,7 +8,7 @@ public class SurveyModel
 	public string Topic { get; set; } = null!;
 	public string? CreatedBy { get; set; }
 	public DateTime? CreateDate { get; set; }
-	public DateTime EndDate { get; set; }
+	public DateTime? EndDate { get; set; }
 	public string TargetAudience { get; set; } = null!;
 	public bool Active { get; set; }
 }
