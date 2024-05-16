@@ -1,7 +1,9 @@
-﻿namespace eco_edu_mvc.Models.SurveyModels;
+﻿using System.ComponentModel.DataAnnotations;
 
+namespace eco_edu_mvc.Models.SurveyModels;
 public class SurveyModel
 {
+	[Key]
 	public int SurveyId { get; set; }
 	public int AccessId { get; set; }
 	public string Title { get; set; } = null!;

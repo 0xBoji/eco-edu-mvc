@@ -12,7 +12,7 @@ public class SurveyController(EcoEduContext context) : Controller
 	public async Task<IActionResult> List() => View(await _context.Surveys.ToListAsync());
 
 	[HttpGet]
-	public async Task<IActionResult> Get(int id)
+	public async Task<IActionResult> Details(int id)
 	{
 		var survey = await _context.Surveys.FirstOrDefaultAsync(p => p.SurveyId == id);
 		if (survey == null) return NotFound();
