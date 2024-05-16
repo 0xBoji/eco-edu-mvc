@@ -364,3 +364,4 @@ FodyWeavers.xsd
 
 /Models/Entities/EcoEduContext.cs
 ./gitattributes
+/eco-edu-mvc/Models/Entities/EcoEduContext.cs
