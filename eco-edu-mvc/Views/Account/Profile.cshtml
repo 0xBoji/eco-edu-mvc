@@ -191,8 +191,8 @@
 								@Model.Email
 								@if (Model.Email_Verify != true && Model.Email != null)
 								{
-									<form asp-action="SendVerificationCode" asp-controller="Account" method="post" style="display: inline-flex; margin-left:10vw;">
-										<button type="submit" class="genric-btn danger circle">
+									<form asp-action="SendVerificationCode" asp-controller="Account" method="post" style="display: inline-flex; margin-left:7vw;">
+										<button type="submit" style="cursor:pointer;">
 											Verify
 										</button>
 									</form>

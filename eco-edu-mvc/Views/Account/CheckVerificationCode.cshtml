@@ -90,8 +90,8 @@
 
 	<form asp-action="CheckVerificationCode" asp-controller="Account" method="post">
 		<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-		<label asp-for="Email">Recovery Code</label>
-		<input type="text" asp-for="code">
+		<label asp-for="code">Recovery Code</label>
+		<input type="text" asp-for="code" required>
 		<button type="submit">Submit</button>
 	</form>
 </div>

@@ -77,7 +77,7 @@ public class AccountController : Controller
 				HttpContext.Session.SetString("Username", user.Username);
 				HttpContext.Session.SetString("User_Code", user.UserCode);
 				HttpContext.Session.SetString("Is_Accept", user.IsAccept.ToString().ToLower());
-                return RedirectToAction("Index", "Home");
+				return RedirectToAction("Index", "Home");
 			}
 			ModelState.AddModelError(string.Empty, "Invalid login attempt.");
 			return View(model);
@@ -258,14 +258,15 @@ public class AccountController : Controller
 			{
 				return NotFound();
 			}
-			
-				if (model.code == user.VerificationToken)
-				{
-					user.EmailVerify = true;
-					context.Users.Update(user);
-					await context.SaveChangesAsync();
-					return RedirectToAction("Profile");
-				}
+
+			if (model.code == user.VerificationToken)
+			{
+				user.EmailVerify = true;
+				context.Users.Update(user);
+				await context.SaveChangesAsync();
+				return RedirectToAction("Profile");
+			}
+			ModelState.AddModelError("code", "Invalid code");
 			return View(model);
 		}
 		catch (Exception ex)
