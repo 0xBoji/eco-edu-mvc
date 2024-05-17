@@ -1,194 +1,189 @@
 ﻿<!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head>
-	<meta name="viewport" content="width=device-width" />
-	<title>@ViewBag.Title</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<title>GreenWorld</title>
+	<!-- Bootstrap core CSS -->
+	<link href="~/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<!-- Fontawesome CSS -->
+	<link href="~/assets/css/all.css" rel="stylesheet">
+	<!-- Custom styles for this template -->
+	<link href="~/assets/css/style.css" rel="stylesheet">
 </head>
 <body>
-	<div>
-		<!DOCTYPE html>
-		<html lang="en">
-		<head>
-			<meta charset="utf-8">
-			<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-			<meta name="description" content="">
-			<meta name="author" content="">
-			<title>GreenWorld</title>
-			<!-- Bootstrap core CSS -->
-			<link href="~/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-			<!-- Fontawesome CSS -->
-			<link href="~/assets/css/all.css" rel="stylesheet">
-			<!-- Custom styles for this template -->
-			<link href="~/assets/css/style.css" rel="stylesheet">
-		</head>
-		<body>
-			<!-- Navigation -->
-			<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-light top-nav fixed-top">
-				<div class="container">
-					<a class="navbar-brand" href="index.html">
-						<img src="~/assets/images/logo.png" alt="logo" />
-					</a>
-					<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-						<span class="fas fa-bars"></span>
-					</button>
-					<div class="collapse navbar-collapse" id="navbarResponsive">
-						<ul class="navbar-nav ml-auto">
-							<li class="nav-item">
-								<a class="nav-link active" href="index.html">Home</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="about.html">About</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="services.html">Services</a>
-							</li>
-							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									Portfolio
-								</a>
-								<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-									<a class="dropdown-item" href="portfolio-1-col.html">1 Column Portfolio</a>
-									<a class="dropdown-item" href="portfolio-2-col.html">2 Column Portfolio</a>
-									<a class="dropdown-item" href="portfolio-3-col.html">3 Column Portfolio</a>
-									<a class="dropdown-item" href="portfolio-4-col.html">4 Column Portfolio</a>
-									<a class="dropdown-item" href="portfolio-item.html">Single Portfolio Item</a>
-								</div>
-							</li>
-							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									Blog
-								</a>
-								<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-									<a class="dropdown-item" href="blog-home-1.html">Blog Home 1</a>
-									<a class="dropdown-item" href="blog-home-2.html">Blog Home 2</a>
-									<a class="dropdown-item" href="blog-post.html">Blog Post</a>
-								</div>
-							</li>
-							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									Pages
-								</a>
-								<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-									<a class="dropdown-item" href="faq.html">FAQ</a>
-									<a class="dropdown-item" href="404.html">404</a>
-									<a class="dropdown-item" href="pricing.html">Pricing Table</a>
-								</div>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="contact.html">Contact</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</nav>
-			<div>
-				@RenderBody()
+	<!-- Navigation -->
+	<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-light top-nav fixed-top">
+		<div class="container">
+			<a class="navbar-brand" href="index.html">
+				<img src="~/assets/images/logo.png" alt="logo" />
+			</a>
+			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="fas fa-bars"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item">
+						<a class="nav-link active" href="index.html">Home</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="about.html">About</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="services.html">Services</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="contact.html">Blog</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="contact.html">FAQ</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="contact.html">Contact</a>
+					</li>
+				</ul>
 			</div>
-			<!--footer starts from here-->
-			<footer class="footer">
-				<div class="container bottom_border">
-					<div class="row">
-						<div class="col-lg-3 col-md-6 col-sm-6 col">
-							<h5 class="headin5_amrc col_white_amrc pt2">Find us</h5>
-							<!--headin5_amrc-->
-							<p class="mb10">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
-							<p><i class="fa fa-location-arrow"></i> 9878/25 sec 9 rohini 35 </p>
-							<p><i class="fa fa-phone"></i> +91-9999878398 </p>
-							<p><i class="fa fa fa-envelope"></i> info@example.com </p>
-						</div>
-						<div class="col-lg-3 col-md-6 col-sm-6 col">
-							<h5 class="headin5_amrc col_white_amrc pt2">Follow us</h5>
-							<!--headin5_amrc ends here-->
-							<ul class="footer_ul2_amrc">
-								<li>
-									<a href="#"><i class="fab fa-twitter fleft padding-right"></i> </a>
-									<p>Lorem Ipsum is simply dummy printing...<a href="#">https://www.lipsum.com/</a></p>
-								</li>
-								<li>
-									<a href="#"><i class="fab fa-twitter fleft padding-right"></i> </a>
-									<p>Lorem Ipsum is simply dummy printing...<a href="#">https://www.lipsum.com/</a></p>
-								</li>
-								<li>
-									<a href="#"><i class="fab fa-twitter fleft padding-right"></i> </a>
-									<p>Lorem Ipsum is simply dummy printing...<a href="#">https://www.lipsum.com/</a></p>
-								</li>
-							</ul>
-							<!--footer_ul2_amrc ends here-->
-						</div>
-						<div class="col-lg-3 col-md-6 col-sm-6">
-							<h5 class="headin5_amrc col_white_amrc pt2">Quick links</h5>
-							<!--headin5_amrc-->
-							<ul class="footer_ul_amrc">
-								<li><a href="#">Default Version</a></li>
-								<li><a href="#">Boxed Version</a></li>
-								<li><a href="#">Our Team </a></li>
-								<li><a href="#">About Us</a></li>
-								<li><a href="#">Our Services</a></li>
-								<li><a href="#">Get In Touch</a></li>
-							</ul>
-							<!--footer_ul_amrc ends here-->
-						</div>
-						<div class="col-lg-3 col-md-6 col-sm-6 ">
-							<h5 class="headin5_amrc col_white_amrc pt2">Recent posts</h5>
-							<!--headin5_amrc-->
-							<ul class="footer_ul_amrc">
-								<li class="media">
-									<div class="media-left">
-										<img class="img-fluid" src="~/assets/images/post-img-01.jpg" alt="" />
-									</div>
-									<div class="media-body">
-										<p>How to find best dog food?</p>
-										<span>22 Sep 2018</span>
-									</div>
-								</li>
-								<li class="media">
-									<div class="media-left">
-										<img class="img-fluid" src="~/assets/images/post-img-02.jpg" alt="" />
-									</div>
-									<div class="media-body">
-										<p>How to find best dog food?</p>
-										<span>34 Sep 2018</span>
-									</div>
-								</li>
-								<li class="media">
-									<div class="media-left">
-										<img class="img-fluid" src="~/assets/images/post-img-03.jpg" alt="" />
-									</div>
-									<div class="media-body">
-										<p>How to find best dog food?</p>
-										<span>30 Sep 2018</span>
-									</div>
-								</li>
-							</ul>
-							<!--footer_ul_amrc ends here-->
-						</div>
-					</div>
+			<ul class="navbar-nav">
+				@if (string.IsNullOrEmpty(Context.Session.GetString("Username")))
+				{
+					<li class="nav-item">
+						<a class="nav-link" href="@Url.Action("Login", "Account")">
+							<svg width="30px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path fill-rule="evenodd" clip-rule="evenodd" d="M12 6C9.79086 6 8 7.79086 8 10C8 12.2091 9.79086 14 12 14C14.2091 14 16 12.2091 16 10C16 7.79086 14.2091 6 12 6Z" fill="#000000" />
+								<path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM4 12C4 7.58172 7.58172 4 12 4C16.4183 4 20 7.58172 20 12C20 14.0289 19.2447 15.8813 18.0001 17.2916C16.4085 15.8674 14.3052 15 12.0002 15C9.69511 15 7.5917 15.8675 6.00015 17.2918C4.75533 15.8815 4 14.029 4 12Z" fill="#000000" />
+							</svg>
+						</a>
+					</li>
+				}
+				else
+				{
+					<li class="nav-item">
+						<a class="nav-link" href="@Url.Action("Profile", "Account")">
+							<svg width="30px" height="20px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path fill="#000000" d="M288 320a224 224 0 1 0 448 0 224 224 0 1 0-448 0zm544 608H160a32 32 0 0 1-32-32v-96a160 160 0 0 1 160-160h448a160 160 0 0 1 160 160v96a32 32 0 0 1-32 32z" /></svg>
+						</a>
+					</li>
+					<form asp-controller="Account" asp-action="Logout" method="post">
+					<li class="nav-item">
+						<button type="submit" class="nav-link" style="border:none;">
+							<svg width="30px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<g clip-path="url(#clip0_429_11067)">
+									<path d="M15 4.00098H5V18.001C5 19.1055 5.89543 20.001 7 20.001H15" stroke="#292929" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+									<path d="M16 15.001L19 12.001M19 12.001L16 9.00098M19 12.001H9" stroke="#292929" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+								</g>
+								<defs><clipPath id="clip0_429_11067"><rect width="24" height="24" fill="white" transform="translate(0 0.000976562)" /></clipPath></defs>
+							</svg>
+						</button>
+					</li>
+					</form>
+				}
+			</ul>
+	</nav>
+	<div>
+		@RenderBody()
+	</div>
+	<!--footer starts from here-->
+	<footer class="footer">
+		<div class="container bottom_border">
+			<div class="row">
+				<div class="col-lg-3 col-md-6 col-sm-6 col">
+					<h5 class="headin5_amrc col_white_amrc pt2">Find us</h5>
+					<!--headin5_amrc-->
+					<p class="mb10">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+					<p><i class="fa fa-location-arrow"></i> 9878/25 sec 9 rohini 35 </p>
+					<p><i class="fa fa-phone"></i> +91-9999878398 </p>
+					<p><i class="fa fa fa-envelope"></i> info@example.com </p>
 				</div>
-				<div class="container">
-					<div class="footer-logo">
-						<a href="#"><img src="~/assets/images/footer-logo.png" alt="" /></a>
-					</div>
-					<!--foote_bottom_ul_amrc ends here-->
-					<p class="copyright text-center">
-						All Rights Reserved. &copy; 2018 <a href="#">N & LW Lawn Care</a> Design By :
-						<a href="https://html.design/">html design</a>
-					</p>
-					<ul class="social_footer_ul">
-						<li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-						<li><a href="#"><i class="fab fa-twitter"></i></a></li>
-						<li><a href="#"><i class="fab fa-linkedin"></i></a></li>
-						<li><a href="#"><i class="fab fa-instagram"></i></a></li>
+				<div class="col-lg-3 col-md-6 col-sm-6 col">
+					<h5 class="headin5_amrc col_white_amrc pt2">Follow us</h5>
+					<!--headin5_amrc ends here-->
+					<ul class="footer_ul2_amrc">
+						<li>
+							<a href="#"><i class="fab fa-twitter fleft padding-right"></i> </a>
+							<p>Lorem Ipsum is simply dummy printing...<a href="#">https://www.lipsum.com/</a></p>
+						</li>
+						<li>
+							<a href="#"><i class="fab fa-twitter fleft padding-right"></i> </a>
+							<p>Lorem Ipsum is simply dummy printing...<a href="#">https://www.lipsum.com/</a></p>
+						</li>
+						<li>
+							<a href="#"><i class="fab fa-twitter fleft padding-right"></i> </a>
+							<p>Lorem Ipsum is simply dummy printing...<a href="#">https://www.lipsum.com/</a></p>
+						</li>
 					</ul>
-					<!--social_footer_ul ends here-->
+					<!--footer_ul2_amrc ends here-->
 				</div>
-			</footer>
+				<div class="col-lg-3 col-md-6 col-sm-6">
+					<h5 class="headin5_amrc col_white_amrc pt2">Quick links</h5>
+					<!--headin5_amrc-->
+					<ul class="footer_ul_amrc">
+						<li><a href="#">Default Version</a></li>
+						<li><a href="#">Boxed Version</a></li>
+						<li><a href="#">Our Team </a></li>
+						<li><a href="#">About Us</a></li>
+						<li><a href="#">Our Services</a></li>
+						<li><a href="#">Get In Touch</a></li>
+					</ul>
+					<!--footer_ul_amrc ends here-->
+				</div>
+				<div class="col-lg-3 col-md-6 col-sm-6 ">
+					<h5 class="headin5_amrc col_white_amrc pt2">Recent posts</h5>
+					<!--headin5_amrc-->
+					<ul class="footer_ul_amrc">
+						<li class="media">
+							<div class="media-left">
+								<img class="img-fluid" src="~/assets/images/post-img-01.jpg" alt="" />
+							</div>
+							<div class="media-body">
+								<p>How to find best dog food?</p>
+								<span>22 Sep 2018</span>
+							</div>
+						</li>
+						<li class="media">
+							<div class="media-left">
+								<img class="img-fluid" src="~/assets/images/post-img-02.jpg" alt="" />
+							</div>
+							<div class="media-body">
+								<p>How to find best dog food?</p>
+								<span>34 Sep 2018</span>
+							</div>
+						</li>
+						<li class="media">
+							<div class="media-left">
+								<img class="img-fluid" src="~/assets/images/post-img-03.jpg" alt="" />
+							</div>
+							<div class="media-body">
+								<p>How to find best dog food?</p>
+								<span>30 Sep 2018</span>
+							</div>
+						</li>
+					</ul>
+					<!--footer_ul_amrc ends here-->
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="footer-logo">
+				<a href="#"><img src="~/assets/images/footer-logo.png" alt="" /></a>
+			</div>
+			<!--foote_bottom_ul_amrc ends here-->
+			<p class="copyright text-center">
+				All Rights Reserved. &copy; 2018 <a href="#">N & LW Lawn Care</a> Design By :
+				<a href="https://html.design/">html design</a>
+			</p>
+			<ul class="social_footer_ul">
+				<li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+				<li><a href="#"><i class="fab fa-twitter"></i></a></li>
+				<li><a href="#"><i class="fab fa-linkedin"></i></a></li>
+				<li><a href="#"><i class="fab fa-instagram"></i></a></li>
+			</ul>
+			<!--social_footer_ul ends here-->
+		</div>
+	</footer>
 
-			<!-- Bootstrap core JavaScript -->
-			<script src="~/assets/vendor/jquery/jquery.min.js"></script>
-			<script src="~/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-		</body>
-	</html>
-</div>
+	<!-- Bootstrap core JavaScript -->
+	<script src="~/assets/vendor/jquery/jquery.min.js"></script>
+	<script src="~/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
