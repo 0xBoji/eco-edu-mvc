@@ -76,6 +76,7 @@ public class AccountController : Controller
 				HttpContext.Session.SetString("UserId", user.UserId.ToString());
 				HttpContext.Session.SetString("Username", user.Username);
 				HttpContext.Session.SetString("User_Code", user.UserCode);
+				HttpContext.Session.SetString("Is_Accept", user.IsAccept.ToString().ToLower());
 				return RedirectToAction("Index", "Home");
 			}
 			ModelState.AddModelError(string.Empty, "Invalid login attempt.");
