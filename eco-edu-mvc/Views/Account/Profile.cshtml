@@ -74,7 +74,7 @@
 
 	.text-secondary {
 		left: 4vw;
-		font-size: 1.75rem;
+		font-size: 1rem;
 		font-weight: 600;
 	}
 
@@ -90,7 +90,11 @@
 				<div class="card">
 					<div class="card-body">
 						<div class="d-flex flex-column align-items-center text-center">
-							<img src="~/Images/@Model.Images" alt="Avatar" class="rounded-circle" width="150">
+							@if (Model.Images != null)
+							{
+								<img src="~/Images/@Model.Images" alt="Avatar" class="rounded-circle" width="150">
+							}
+							<img src="~/Images/default.jpg" alt="Avatar" class="rounded-circle" width="150">
 							<div class="mt-3">
 								<h4>@Model.Username</h4>
 								<a class="btn btn-outline-primary" href="@Url.Action("Edit", "Account")">Edit</a>
@@ -182,12 +186,15 @@
 							</div>
 							<div class="col-sm-9 text-secondary">
 								@Model.Email
-								if(@Model.Email_Verify != true){
+								@if (Model.Email_Verify != true && Model.Email != null)
+								{
 									<a class="genric-btn danger circle" href="@Url.Action("SendVerificationCode", "Account")" style="margin-left:18vw;">
-									Verify
+										Verify
 									</a>
-								}else{
-								<p style="margin-left:18vw; color:greenyellow">Verified</p>
+								}
+								else if (Model.Email_Verify == true && Model.Email != null)
+								{
+									<p style="margin-left:18vw; color:greenyellow">Verified</p>
 								}
 							</div>
 						</div>

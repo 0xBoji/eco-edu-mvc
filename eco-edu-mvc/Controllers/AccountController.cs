@@ -94,10 +94,10 @@ public class AccountController : Controller
 
 	public async Task<IActionResult> Profile()
 	{
-		if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
-		{
-			return RedirectToAction("login");
-		}
+		//if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+		//{
+		//	return RedirectToAction("login");
+		//}
 		var userId = int.Parse(HttpContext.Session.GetString("UserId"));
 		var user = await context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
 		if (user == null)
@@ -125,10 +125,10 @@ public class AccountController : Controller
 
 	public async Task<IActionResult> Edit()
 	{
-		if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
-		{
-			return RedirectToAction("login");
-		}
+		//if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+		//{
+		//	return RedirectToAction("login");
+		//}
 		var userId = int.Parse(HttpContext.Session.GetString("UserId"));
 		var user = await context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
 		if (user == null)
@@ -148,6 +148,7 @@ public class AccountController : Controller
 		return View(profile);
 	}
 
+	[HttpPost]
 	public async Task<IActionResult> Edit(ProfileEditModel model, IFormFile file)
 	{
 		if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
