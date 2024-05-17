@@ -5,22 +5,43 @@ namespace eco_edu_mvc;
 
 public class EmailSender : IEmailSender
 {
-	public Task SendEmailAsync(string email, string subject, string message)
+	public async Task SendEmailAsync(string email, string subject, string message)
 	{
-		var mail = "greenworldz154@gmail.com";
-		var password = "hehehihihaha";
+		var mail = "hieuminh091304@gmail.com";
+		var password = "trai tfkm oprl ulog";
 
-		var client = new SmtpClient("smtp.gmail.com", 465)
+		try
 		{
-			EnableSsl = true,
-			UseDefaultCredentials = false,
-			Credentials = new NetworkCredential(mail, password)
-		};
-		return client.SendMailAsync(
-			new MailMessage(from: mail,
-							to: email,
-							subject,
-							message
-							));
+			var client = new SmtpClient("smtp.gmail.com", 587)
+			{
+				EnableSsl = true,
+				UseDefaultCredentials = false,
+				Credentials = new NetworkCredential(mail, password)
+			};
+
+			var mailMessage = new MailMessage
+			{
+				From = new MailAddress(mail),
+				Subject = subject,
+				Body = message,
+				IsBodyHtml = true
+			};
+
+			mailMessage.To.Add(email);
+
+			await client.SendMailAsync(mailMessage);
+		}
+		catch (SmtpException ex)
+		{
+			// Log lỗi chi tiết
+			Console.WriteLine($"SMTP Exception: {ex.Message}");
+			throw;
+		}
+		catch (Exception ex)
+		{
+			// Log lỗi chi tiết
+			Console.WriteLine($"General Exception: {ex.Message}");
+			throw;
+		}
 	}
 }

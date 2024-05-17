@@ -95,10 +95,10 @@ public class AccountController : Controller
 
 	public async Task<IActionResult> Profile()
 	{
-		//if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
-		//{
-		//	return RedirectToAction("login");
-		//}
+		if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+		{
+			return RedirectToAction("login");
+		}
 		var userId = int.Parse(HttpContext.Session.GetString("UserId"));
 		var user = await context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
 		if (user == null)
@@ -126,10 +126,10 @@ public class AccountController : Controller
 
 	public async Task<IActionResult> Edit()
 	{
-		//if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
-		//{
-		//	return RedirectToAction("login");
-		//}
+		if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+		{
+			return RedirectToAction("login");
+		}
 		var userId = int.Parse(HttpContext.Session.GetString("UserId"));
 		var user = await context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
 		if (user == null)
@@ -258,8 +258,7 @@ public class AccountController : Controller
 			{
 				return NotFound();
 			}
-			if (ModelState.IsValid)
-			{
+			
 				if (model.code == user.VerificationToken)
 				{
 					user.EmailVerify = true;
@@ -267,7 +266,6 @@ public class AccountController : Controller
 					await context.SaveChangesAsync();
 					return RedirectToAction("Profile");
 				}
-			}
 			return View(model);
 		}
 		catch (Exception ex)
