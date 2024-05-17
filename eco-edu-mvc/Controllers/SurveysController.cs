@@ -1,10 +1,10 @@
-﻿using eco_edu_mvc.Models.Entities;
+using eco_edu_mvc.Models.Entities;
 using eco_edu_mvc.Models.SurveyModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace eco_edu_mvc.Controllers;
-public class SurveyController(EcoEduContext context) : Controller
+public class SurveysController(EcoEduContext context) : Controller
 {
 	private readonly EcoEduContext _context = context;
 
@@ -15,7 +15,7 @@ public class SurveyController(EcoEduContext context) : Controller
 	public async Task<IActionResult> Details(int id)
 	{
 		var survey = await _context.Surveys.FirstOrDefaultAsync(p => p.SurveyId == id);
-		if (survey == null) return NotFound();
+		if (survey == null) return NotFound(); 
 
 		return View(survey);
 	}
