@@ -12,7 +12,7 @@ public class QuestionController(EcoEduContext context) : Controller
 	public async Task<IActionResult> List() => View(await _context.Questions.ToListAsync());
 
 	[HttpGet]
-	public async Task<IActionResult> Get(int id)
+	public async Task<IActionResult> Details(int id)
 	{
 		var quest = await _context.Questions.FirstOrDefaultAsync(q => q.QuestionId == id);
 		if (quest == null) return NotFound();
