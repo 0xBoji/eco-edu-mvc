@@ -1,5 +1,4 @@
 ﻿using eco_edu_mvc.Models.Entities;
-using eco_edu_mvc.Models.SurveyModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,21 +18,4 @@ public class ResponseController(EcoEduContext context) : Controller
 
 		return View(rep);
 	}
-
-	//[HttpPost]
-	//public async Task<IActionResult> Post(ResponseModel model)
-	//{
-	//	if (!ModelState.IsValid) return View(model);
-
-	//	Response rep = new()
-	//	{
-	//		QuestionId = model.QuestionId,
-	//		Answer = model.Answer
-	//	};
-	//	_context.Responses.Add(rep);
-	//	await _context.SaveChangesAsync();
-
-	//	return CreatedAtAction(nameof(List), new { id = rep.ResponseId }, rep);
-	//}
-
 }
