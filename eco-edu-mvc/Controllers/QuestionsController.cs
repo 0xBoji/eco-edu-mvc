@@ -83,23 +83,4 @@ public class QuestionController(EcoEduContext context) : Controller
 		return View(model);
 	}
 
-	public async Task<IActionResult> Delete(int id)
-	{
-		var quest = await _context.Questions.FindAsync(id);
-		if (quest == null) return NotFound();
-
-		return View(quest);
-	}
-
-	[HttpPost, ActionName("Delete")]
-	public async Task<IActionResult> DeleteConfirm(int id)
-	{
-		var quest = await _context.Questions.FindAsync(id);
-		if (quest == null) return NotFound();
-
-		_context.Questions.Remove(quest);
-		await _context.SaveChangesAsync();
-
-		return RedirectToAction(nameof(List));
-	}
 }
