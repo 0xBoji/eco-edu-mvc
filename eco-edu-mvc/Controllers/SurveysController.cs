@@ -6,110 +6,105 @@ using Microsoft.EntityFrameworkCore;
 namespace eco_edu_mvc.Controllers;
 public class SurveysController(EcoEduContext context) : Controller
 {
-	private readonly EcoEduContext _context = context;
+    private readonly EcoEduContext _context = context;
 
-	[HttpGet]
-	public async Task<IActionResult> List() => View(await _context.Surveys.ToListAsync());
+    [HttpGet]
+    public async Task<IActionResult> Index()
+    {
+        if (HttpContext.Session.GetString("Role") == "Admin")
+        {
+            return View(await _context.Surveys.ToListAsync());
+        }
+        TempData["PermissionDenied"] = true;
+        return RedirectToAction("index", "home");
+    }
 
-	[HttpGet]
-	public async Task<IActionResult> Details(int id)
-	{
-		var survey = await _context.Surveys.FirstOrDefaultAsync(p => p.SurveyId == id);
-		if (survey == null) return NotFound(); 
+    public ActionResult Post()
+    {
+        if (HttpContext.Session.GetString("Role") == "Admin")
+        {
+            return View();
+        }
+        TempData["PermissionDenied"] = true;
+        return RedirectToAction("index", "home");
+    }
 
-		return View(survey);
-	}
+    [HttpPost]
+    public async Task<IActionResult> Post(SurveyModel model)
+    {
+        if (!ModelState.IsValid) return View(model);
 
-	public ActionResult Post() => View();
+        Survey survey = new()
+        {
+            Title = model.Title,
+            Topic = model.Topic,
+            CreateDate = DateTime.Now,
+            EndDate = model.EndDate,
+            TargetAudience = model.TargetAudience,
+            Active = model.Active
+        };
+        _context.Surveys.Add(survey);
+        await _context.SaveChangesAsync();
 
-	[HttpPost]
-	public async Task<IActionResult> Post(SurveyModel model)
-	{
-		if (!ModelState.IsValid) return View(model);
+        return RedirectToAction("index");
+    }
 
-		Survey survey = new()
-		{
-			Title = model.Title,
-			Topic = model.Topic,
-			CreatedBy = model.CreatedBy,
-			CreateDate = DateTime.UtcNow,
-			EndDate = model.EndDate,
-			TargetAudience = model.TargetAudience,
-			Active = model.Active
-		};
-		_context.Surveys.Add(survey);
-		await _context.SaveChangesAsync();
+    [HttpGet]
+    public async Task<IActionResult> Update(int id)
+    {
+        if (HttpContext.Session.GetString("Role") == "Admin")
+        {
+            var survey = await _context.Surveys.FindAsync(id);
+            if (survey == null) return NotFound();
 
-		return CreatedAtAction(nameof(List), new { id = survey.SurveyId }, survey);
-	}
+            SurveyModel model = new()
+            {
+                SurveyId = survey.SurveyId,
+                Title = survey.Title,
+                Topic = survey.Topic,
+                CreateDate = survey.CreateDate,
+                EndDate = survey.EndDate,
+                TargetAudience = survey.TargetAudience,
+                Active = survey.Active
+            };
+            return View(model);
+        }
+        TempData["PermissionDenied"] = true;
+        return RedirectToAction("index", "home");
+    }
 
-	public async Task<IActionResult> Update(int id)
-	{
-		var survey = await _context.Surveys.FindAsync(id);
-		if (survey == null) return NotFound();
+    [HttpPost]
+    public async Task<IActionResult> Update(int id, SurveyModel model)
+    {
+        if (!ModelState.IsValid) return View(model);
 
-		SurveyModel model = new()
-		{
-			SurveyId = survey.SurveyId,
-			Title = survey.Title,
-			Topic = survey.Topic,
-			CreatedBy = survey.CreatedBy,
-			CreateDate = survey.CreateDate,
-			EndDate = survey.EndDate,
-			TargetAudience = survey.TargetAudience,
-			Active = survey.Active
-		};
-		return View(model);
-	}
+        var survey = await _context.Surveys.FindAsync(id);
+        if (survey == null) return NotFound();
 
-	[HttpPost]
-	public async Task<IActionResult> Update(int id, SurveyModel model)
-	{
-		if (id != model.SurveyId) return NotFound();
+        try
+        {
+            survey.Title = model.Title;
+            survey.Topic = model.Topic;
+            survey.EndDate = model.EndDate;
+            survey.TargetAudience = model.TargetAudience;
+            survey.Active = model.Active;
 
-		if (!ModelState.IsValid) return View(model);
+            _context.Surveys.Update(survey);
+            await _context.SaveChangesAsync();
 
-		var survey = await _context.Surveys.FindAsync(id);
-		if (survey == null) return NotFound();
+            return RedirectToAction(nameof(Index));
+        }
+        catch (Exception ex)
+        {
+            ModelState.AddModelError("Error", ex.Message);
+        }
+        return View(model);
+    }
 
-		try
-		{
-			survey.Title = model.Title;
-			survey.Topic = model.Topic;
-			survey.CreateDate = model.CreateDate;
-			survey.EndDate = model.EndDate;
-			survey.TargetAudience = model.TargetAudience;
-			survey.Active = model.Active;
-
-			_context.Surveys.Update(survey);
-			await _context.SaveChangesAsync();
-
-			return RedirectToAction(nameof(List));
-		}
-		catch (Exception ex)
-		{
-			ModelState.AddModelError("Error", ex.Message);
-		}
-		return View(model);
-	}
-
-	public async Task<IActionResult> Delete(int id)
-	{
-		var survey = await _context.Surveys.FindAsync(id);
-		if (survey == null) return NotFound();
-
-		return View(survey);
-	}
-
-	[HttpPost, ActionName("Delete")]
-	public async Task<IActionResult> DeleteConfirm(int id)
-	{
-		var survey = await _context.Surveys.FindAsync(id);
-		if (survey == null) return NotFound();
-
-		_context.Surveys.Remove(survey);
-		await _context.SaveChangesAsync();
-
-		return RedirectToAction(nameof(List));
-	}
+    //private static string LinkGenerator(int length)
+    //{
+    //    const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    //    var random = new Random();
+    //    return new string(Enumerable.Repeat(chars, length).Select(s => s[random.Next(s.Length)]).ToArray());
+    //}
 }

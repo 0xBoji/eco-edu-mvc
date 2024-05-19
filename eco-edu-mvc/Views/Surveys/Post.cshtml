@@ -1,0 +1,66 @@
+﻿@model eco_edu_mvc.Models.SurveyModels.SurveyModel
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="row">
+    <h1 class="col-lg-10">Create new survey</h1>
+    <a asp-controller ="Surveys" asp-action="index" class="btn btn-warning col-lg-2" style="display:flex; align-items:center; justify-content:center;">
+        Back to index
+    </a>
+</div>
+
+<hr />
+<form asp-controller="Surveys" asp-action="Post" method="post" class="row">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group col-lg-8 my-3">
+        <label asp-for="Title" class="control-label"></label>
+        <input asp-for="Title" class="form-control" required />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group col-lg-4 my-3">
+        <label asp-for="Topic" class="control-label"></label>
+        <select asp-for="Topic" class="form-control">
+            <option value="Planting" selected="selected">Planting</option>
+            <option value="Cleaning">Cleaning</option>
+        </select>
+    </div>
+
+    <div class="form-group col-lg-3 my-3">
+        <label asp-for="CreateDate" class="control-label">Create Date (Auto get current date)</label>
+        <input asp-for="CreateDate" class="form-control" type="date" readonly />
+        <span asp-validation-for="CreateDate" class="text-danger"></span>
+    </div>
+    <div class="form-group col-lg-3 my-3">
+        <label asp-for="EndDate" class="control-label">End Date</label>
+        <input asp-for="EndDate" class="form-control" type="date" required />
+        <span asp-validation-for="EndDate" class="text-danger"></span>
+    </div>
+    <div class="form-group col-lg-3 my-3">
+        <label class="control-label">Target Audience</label>
+        <select asp-for="TargetAudience" class="form-control">
+            <option value="All" selected="selected">All</option>
+            <option value="Staff">Staff</option>
+            <option value="Student">Student</option>
+        </select>
+    </div>
+    <div class="form-group col-lg-3 my-3">
+        <label for="Active" class="form-check-label">
+            @Html.DisplayNameFor(model => model.Active)
+        </label>
+        <select id="Active" name="Active" class="form-control" asp-for="Active">
+            <option value="true">Available</option>
+            <option value="false">Unavailable</option>
+        </select>
+    </div>
+    <div class="form-group col-lg-1 my-3">
+        <button type="submit" class="btn btn-outline-success">Create</button>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

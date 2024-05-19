@@ -1,0 +1,50 @@
+﻿@model IEnumerable<eco_edu_mvc.Models.Entities.Survey>
+
+@{
+    Layout = "_Layout";
+}
+
+
+<div class="row">
+    <h1 class="col-lg-10">Survey List</h1>
+    <a asp-controller="Surveys" asp-action="Post" class="btn btn-primary col-lg-2" style="display:flex; align-items:center; justify-content:center;">
+        Create new survey
+    </a>
+</div>
+
+<hr />
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Topic</th>
+            <th>Create Date</th>
+            <th>End Date</th>
+            <th>Target Audience</th>
+            <th>Active</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var survey in Model)
+        {
+            <tr>
+                <td>@survey.SurveyId</td>
+                <td>@survey.Title</td>
+                <td>@survey.Topic</td>
+                <td>@survey.CreateDate.ToString("dd/MM/yyyy")</td>
+                <td>@survey.EndDate.ToString("dd/MM/yyyy")</td>
+                <td>@survey.TargetAudience</td>
+                <td>@(survey.Active ? "Available" : "Unavailable")</td>
+                <td>
+                    <a asp-controller="Surveys" asp-action="Update" asp-route-id="@survey.SurveyId" class="btn btn-secondary">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+<a asp-controller="Questions" asp-action="Index" class="btn btn-info">To question list</a>
+<a asp-controller="Responses" asp-action="Index" class="btn btn-info">To response list</a>

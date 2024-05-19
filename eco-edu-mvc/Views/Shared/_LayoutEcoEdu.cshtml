@@ -13,6 +13,8 @@
     <!-- Custom styles for this template -->
     <link href="~/assets/css/style.css" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
     <style>
         .navbar-brand {
             color: #4eae3a !important;
@@ -21,7 +23,6 @@
         button {
             border: none;
             background-color: #fff;
-
         }
     </style>
 </head>
@@ -43,7 +44,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("Seminar", "Home")">Seminar</a>
                     </li>
-                    @if (!string.IsNullOrEmpty(Context.Session.GetString("Username")) && Context.Session.GetString("Is_Accept") == "true")
+                    @if (!string.IsNullOrEmpty(Context.Session.GetString("Username")) && Context.Session.GetString("Is_Accept") == "true" || Context.Session.GetString("Role") == "Admin")
                     {
                         <li class="nav-item">
                             <a class="nav-link" href="@Url.Action("Survey", "Home")">Surveys</a>
@@ -204,6 +205,17 @@
     <!-- Bootstrap core JavaScript -->
     <script src="~/assets/vendor/jquery/jquery.min.js"></script>
     <script src="~/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
+@if (TempData["PermissionDenied"] != null)
+{
+    <script>
+        Swal.fire({
+            title: 'This is Admin',
+            text: "You don't have the permission to enter!",
+            icon: 'warning',
+            confirmButtonText: 'OK'
+        });
+    </script>
+}
 </html>
-

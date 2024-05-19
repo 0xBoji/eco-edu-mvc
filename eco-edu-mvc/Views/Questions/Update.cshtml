@@ -1,0 +1,89 @@
+﻿@model eco_edu_mvc.Models.SurveyModels.QuestionModel
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="row">
+    <h1 class="col-lg-10">Update Question</h1>
+    <a asp-controller="Questions" asp-action="Index" class="btn btn-warning col-lg-2" style="display:flex; align-items:center; justify-content:center;">
+        Back to index
+    </a>
+</div>
+
+<hr />
+<form asp-controller="Surveys" asp-action="Update" method="post" class="row">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <input type="hidden" asp-for="QuestionId" />
+    <input type="hidden" asp-for="SurveyId" />
+    
+    <div class="form-group col-lg-12">
+        <label class="control-label">Survey Title</label>
+        <input type="text" class="form-control" value="@Model.Surveys.FirstOrDefault(s => s.Value == Model.SurveyId.ToString())?.Text" readonly />
+    </div>
+
+    <div class="form-group col-lg-8">
+        <label asp-for="QuestionText" class="control-label">Specific question</label>
+        <input asp-for="QuestionText" class="form-control" required />
+        <span asp-validation-for="QuestionText" class="text-danger"></span>
+    </div>
+    <div class="form-group col-lg-4">
+        <label asp-for="QuestionType" class="control-label">Question Type</label>
+        <select asp-for="QuestionType" class="form-control" id="questionType">
+            <option value="Text">Text</option>
+            <option value="SelectBox">Select Boxes</option>
+            <option value="MultipleChoice">Multiple Choices</option>
+        </select>
+    </div>
+
+    <div id="multipleChoiceAnswers" style="display:none;">
+        <div class="form-group col-lg-3">
+            <label asp-for="Answer1" class="control-label">First answer</label>
+            <input asp-for="Answer1" class="form-control" />
+            <span asp-validation-for="Answer1" class="text-danger"></span>
+        </div>
+        <div class="form-group col-lg-3">
+            <label asp-for="Answer2" class="control-label">Second answer</label>
+            <input asp-for="Answer2" class="form-control" />
+            <span asp-validation-for="Answer2" class="text-danger"></span>
+        </div>
+        <div class="form-group col-lg-3">
+            <label asp-for="Answer3" class="control-label">Third answer</label>
+            <input asp-for="Answer3" class="form-control" />
+            <span asp-validation-for="Answer3" class="text-danger"></span>
+        </div>
+        <div class="form-group col-lg-3">
+            <label asp-for="CorrectAnswer" class="control-label">Correct answer</label>
+            <input asp-for="CorrectAnswer" class="form-control" />
+            <span asp-validation-for="CorrectAnswer" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group col-lg-1 my-3">
+        <button type="submit" class="btn btn-outline-success">Save</button>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var questionTypeSelect = document.getElementById("questionType");
+            var multipleChoiceAnswers = document.getElementById("multipleChoiceAnswers");
+
+            function toggleAnswerFields() {
+                if (questionTypeSelect.value === "MultipleChoice") {
+                    multipleChoiceAnswers.style.display = "block";
+                } else {
+                    multipleChoiceAnswers.style.display = "none";
+                }
+            }
+
+            // Attach event listener
+            questionTypeSelect.addEventListener("change", toggleAnswerFields);
+
+            // Initial call to set the correct state on page load
+            toggleAnswerFields();
+        });
+    </script>
+}

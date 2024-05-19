@@ -1,0 +1,51 @@
+﻿@model IEnumerable<eco_edu_mvc.Models.Entities.Question>
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="row">
+    <h1 class="col-lg-10">Question List</h1>
+    <a asp-controller="Questions" asp-action="Post" class="btn btn-primary col-lg-2" style="display:flex; align-items:center; justify-content:center;">
+        Create new question
+    </a>
+</div>
+
+<hr />
+<table class="table">
+    <thead>
+        <tr>
+            <th>Question ID</th>
+            <th>Survey Title</th>
+            <th>Question Text</th>
+            <th>Question Type</th>
+            <th>Answer 1</th>
+            <th>Answer 2</th>
+            <th>Answer 3</th>
+            <th>Correct Answer</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var question in Model)
+        {
+            <tr>
+                <td>@question.QuestionId</td>
+                <td>@question.Survey.Title</td>
+                <td>@question.QuestionText</td>
+                <td>@question.QuestionType</td>
+                <td>@question.Answer1</td>
+                <td>@question.Answer2</td>
+                <td>@question.Answer3</td>
+                <td>@question.CorrectAnswer</td>
+                <td>
+                    <a asp-controller="Questions" asp-action="Update" asp-route-id="@question.QuestionId" class="btn btn-secondary">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+<a asp-controller="Surveys" asp-action="Index" class="btn btn-info">To survey list</a>
+<a asp-controller="Responses" asp-action="Index" class="btn btn-info">To response list</a>
