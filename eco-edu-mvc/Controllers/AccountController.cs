@@ -288,30 +288,26 @@ public class AccountController : Controller
 	{
 		try
 		{
-			if (ModelState.IsValid)
+			var user = await context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+			if (user == null)
 			{
-				var user = await context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
-				if (user == null)
-				{
-					return NotFound();
-				}
-
-				HttpContext.Session.SetString("Email", user.Email);
-				HttpContext.Session.SetString("UserId", user.UserId.ToString());
-
-				var RegainPwCode = GenerateVerificationCode();
-
-				//store the code into cache
-				_memoryCache.Set(user.Email, RegainPwCode, TimeSpan.FromMinutes(10));
-
-				var reiceiver = user.Email;
-				var subject = "Recovery Password";
-				var message = RegainPwCode;
-
-				await emailSender.SendEmailAsync(reiceiver, subject, message);
-				return RedirectToAction("CheckRecoveryCode");
+				return NotFound();
 			}
-			return View(model);
+
+			HttpContext.Session.SetString("Email", user.Email);
+			HttpContext.Session.SetString("UserId", user.UserId.ToString());
+
+			var RegainPwCode = GenerateVerificationCode();
+
+			//store the code into cache
+			_memoryCache.Set(user.Email, RegainPwCode, TimeSpan.FromMinutes(10));
+
+			var reiceiver = user.Email;
+			var subject = "Recovery Password";
+			var message = RegainPwCode;
+
+			await emailSender.SendEmailAsync(reiceiver, subject, message);
+			return RedirectToAction("CheckRecoveryCode");
 		}
 		catch (Exception ex)
 		{
@@ -338,9 +334,6 @@ public class AccountController : Controller
 			{
 				return NotFound();
 			}
-			if (ModelState.IsValid)
-			{
-
 				if (_memoryCache.TryGetValue(user.Email, out string cachedCode))
 				{
 					if (model.code == cachedCode)
@@ -351,8 +344,6 @@ public class AccountController : Controller
 					}
 				}
 				return View(model);
-			}
-			return View(model);
 		}
 		catch (Exception ex)
 		{
@@ -361,7 +352,22 @@ public class AccountController : Controller
 		}
 	}
 
-	public IActionResult ChangePassword() => View();
+	public async Task<IActionResult> ChangePassword()
+	{
+		var userId = int.Parse(HttpContext.Session.GetString("UserId"));
+		var user = await context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
+		if (user == null)
+		{
+			return NotFound();
+		}
+
+		CheckVerificationCodeModel model = new()
+		{
+			Username = user.Username
+		};
+
+		return View(model);
+	}
 
 	[HttpPost]
 	public async Task<IActionResult> ChangePassword(CheckVerificationCodeModel model)
