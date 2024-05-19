@@ -289,7 +289,7 @@ public class AccountController : Controller
 
     public IActionResult ForgotPassword() => View();
 
-    [HttpPost]
+	[HttpPost]
     public async Task<IActionResult> ForgotPassword(CheckVerificationCodeModel model)
     {
         try

@@ -86,12 +86,12 @@
 </style>
 
 <div class="main">
-	<h1>Recovery Password</h1>
+	<h1>Code validation</h1>
 
-	<form asp-action="ForgotPassword" method="post">
+	<form asp-action="CheckRecoveryCode" method="post">
 		<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-		<label asp-for="Email">Recovery Email</label>
-		<input type="text" asp-for="Email" required>
+		<label asp-for="code"></label>
+		<input type="text" asp-for="code" required>
 		<button type="submit">Submit</button>
 	</form>
 </div>
