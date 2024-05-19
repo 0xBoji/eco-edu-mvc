@@ -1,58 +1,60 @@
 ﻿@model eco_edu_mvc.Models.SurveyModels.SurveyModel
 
-<h1>Update survey</h1>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Update">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="SurveyId" />
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Topic" class="control-label"></label>
-                <input asp-for="Topic" class="form-control" />
-                <span asp-validation-for="Topic" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedBy" class="control-label"></label>
-                <input asp-for="CreatedBy" class="form-control" />
-                <span asp-validation-for="CreatedBy" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreateDate" class="control-label"></label>
-                <input asp-for="CreateDate" class="form-control" />
-                <span asp-validation-for="CreateDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EndDate" class="control-label"></label>
-                <input asp-for="EndDate" class="form-control" />
-                <span asp-validation-for="EndDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TargetAudience" class="control-label"></label>
-                <input asp-for="TargetAudience" class="form-control" />
-                <span asp-validation-for="TargetAudience" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
-                </label>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="List">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+@{
+    Layout = "_Layout";
 }
+
+<div class="row">
+    <h1 class="col-lg-10">Update survey</h1>
+    <a asp-controller="Surveys" asp-action="index" class="btn btn-warning col-lg-2" style="display:flex; align-items:center; justify-content:center;">
+        Back to index
+    </a>
+</div>
+
+<hr />
+<form asp-controller="Surveys" asp-action="Update" method="post" class="row">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group col-lg-8 my-3">
+        <label asp-for="Title" class="control-label"></label>
+        <input asp-for="Title" class="form-control" required />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group col-lg-4 my-3">
+        <label asp-for="Topic" class="control-label"></label>
+        <select asp-for="Topic" class="form-control">
+            <option value="Planting" selected="selected">Planting</option>
+            <option value="Cleaning">Cleaning</option>
+        </select>
+    </div>
+
+    <div class="form-group col-lg-3 my-3">
+        <label asp-for="CreateDate" class="control-label">Create Date</label>
+        <input asp-for="CreateDate" class="form-control" type="date" readonly />
+        <span asp-validation-for="CreateDate" class="text-danger"></span>
+    </div>
+    <div class="form-group col-lg-3 my-3">
+        <label asp-for="EndDate" class="control-label">End Date</label>
+        <input asp-for="EndDate" class="form-control" type="date" required />
+        <span asp-validation-for="EndDate" class="text-danger"></span>
+    </div>
+    <div class="form-group col-lg-3 my-3">
+        <label class="control-label">Target Audience</label>
+        <select asp-for="TargetAudience" class="form-control">
+            <option value="All" selected="selected">All</option>
+            <option value="Staff">Staff</option>
+            <option value="Student">Student</option>
+        </select>
+    </div>
+    <div class="form-group col-lg-3 my-3">
+        <label for="Active" class="form-check-label">
+            @Html.DisplayNameFor(model => model.Active)
+        </label>
+        <select id="Active" name="Active" class="form-control" asp-for="Active">
+            <option value="true">Available</option>
+            <option value="false">Unavailable</option>
+        </select>
+    </div>
+    <div class="form-group col-lg-1 my-3">
+        <button type="submit" class="btn btn-outline-success">Save</button>
+    </div>
+</form>

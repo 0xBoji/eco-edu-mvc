@@ -82,6 +82,7 @@
 </style>
 
 <div class="container">
+	<h3>Edit your profile</h3>
 	<div class="main-body">
 		<div class="row gutters-sm">
 			<div class="col-md-8" style="margin-left:18%">
@@ -90,7 +91,7 @@
 						<form asp-action="Edit" method="post" enctype="multipart/form-data">
 							<div class="row" style="padding-top:2rem;">
 								<div class="col-sm-3">
-									<h6 class="mb-0">FullName</h6>
+									<h6 class="mb-0">Full Name</h6>
 								</div>
 								<div class="col-sm-9 text-secondary">
 									<input type="text" placeholder="FullName" asp-for="FullName" class="input" required>
@@ -126,7 +127,7 @@
 							<hr>
 							<div class="row" style="padding-top:2rem;">
 								<div class="col-sm-3">
-									<h6 class="mb-0">Citizen_Id</h6>
+									<h6 class="mb-0">Citizen ID</h6>
 								</div>
 								<div class="col-sm-9 text-secondary">
 									<input type="number" placeholder="Citizen_Id" asp-for="Citizen_Id" class="input" required>
@@ -143,8 +144,8 @@
 							</div>
 							<hr>
 							<div class="row">
-								<div class="col-sm-9 text-secondary" style="padding-bottom:2rem; margin-left:40%">
-									<button type="submit" class="genric-btn info radius">Save</button>
+								<div class="col-sm-9" style="padding-bottom:2rem; margin-left:40%">
+									<button type="submit" class="btn btn-success">Save</button>
 								</div>
 							</div>
 						</form>

@@ -1,0 +1,85 @@
+﻿@model eco_edu_mvc.Models.SurveyModels.QuestionModel
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="row">
+    <h1 class="col-lg-10">Create new question</h1>
+    <a asp-controller="Questions" asp-action="index" class="btn btn-warning col-lg-2" style="display:flex; align-items:center; justify-content:center;">
+        Back to index
+    </a>
+</div>
+
+<hr />
+<form asp-controller="Questions" asp-action="Post" method="post" class="row">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group col-lg-12">
+        <label asp-for="SurveyId" class="control-label">Question for a survey</label>
+        <select asp-for="SurveyId" class="form-control">
+            @foreach (var survey in Model.Surveys)
+            {
+                <option value="@survey.Value">@survey.Text</option>
+            }
+        </select>
+    </div>
+    <div class="form-group col-lg-8">
+        <label asp-for="QuestionText" class="control-label">Specific question</label>
+        <input asp-for="QuestionText" class="form-control" required />
+        <span asp-validation-for="QuestionText" class="text-danger"></span>
+    </div>
+    <div class="form-group col-lg-4">
+        <label asp-for="QuestionType" class="control-label">Question Type</label>
+        <select asp-for="QuestionType" class="form-control" id="QuestionType">
+            <option value="Text" selected="selected">Text</option>
+            <option value="SelectBoxes">Select Boxes</option>
+            <option value="MultipleChoices">Multiple Choices</option>
+        </select>
+    </div>
+
+    <div id="Onclick" class="row" style="display:none;">
+        <div class="form-group col-lg-12">
+            <label asp-for="Answer1" class="control-label">First answer</label>
+            <input asp-for="Answer1" class="form-control" />
+            <span asp-validation-for="Answer1" class="text-danger"></span>
+        </div>
+        <div class="form-group col-lg-12">
+            <label asp-for="Answer2" class="control-label">Second answer</label>
+            <input asp-for="Answer2" class="form-control" />
+            <span asp-validation-for="Answer2" class="text-danger"></span>
+        </div>
+        <div class="form-group col-lg-12">
+            <label asp-for="Answer3" class="control-label">Third answer</label>
+            <input asp-for="Answer3" class="form-control" />
+            <span asp-validation-for="Answer3" class="text-danger"></span>
+        </div>
+        <div class="form-group col-lg-12">
+            <label asp-for="CorrectAnswer" class="control-label">Correct answer</label>
+            <input asp-for="CorrectAnswer" class="form-control" />
+            <span asp-validation-for="CorrectAnswer" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group col-lg-1 my-3">
+        <button type="submit" class="btn btn-outline-success">Create</button>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var questionTypeSelect = document.getElementById("QuestionType");
+            var Onclick = document.getElementById("Onclick");
+
+            function toggleAnswerFields() {
+                if (questionTypeSelect.value === "MultipleChoices") {
+                    Onclick.style.display = "block";
+                } else {
+                    Onclick.style.display = "none";
+                }
+            }
+            questionTypeSelect.addEventListener("change", toggleAnswerFields);
+            toggleAnswerFields();
+        });
+    </script>
+}
