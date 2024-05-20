@@ -1,35 +1,38 @@
 ﻿@model IEnumerable<eco_edu_mvc.Models.Entities.Response>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@{
+    Layout = "_Layout";
+}
+
+<div class="row">
+    <h1 class="col-lg-10">Response List</h1>
+</div>
+
+<hr />
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.QuestionId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Answer)
-            </th>
-            <th></th>
+            <th>ID</th>
+            <th>Survey Title</th>
+            <th>Question</th>
+            <th>User's Answer</th>
+            <th>Correct Answer</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.QuestionId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Answer)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ResponseId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ResponseId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ResponseId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var rep in Model)
+        {
+            <tr>
+                <td>@rep.ResponseId</td>
+                <td>@rep.Question.Survey.Title</td>
+                <td>@rep.Question.QuestionText</td>
+                <td>@rep.Answer</td>
+                <td>@(rep.Question.CorrectAnswer ?? "None")</td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<hr />
+<a asp-controller="Surveys" asp-action="Index" class="btn btn-info">To survey list</a>
+<a asp-controller="Questions" asp-action="Index" class="btn btn-info">To question list</a>

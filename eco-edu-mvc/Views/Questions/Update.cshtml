@@ -12,7 +12,7 @@
 </div>
 
 <hr />
-<form asp-controller="Surveys" asp-action="Update" method="post" class="row">
+<form asp-controller="Questions" asp-action="Update" method="post" class="row">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
     <input type="hidden" asp-for="QuestionId" />
@@ -38,22 +38,22 @@
     </div>
 
     <div id="multipleChoiceAnswers" style="display:none;">
-        <div class="form-group col-lg-3">
+        <div class="form-group col-lg-12">
             <label asp-for="Answer1" class="control-label">First answer</label>
             <input asp-for="Answer1" class="form-control" />
             <span asp-validation-for="Answer1" class="text-danger"></span>
         </div>
-        <div class="form-group col-lg-3">
+        <div class="form-group col-lg-12">
             <label asp-for="Answer2" class="control-label">Second answer</label>
             <input asp-for="Answer2" class="form-control" />
             <span asp-validation-for="Answer2" class="text-danger"></span>
         </div>
-        <div class="form-group col-lg-3">
+        <div class="form-group col-lg-12">
             <label asp-for="Answer3" class="control-label">Third answer</label>
             <input asp-for="Answer3" class="form-control" />
             <span asp-validation-for="Answer3" class="text-danger"></span>
         </div>
-        <div class="form-group col-lg-3">
+        <div class="form-group col-lg-12">
             <label asp-for="CorrectAnswer" class="control-label">Correct answer</label>
             <input asp-for="CorrectAnswer" class="form-control" />
             <span asp-validation-for="CorrectAnswer" class="text-danger"></span>
