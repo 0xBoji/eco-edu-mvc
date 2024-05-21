@@ -38,7 +38,7 @@
                 <td>@survey.TargetAudience</td>
                 <td>@(survey.Active ? "Available" : "Unavailable")</td>
                 <td>
-                    <a asp-controller="Surveys" asp-action="Update" asp-route-id="@survey.SurveyId" class="btn btn-secondary">Edit</a>
+                    <a asp-controller="Surveys" asp-action="Update" asp-route-id="@survey.SurveyId" class="btn btn-outline-secondary">Edit</a>
                 </td>
             </tr>
         }

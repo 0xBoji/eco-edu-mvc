@@ -15,9 +15,9 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Question ID</th>
+            <th>ID</th>
             <th>Survey Title</th>
-            <th>Question Text</th>
+            <th>Question</th>
             <th>Question Type</th>
             <th>Answer 1</th>
             <th>Answer 2</th>
@@ -39,7 +39,7 @@
                 <td>@question.Answer3</td>
                 <td>@question.CorrectAnswer</td>
                 <td>
-                    <a asp-controller="Questions" asp-action="Update" asp-route-id="@question.QuestionId" class="btn btn-secondary">Edit</a>
+                    <a asp-controller="Questions" asp-action="Update" asp-route-id="@question.QuestionId" class="btn btn-outline-secondary">Edit</a>
                 </td>
             </tr>
         }

@@ -8,7 +8,6 @@ public class ResponseModel
 	public int ResponseId { get; set; }
 	public int QuestionId { get; set; }
 	public string? Answer { get; set; }
-
     public List<SelectListItem> Questions { get; set; } = [];
 
 }

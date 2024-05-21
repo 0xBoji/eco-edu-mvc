@@ -12,7 +12,10 @@ public class ResponsesController(EcoEduContext context) : Controller
     {
         if (HttpContext.Session.GetString("Role") == "Admin")
         {
-            return View(await _context.Responses.ToListAsync());
+            return View(await _context.Responses
+                .Include(q => q.Question)
+                .ThenInclude(s => s.Survey)
+                .ToListAsync());
         }
         TempData["PermissionDenied"] = true;
         return RedirectToAction("index", "home");
