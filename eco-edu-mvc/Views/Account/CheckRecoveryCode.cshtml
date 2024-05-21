@@ -1,4 +1,4 @@
-﻿@model eco_edu_mvc.Models.AccountsViewModel.CheckVerificationCodeModel
+﻿@model eco_edu_mvc.Models.AccountsViewModel.CheckOnlyCode
 
 <style type="text/css">
 	html {
@@ -83,13 +83,17 @@
 		width: 80%;
 		max-width: 700px;
 	}
+
+	ul {
+		list-style-type: none;
+	}
 </style>
 
 <div class="main">
 	<h1>Code validation</h1>
 
 	<form asp-action="CheckRecoveryCode" method="post">
-		<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+		<div asp-validation-summary="All" style="text-decoration:none; color:red;"></div>
 		<label asp-for="code"></label>
 		<input type="text" asp-for="code" required>
 		<button type="submit">Submit</button>
