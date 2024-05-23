@@ -5,8 +5,8 @@
 }
 
 <div class="row">
-    <h1 class="col-lg-10">Create new question</h1>
-    <a asp-controller="Questions" asp-action="index" class="btn btn-warning col-lg-2" style="display:flex; align-items:center; justify-content:center;">
+    <h1 class="col-lg-10 col-md-8 col-sm-6">Create new question</h1>
+    <a asp-controller="questions" asp-action="post" class="btn btn-primary col-lg-2 col-md-4 col-sm-6 create-a">
         Back to index
     </a>
 </div>
@@ -14,7 +14,7 @@
 <hr />
 <form asp-controller="Questions" asp-action="Post" method="post" class="row">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="form-group col-lg-12">
+    <div class="form-group col-12">
         <label asp-for="SurveyId" class="control-label">Question for a survey</label>
         <select asp-for="SurveyId" class="form-control">
             @foreach (var survey in Model.Surveys)
@@ -23,59 +23,59 @@
             }
         </select>
     </div>
-    <div class="form-group col-lg-8">
+    <div class="form-group col-8">
         <label asp-for="QuestionText" class="control-label">Specific question</label>
         <input asp-for="QuestionText" class="form-control" required />
         <span asp-validation-for="QuestionText" class="text-danger"></span>
     </div>
-    <div class="form-group col-lg-4">
+    <div class="form-group col-4">
         <label asp-for="QuestionType" class="control-label">Question Type</label>
-        <select asp-for="QuestionType" class="form-control" id="QuestionType">
+        <select asp-for="QuestionType" class="form-control" id="questionType">
             <option value="Text" selected="selected">Text</option>
             <option value="MultipleChoices">Multiple Choices</option>
             <option value="Other">Other</option>
         </select>
     </div>
 
-    <div id="Onclick" class="row" style="display:none;">
-        <div class="form-group col-lg-12">
+    <div id="onClick" class="form-group row col-12" style="display:none;">
+        <div class="col-lg-12">
             <label asp-for="Answer1" class="control-label">First answer</label>
             <input asp-for="Answer1" class="form-control" />
             <span asp-validation-for="Answer1" class="text-danger"></span>
         </div>
-        <div class="form-group col-lg-12">
+        <div class="col-lg-12">
             <label asp-for="Answer2" class="control-label">Second answer</label>
             <input asp-for="Answer2" class="form-control" />
             <span asp-validation-for="Answer2" class="text-danger"></span>
         </div>
-        <div class="form-group col-lg-12">
+        <div class="col-lg-12">
             <label asp-for="Answer3" class="control-label">Third answer</label>
             <input asp-for="Answer3" class="form-control" />
             <span asp-validation-for="Answer3" class="text-danger"></span>
         </div>
-        <div class="form-group col-lg-12">
+        <div class="col-lg-12">
             <label asp-for="CorrectAnswer" class="control-label">Correct answer</label>
             <input asp-for="CorrectAnswer" class="form-control" />
             <span asp-validation-for="CorrectAnswer" class="text-danger"></span>
         </div>
     </div>
 
-    <div class="form-group col-lg-1 my-3">
+    <div class="form-group col-12 my-3">
         <button type="submit" class="btn btn-outline-success">Create</button>
     </div>
 </form>
 
 @section Scripts {
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var questionTypeSelect = document.getElementById("QuestionType");
-            var Onclick = document.getElementById("Onclick");
+        document.addEventListener("DOMContentLoaded", function () {
+            var questionTypeSelect = document.getElementById("questionType");
+            var onClick = document.getElementById("onClick");
 
             function toggleAnswerFields() {
                 if (questionTypeSelect.value === "MultipleChoices") {
-                    Onclick.style.display = "block";
+                    onClick.style.display = "block";
                 } else {
-                    Onclick.style.display = "none";
+                    onClick.style.display = "none";
                 }
             }
             questionTypeSelect.addEventListener("change", toggleAnswerFields);

@@ -1,6 +1,7 @@
 using eco_edu_mvc.Models;
 using eco_edu_mvc.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace eco_edu_mvc.Controllers;
@@ -8,19 +9,40 @@ public class HomeController(EcoEduContext context) : Controller
 {
     private readonly EcoEduContext _context = context;
 
-    public IActionResult Index() => View();
+    public ActionResult Index() => View();
 
-    public IActionResult About() => View();
+    public ActionResult About() => View();
 
-    public IActionResult Contact() => View();
+    public ActionResult Contact() => View();
 
-    public IActionResult Survey() => View();
+    public async Task<IActionResult> Survey()
+    {
+        if (HttpContext.Session.GetString("Role") == "Admin")
+        {
+            return View(await _context.Surveys.ToListAsync());
+        }
+        TempData["PermissionDenied"] = true;
+        return RedirectToAction("index", "home");
+    }
 
-    public IActionResult Competition() => View();
+    public async Task<IActionResult> SurveyDetail(int id)
+    {
+        if (HttpContext.Session.GetString("Role") == "Admin")
+        {
+            var survey = await _context.Surveys.FirstOrDefaultAsync(s => s.SurveyId == id);
+            if (survey == null) return NotFound();
 
-    public IActionResult FAQ() => View();
+            return View(survey);
+        }
+        TempData["PermissionDenied"] = true;
+        return RedirectToAction("index", "home");
+    }
 
-    public IActionResult Seminar() => View();
+   public ActionResult Competition() => View();
+
+    public ActionResult FAQ() => View();
+
+    public ActionResult Seminar() => View();
 
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

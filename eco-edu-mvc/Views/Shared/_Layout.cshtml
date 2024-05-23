@@ -3,22 +3,52 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Green World - Admin Page</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/eco_edu_mvc.styles.css" asp-append-version="true" />
+    <title>Green World - Admin</title>
+
+    <link href="~/admin/css/lib/calendar2/semantic.ui.min.css" rel="stylesheet" />
+    <link href="~/admin/css/lib/calendar2/pignose.calendar.min.css" rel="stylesheet" />
+    <link href="~/admin/css/lib/chartist/chartist.min.css" rel="stylesheet" />
+    <link href="~/admin/css/lib/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/admin/css/lib/themify-icons.css" rel="stylesheet" />
+    <link href="~/admin/css/lib/owl.carousel.min.css" rel="stylesheet" />
+    <link href="~/admin/css/lib/owl.theme.default.min.css" rel="stylesheet" />
+    <link href="~/admin/css/lib/weather-icons.css" rel="stylesheet" />
+    <link href="~/admin/css/lib/menubar/sidebar.css" rel="stylesheet" />
+    <link href="~/admin/css/lib/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/admin/css/lib/helper.css" rel="stylesheet" />
+    <link href="~/admin/css/style.css" rel="stylesheet" />
 
     <style>
         header {
             box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
         }
+
+        .create-a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        body{
+            background-color: #F6EEC9;
+        }
+        
     </style>
 </head>
 <body>
+    <div id="preloader">
+        <div class="sk-three-bounce">
+            <div class="sk-child sk-bounce1"></div>
+            <div class="sk-child sk-bounce2"></div>
+            <div class="sk-child sk-bounce3"></div>
+        </div>
+    </div>
+
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand shadowThis" asp-controller="Admin" asp-action="Index">Dashboard</a>
+                <a class="navbar-brand shadowThis" asp-controller="Admin" asp-action="Index">Green World - Dashboard</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -36,10 +66,9 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+
+    <div class="container-fluid content-wrap pb-3">
+        @RenderBody()
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

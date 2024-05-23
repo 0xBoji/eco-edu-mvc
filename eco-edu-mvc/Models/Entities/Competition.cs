@@ -19,5 +19,7 @@ public partial class Competition
 
     public string? Prizes { get; set; }
 
+    public string? Images { get; set; }
+
     public virtual ICollection<CompetitionEntry> CompetitionEntries { get; set; } = new List<CompetitionEntry>();
 }

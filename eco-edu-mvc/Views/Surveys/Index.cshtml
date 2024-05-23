@@ -4,10 +4,9 @@
     Layout = "_Layout";
 }
 
-
 <div class="row">
-    <h1 class="col-lg-10">Survey List</h1>
-    <a asp-controller="Surveys" asp-action="Post" class="btn btn-primary col-lg-2" style="display:flex; align-items:center; justify-content:center;">
+    <h1 class="col-lg-10 col-md-8 col-sm-6">Survey List</h1>
+    <a asp-controller="Surveys" asp-action="Post" class="btn btn-primary col-lg-2 col-md-4 col-sm-6 create-a">
         Create new survey
     </a>
 </div>
@@ -22,7 +21,8 @@
             <th>Create Date</th>
             <th>End Date</th>
             <th>Target Audience</th>
-            <th>Active</th>
+            <th>Image</th>
+            <th>Status</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -36,6 +36,16 @@
                 <td>@survey.CreateDate.ToString("dd/MM/yyyy")</td>
                 <td>@survey.EndDate.ToString("dd/MM/yyyy")</td>
                 <td>@survey.TargetAudience</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(survey.Images))
+                    {
+                        <img src="@Url.Content("~/Images/" + survey.Images)" alt="Survey Image" style="max-width: 50px; max-height: 50px;" />
+                    }
+                    else
+                    {
+                        <span>None</span>
+                    }
+                </td>
                 <td>@(survey.Active ? "Available" : "Unavailable")</td>
                 <td>
                     <a asp-controller="Surveys" asp-action="Update" asp-route-id="@survey.SurveyId" class="btn btn-outline-secondary">Edit</a>
