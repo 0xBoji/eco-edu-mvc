@@ -5,8 +5,8 @@
 }
 
 <div class="row">
-    <h1 class="col-lg-10">Update Question</h1>
-    <a asp-controller="Questions" asp-action="Index" class="btn btn-warning col-lg-2" style="display:flex; align-items:center; justify-content:center;">
+    <h1 class="col-lg-10 col-md-8 col-sm-6">Update Question</h1>
+    <a asp-controller="questions" asp-action="index" class="btn btn-primary col-lg-2 col-md-4 col-sm-6 create-a">
         Back to index
     </a>
 </div>
@@ -17,7 +17,7 @@
 
     <input type="hidden" asp-for="QuestionId" />
     <input type="hidden" asp-for="SurveyId" />
-    
+
     <div class="form-group col-lg-12">
         <label class="control-label">Survey Title</label>
         <input type="text" class="form-control" value="@Model.Surveys.FirstOrDefault(s => s.Value == Model.SurveyId.ToString())?.Text" readonly />
@@ -32,57 +32,53 @@
         <label asp-for="QuestionType" class="control-label">Question Type</label>
         <select asp-for="QuestionType" class="form-control" id="questionType">
             <option value="Text">Text</option>
-            <option value="SelectBox">Select Boxes</option>
-            <option value="MultipleChoice">Multiple Choices</option>
+            <option value="MultipleChoices">Multiple Choices</option>
+            <option value="Other">Other</option>
         </select>
     </div>
 
-    <div id="multipleChoiceAnswers" style="display:none;">
-        <div class="form-group col-lg-12">
+    <div id="onClick" class="form-group row col-12" style="display:none;">
+        <div class="col-lg-12">
             <label asp-for="Answer1" class="control-label">First answer</label>
             <input asp-for="Answer1" class="form-control" />
             <span asp-validation-for="Answer1" class="text-danger"></span>
         </div>
-        <div class="form-group col-lg-12">
+        <div class="col-lg-12">
             <label asp-for="Answer2" class="control-label">Second answer</label>
             <input asp-for="Answer2" class="form-control" />
             <span asp-validation-for="Answer2" class="text-danger"></span>
         </div>
-        <div class="form-group col-lg-12">
+        <div class="col-lg-12">
             <label asp-for="Answer3" class="control-label">Third answer</label>
             <input asp-for="Answer3" class="form-control" />
             <span asp-validation-for="Answer3" class="text-danger"></span>
         </div>
-        <div class="form-group col-lg-12">
+        <div class="col-lg-12">
             <label asp-for="CorrectAnswer" class="control-label">Correct answer</label>
             <input asp-for="CorrectAnswer" class="form-control" />
             <span asp-validation-for="CorrectAnswer" class="text-danger"></span>
         </div>
     </div>
 
-    <div class="form-group col-lg-1 my-3">
+    <div class="form-group col-lg-12 my-3">
         <button type="submit" class="btn btn-outline-success">Save</button>
     </div>
 </form>
 
 @section Scripts {
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             var questionTypeSelect = document.getElementById("questionType");
-            var multipleChoiceAnswers = document.getElementById("multipleChoiceAnswers");
+            var onClick = document.getElementById("onClick");
 
             function toggleAnswerFields() {
-                if (questionTypeSelect.value === "MultipleChoice") {
-                    multipleChoiceAnswers.style.display = "block";
+                if (questionTypeSelect.value === "MultipleChoices") {
+                    onClick.style.display = "block";
                 } else {
-                    multipleChoiceAnswers.style.display = "none";
+                    onClick.style.display = "none";
                 }
             }
-
-            // Attach event listener
             questionTypeSelect.addEventListener("change", toggleAnswerFields);
-
-            // Initial call to set the correct state on page load
             toggleAnswerFields();
         });
     </script>

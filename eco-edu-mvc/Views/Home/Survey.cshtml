@@ -1,0 +1,28 @@
+﻿@model IEnumerable<eco_edu_mvc.Models.Entities.Survey>
+
+@{
+    Layout = "_LayoutEcoEdu";
+}
+
+<div class="services-bar">
+    <h1 class="my-4">All Surveys</h1>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <a href="@Url.Action("details", "surveys")" class="col-3 mb-4">
+                <div class="card h-100">
+                    <h4 class="card-header">@item.Title</h4>
+                    @* <div class="card-img">
+                <img class="img-fluid" src="@item.Image" alt="Survey Pictures" />
+                </div> *@
+                    <div class="card-body">
+                        <p class="card-text">Topic: @item.Topic</p>
+                    </div>
+                    <div class="card-footer">
+                        <p class="card-text">End Date: @item.EndDate</p>
+                    </div>
+                </div>
+            </a>
+        }
+    </div>
+</div>

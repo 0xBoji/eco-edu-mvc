@@ -30,7 +30,7 @@ public class SurveysController(EcoEduContext context) : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post(SurveyModel model)
+    public async Task<IActionResult> Post(SurveyModel model, IFormFile file)
     {
         if (!ModelState.IsValid) return View(model);
 
@@ -43,6 +43,30 @@ public class SurveysController(EcoEduContext context) : Controller
             TargetAudience = model.TargetAudience,
             Active = model.Active
         };
+
+        if (file != null && file.Length > 0)
+        {
+            var fileName = DateTime.Now.Ticks + Path.GetExtension(file.FileName);
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images", fileName);
+            try
+            {
+                var directory = Path.GetDirectoryName(filePath);
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+                survey.Images = fileName;
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("Error", "File upload failed: " + ex.Message);
+                return View(model);
+            }
+        }
         _context.Surveys.Add(survey);
         await _context.SaveChangesAsync();
 
@@ -74,7 +98,7 @@ public class SurveysController(EcoEduContext context) : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Update(int id, SurveyModel model)
+    public async Task<IActionResult> Update(int id, SurveyModel model, IFormFile file)
     {
         if (!ModelState.IsValid) return View(model);
 
@@ -88,7 +112,37 @@ public class SurveysController(EcoEduContext context) : Controller
             survey.EndDate = model.EndDate;
             survey.TargetAudience = model.TargetAudience;
             survey.Active = model.Active;
-
+            if (file != null && file.Length > 0)
+            {
+                var fileName = DateTime.Now.Ticks + Path.GetExtension(file.FileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images", fileName);
+                try
+                {
+                    var directory = Path.GetDirectoryName(filePath);
+                    if (!Directory.Exists(directory))
+                    {
+                        Directory.CreateDirectory(directory);
+                    }
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                    if (!string.IsNullOrEmpty(survey.Images))
+                    {
+                        var oldFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images", survey.Images);
+                        if (System.IO.File.Exists(oldFilePath))
+                        {
+                            System.IO.File.Delete(oldFilePath);
+                        }
+                    }
+                    survey.Images = fileName;
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("Error", "File upload failed: " + ex.Message);
+                    return View(model);
+                }
+            }
             _context.Surveys.Update(survey);
             await _context.SaveChangesAsync();
 

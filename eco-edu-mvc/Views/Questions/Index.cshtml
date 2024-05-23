@@ -5,8 +5,8 @@
 }
 
 <div class="row">
-    <h1 class="col-lg-10">Question List</h1>
-    <a asp-controller="Questions" asp-action="Post" class="btn btn-primary col-lg-2" style="display:flex; align-items:center; justify-content:center;">
+    <h1 class="col-lg-10 col-md-8 col-sm-6">Question List</h1>
+    <a asp-controller="questions" asp-action="post" class="btn btn-primary col-lg-2 col-md-4 col-sm-6 create-a">
         Create new question
     </a>
 </div>
@@ -34,10 +34,10 @@
                 <td>@question.Survey.Title</td>
                 <td>@question.QuestionText</td>
                 <td>@question.QuestionType</td>
-                <td>@question.Answer1</td>
-                <td>@question.Answer2</td>
-                <td>@question.Answer3</td>
-                <td>@question.CorrectAnswer</td>
+                <td>@(question.Answer1 ?? "None")</td>
+                <td>@(question.Answer2 ?? "None")</td>
+                <td>@(question.Answer3 ?? "None")</td>
+                <td>@(question.CorrectAnswer ?? "None")</td>
                 <td>
                     <a asp-controller="Questions" asp-action="Update" asp-route-id="@question.QuestionId" class="btn btn-outline-secondary">Edit</a>
                 </td>
