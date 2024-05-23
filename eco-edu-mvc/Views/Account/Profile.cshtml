@@ -192,7 +192,7 @@
                                 @if (Model.Email_Verify != true && Model.Email != null)
                                 {
                                     <form asp-action="SendVerificationCode" asp-controller="Account" method="post" style="display: inline-flex; margin-left:7vw;">
-                                        <button type="submit" class="btn btn-primary" style="cursor:pointer;">
+                                        <button type="submit" class="btn btn-primary" style="cursor:pointer;" id="sendEmailButton">
                                             Verify
                                         </button>
                                     </form>
@@ -254,3 +254,15 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.getElementById('sendEmailButton').addEventListener('click', function (event) {
+        var button = this;
+        event.preventDefault();
+
+        setTimeout(function () {
+            button.disabled = true;
+            button.closest('form').submit();
+        }, 200);
+    });
+</script>

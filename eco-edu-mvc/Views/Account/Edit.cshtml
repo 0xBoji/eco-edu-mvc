@@ -104,6 +104,7 @@
 								</div>
 								<div class="col-sm-9 text-secondary">
 									<input type="email" placeholder="Email" asp-for="Email" class="input" required>
+									<span asp-validation-for="Email" class="text-danger"></span>
 								</div>
 							</div>
 							<hr>
@@ -130,7 +131,8 @@
 									<h6 class="mb-0">Citizen ID</h6>
 								</div>
 								<div class="col-sm-9 text-secondary">
-									<input type="number" placeholder="Citizen_Id" asp-for="Citizen_Id" class="input" required>
+									<input type="text" placeholder="Citizen_Id" asp-for="Citizen_Id" class="input" required>
+									<span asp-validation-for="Citizen_Id" class="text-danger"></span>
 								</div>
 							</div>
 							<hr>
@@ -139,7 +141,7 @@
 									<h6 class="mb-0">Avatar</h6>
 								</div>
 								<div class="col-sm-9 text-secondary">
-									<input type="file" name="file" accept=".jpg, .jpeg, .png" required />
+									<input type="file" name="file" accept=".jpg, .jpeg, .png" />
 								</div>
 							</div>
 							<hr>
