@@ -27,7 +27,7 @@ public class HomeController(EcoEduContext context) : Controller
 
     public async Task<IActionResult> SurveyDetail(int id)
     {
-        if (HttpContext.Session.GetString("Role") == "Admin")
+        if (HttpContext.Session.GetString("Is_Accept") == "True")
         {
             var survey = await _context.Surveys.FirstOrDefaultAsync(s => s.SurveyId == id);
             if (survey == null) return NotFound();

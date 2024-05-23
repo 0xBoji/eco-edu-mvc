@@ -46,19 +46,19 @@
     <div class="services-bar">
         <h1 class="my-4">Survey</h1>
         <div class="row">
-            @*  @foreach (var item in Model)
+            @* @foreach (var item in Model)
             {
-            <a href="@Url.Action("details", "surveys")" class="col-4 mb-4">
-            <div class="card h-100">
-            <h4 class="card-header">@item.Title</h4>
-            <div class="card-img">
-            <img class="img-fluid" src="@item.Image" alt="Survey Pictures" />
-            </div>
-            <div class="card-body">
-            <p class="card-text">Topic: @item.Topic</p>
-            </div>
-            </div>
-            </a>
+                <a href="@Url.Action("details", "surveys")" class="col-4 mb-4">
+                    <div class="card h-100">
+                        <h4 class="card-header">@item.Title</h4>
+                        <div class="card-img">
+                            <img class="img-fluid" src="~Images/@item.Images" alt="Survey Pictures" />
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Topic: @item.Topic</p>
+                        </div>
+                    </div>
+                </a>
             } *@
         </div>
     </div>

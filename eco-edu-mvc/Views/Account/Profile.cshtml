@@ -32,6 +32,19 @@
         border-radius: .25rem;
     }
 
+    .form-display {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .verify-button {
+        margin-left: 18vw;
+        color: darkgreen;
+        display: inline-flex;
+        margin-left: 8vw;
+    }
+
     .card-body {
         flex: 1 1 auto;
         min-height: 1px;
@@ -69,12 +82,6 @@
         font-size: 1rem;
         font-weight: 500;
         line-height: 1.2;
-    }
-
-    .text-secondary {
-        left: 4vw;
-        font-size: 1rem;
-        font-weight: 600;
     }
 
     .table td {
@@ -130,94 +137,91 @@
                 <div class="card mb-3">
                     <div class="card-body">
                         <div class="row" style="padding-top:2rem;">
-                            <div class="col-sm-3">
-                                <h6 class="mb-0">Username</h6>
+                            <div class="col-lg-4 col-md-6 col-sm-8">
+                                <h6>Username</h6>
                             </div>
-                            <div class="col-sm-9 text-secondary">
+                            <div class="col-lg-8 col-md-6 col-sm-4 text-secondary">
                                 @Model.Username
                             </div>
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="col-sm-3">
-                                <h6 class="mb-0">Full Name</h6>
+                            <div class="col-lg-4 col-md-6 col-sm-8">
+                                <h6>Full Name</h6>
                             </div>
-                            <div class="col-sm-9 text-secondary">
+                            <div class="col-lg-8 col-md-6 col-sm-4 text-secondary">
                                 @Model.FullName
                             </div>
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="col-sm-3">
-                                <h6 class="mb-0">User Code</h6>
+                            <div class="col-lg-4 col-md-6 col-sm-8">
+                                <h6>User Code</h6>
                             </div>
-                            <div class="col-sm-9 text-secondary">
+                            <div class="col-lg-8 col-md-6 col-sm-4 text-secondary">
                                 @Model.User_Code
                             </div>
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="col-sm-3">
-                                <h6 class="mb-0">Citizen ID</h6>
+                            <div class="col-lg-4 col-md-6 col-sm-8">
+                                <h6>Citizen ID</h6>
                             </div>
-                            <div class="col-sm-9 text-secondary">
+                            <div class="col-lg-8 col-md-6 col-sm-4 text-secondary">
                                 @Model.Citizen_Id
                             </div>
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="col-sm-3">
-                                <h6 class="mb-0">Registered On</h6>
+                            <div class="col-lg-4 col-md-6 col-sm-8">
+                                <h6>Registered On</h6>
                             </div>
-                            <div class="col-sm-9 text-secondary">
+                            <div class="col-lg-8 col-md-6 col-sm-4 text-secondary">
                                 @Model.CreateDate.ToShortDateString()
                             </div>
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="col-sm-3">
-                                <h6 class="mb-0">Entry Date</h6>
+                            <div class="col-lg-4 col-md-6 col-sm-8">
+                                <h6>Entry Date</h6>
                             </div>
-                            <div class="col-sm-9 text-secondary">
+                            <div class="col-lg-8 col-md-6 col-sm-4 text-secondary">
                                 @Model.Entry_Date
                             </div>
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="col-sm-3">
-                                <h6 class="mb-0">Email</h6>
+                            <div class="col-lg-4 col-md-6 col-sm-8">
+                                <h6>Email</h6>
                             </div>
-                            <div class="col-sm-9 text-secondary">
-                                @Model.Email
+                            <div class="col-lg-8 col-md-6 col-sm-4 text-secondary">@Model.Email
                                 @if (Model.Email_Verify != true && Model.Email != null)
                                 {
-                                    <form asp-action="SendVerificationCode" asp-controller="Account" method="post" style="display: inline-flex; margin-left:7vw;">
-                                        <button type="submit" class="btn btn-primary" style="cursor:pointer;">
-                                            Verify
-                                        </button>
+                                    <form asp-action="SendVerificationCode" asp-controller="Account" method="post" class="form-display">
+                                        <button type="submit" class="btn btn-primary" style="cursor:pointer;" id="sendEmailButton">Verify</button>
                                     </form>
                                 }
                                 else if (Model.Email_Verify == true && Model.Email != null)
                                 {
-                                    <p style="margin-left:18vw; color:darkgreen; display: inline-flex; margin-left:8vw;">Verified</p>
+                                    <p class="verify-button">Verified</p>
                                 }
                             </div>
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="col-sm-3">
-                                <h6 class="mb-0">Section</h6>
+                            <div class="col-lg-4 col-md-6 col-sm-8">
+                                <h6>Section</h6>
                             </div>
-                            <div class="col-sm-9 text-secondary">
+                            <div class="col-lg-8 col-md-6 col-sm-4 text-secondary">
                                 @Model.Section
                             </div>
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="col-sm-3">
-                                <h6 class="mb-0">Class</h6>
+                            <div class="col-lg-4 col-md-6 col-sm-8">
+                                <h6>Class</h6>
                             </div>
-                            <div class="col-sm-9 text-secondary" style="padding-bottom:2rem;">
+                            <div class="col-lg-8 col-md-6 col-sm-4 text-secondary" style="padding-bottom:2rem;">
                                 @Model.Class
                             </div>
                         </div>
@@ -254,3 +258,15 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.getElementById('sendEmailButton').addEventListener('click', function (event) {
+        var button = this;
+        event.preventDefault();
+
+        setTimeout(function () {
+            button.disabled = true;
+            button.closest('form').submit();
+        }, 200);
+    });
+</script>

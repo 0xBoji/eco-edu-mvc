@@ -170,12 +170,14 @@ public class AccountController : Controller
             if (existingEmail)
             {
                 ModelState.AddModelError("Email", "Email is already taken.");
+                return View(model);
             }
             if (existingIdentity)
             {
-                ModelState.AddModelError("CitizenId", "Citizen Id is already taken.");
-            }
-            var user = await context.Users.FindAsync(userId);
+                ModelState.AddModelError("Citizen_Id", "Citizen Id is already taken.");
+				return View(model);
+			}
+			var user = await context.Users.FindAsync(userId);
             if (user == null)
             {
                 return NotFound();
@@ -198,7 +200,7 @@ public class AccountController : Controller
             user.Fullname = model.FullName;
             user.CitizenId = model.Citizen_Id;
 
-            context.Users.Update(user);
+			context.Users.Update(user);
             await context.SaveChangesAsync();
 
             return RedirectToAction("profile");
@@ -250,7 +252,7 @@ public class AccountController : Controller
     public IActionResult CheckVerificationCode() => View();
 
     [HttpPost]
-    public async Task<IActionResult> CheckVerificationCode(CheckVerificationCodeModel model)
+    public async Task<IActionResult> CheckVerificationCode(CheckOnlyCode model)
     {
         try
         {
@@ -290,7 +292,7 @@ public class AccountController : Controller
     public IActionResult ForgotPassword() => View();
 
 	[HttpPost]
-    public async Task<IActionResult> ForgotPassword(CheckVerificationCodeModel model)
+    public async Task<IActionResult> ForgotPassword(CheckOnlyEmail model)
     {
         try
         {
@@ -317,7 +319,8 @@ public class AccountController : Controller
                 await emailSender.SendEmailAsync(reiceiver, subject, message);
                 return RedirectToAction("CheckRecoveryCode");
             }
-            return View(model);
+			ModelState.AddModelError("email", "Email Does not exists.");
+			return View(model);
         }
         catch (Exception ex)
         {
@@ -329,7 +332,7 @@ public class AccountController : Controller
     public IActionResult CheckRecoveryCode() => View();
 
     [HttpPost]
-    public async Task<IActionResult> CheckRecoveryCode(CheckVerificationCodeModel model)
+    public async Task<IActionResult> CheckRecoveryCode(CheckOnlyCode model)
     {
         try
         {
@@ -358,7 +361,8 @@ public class AccountController : Controller
                 }
                 return View(model);
             }
-            return View(model);
+			ModelState.AddModelError("code", "Invalid Code");
+			return View(model);
         }
         catch (Exception ex)
         {
@@ -370,7 +374,7 @@ public class AccountController : Controller
     public IActionResult ChangePassword() => View();
 
     [HttpPost]
-    public async Task<IActionResult> ChangePassword(CheckVerificationCodeModel model)
+    public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
     {
         try
         {
