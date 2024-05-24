@@ -8,6 +8,7 @@ using System.Diagnostics;
 namespace eco_edu_mvc.Controllers;
 public class HomeController(EcoEduContext context) : Controller
 {
+    private readonly ILogger<CompetitionsController> _logger;
     private readonly EcoEduContext _context = context;
 
     public async Task<IActionResult> Index()
@@ -37,7 +38,7 @@ public class HomeController(EcoEduContext context) : Controller
         TempData["PermissionDenied"] = true;
         return RedirectToAction("index", "home");
     }
-
+ 
     public async Task<IActionResult> SurveyDetail(int id)
     {
         if (HttpContext.Session.GetString("Role") == "Admin")
@@ -50,8 +51,18 @@ public class HomeController(EcoEduContext context) : Controller
         TempData["PermissionDenied"] = true;
         return RedirectToAction("index", "home");
     }
+    public async Task<IActionResult> Competition()
+    {
+        var competitions = await _context.Competitions.ToListAsync();
+        return View(competitions);
+    }
+    public async Task<IActionResult> CompetitionDetail(int id)
+    {
+        var competition = await _context.Competitions.FirstOrDefaultAsync(c => c.CompetitionId == id);
+        if (competition == null) return NotFound();
 
-   public ActionResult Competition() => View();
+        return View(competition);
+    }
 
     public ActionResult FAQ() => View();
 

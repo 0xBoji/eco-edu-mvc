@@ -16,7 +16,7 @@ public class CompetitionsController : Controller
     }
 
     // GET: Admin/Competitions
-    public async Task<IActionResult> Competitions()
+    public async Task<IActionResult> Index()
     {
         if (HttpContext.Session.GetString("Role") != "Admin")
         {
@@ -29,7 +29,7 @@ public class CompetitionsController : Controller
     }
 
     // GET: Admin/CreateCompetition
-    public IActionResult CreateCompetition()
+    public IActionResult Create()
     {
         if (HttpContext.Session.GetString("Role") != "Admin")
         {
@@ -42,7 +42,7 @@ public class CompetitionsController : Controller
 
     // POST: Admin/CreateCompetition
     [HttpPost]
-    public async Task<IActionResult> CreateCompetition([Bind("CompetitionId,Title,Description,StartDate,EndDate,Prizes,Images")] Competition competition)
+    public async Task<IActionResult> Create([Bind("CompetitionId,Title,Description,StartDate,EndDate,Prizes,Images")] Competition competition)
     {
         if (HttpContext.Session.GetString("Role") != "Admin")
         {
@@ -62,7 +62,7 @@ public class CompetitionsController : Controller
                 competition.Active = true;
                 _context.Add(competition);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Competitions));
+                return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
@@ -97,6 +97,6 @@ public class CompetitionsController : Controller
                 ModelState.AddModelError(string.Empty, "An error occurred while deleting the competition.");
             }
         }
-        return RedirectToAction(nameof(Competitions));
+        return RedirectToAction(nameof(Index));
     }
 }

@@ -1,0 +1,23 @@
+﻿@model eco_edu_mvc.Models.Entities.Competition
+
+@{
+    ViewData["Title"] = "Competition Details";
+}
+
+<h1>Competition Details</h1>
+
+<div>
+    <h2>@Model.Title</h2>
+    <p>@Model.Description</p>
+    <p><strong>Start Date:</strong> @Model.StartDate?.ToString("d")</p>
+    <p><strong>End Date:</strong> @Model.EndDate?.ToString("d")</p>
+    <p><strong>Prizes:</strong> @Model.Prizes</p>
+    @if (!string.IsNullOrEmpty(Model.Images))
+    {
+        <p><strong>Images:</strong> @Model.Images</p>
+    }
+</div>
+
+<div>
+    <a asp-action="Competition">Back to List</a>
+</div>
