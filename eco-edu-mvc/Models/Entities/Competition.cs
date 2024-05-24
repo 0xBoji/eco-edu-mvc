@@ -21,9 +21,5 @@ public partial class Competition
 
     public string? Images { get; set; }
 
-    public int CreatorId { get; set; }
-
     public virtual ICollection<CompetitionEntry> CompetitionEntries { get; set; } = new List<CompetitionEntry>();
-
-    public virtual User Creator { get; set; } = null!;
 }

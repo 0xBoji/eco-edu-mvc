@@ -13,9 +13,5 @@ public partial class GradeTest
 
     public DateTime? GradeDate { get; set; }
 
-    public int GradedBy { get; set; }
-
     public virtual CompetitionEntry Entry { get; set; } = null!;
-
-    public virtual User GradedByNavigation { get; set; } = null!;
 }
