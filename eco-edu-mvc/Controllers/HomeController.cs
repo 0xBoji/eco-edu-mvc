@@ -1,5 +1,6 @@
 using eco_edu_mvc.Models;
 using eco_edu_mvc.Models.Entities;
+using eco_edu_mvc.Models.HomeViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -9,7 +10,19 @@ public class HomeController(EcoEduContext context) : Controller
 {
     private readonly EcoEduContext _context = context;
 
-    public ActionResult Index() => View();
+    public async Task<IActionResult> Index()
+    {
+		var surveys = await _context.Surveys.ToListAsync();
+        var competitions = await _context.Competitions.ToListAsync();
+
+		var model = new HomeModel
+		{
+			Surveys = surveys,
+			Competitions = competitions
+		};
+
+        return View(model);
+	}
 
     public ActionResult About() => View();
 
