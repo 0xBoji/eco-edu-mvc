@@ -41,4 +41,10 @@
             </tr>
         }
     </tbody>
+    @if (TempData["PermissionDenied"] != null && (bool)TempData["PermissionDenied"])
+    {
+        <div class="alert alert-danger" role="alert">
+            You do not have permission to perform this action.
+        </div>
+    }
 </table>

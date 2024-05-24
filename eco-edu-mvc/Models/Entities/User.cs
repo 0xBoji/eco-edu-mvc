@@ -31,7 +31,7 @@ public partial class User
 
     public string? CitizenId { get; set; }
 
-    public DateTime CreateDate { get; set; }
+    public DateTime? CreateDate { get; set; }
 
     public string? VerificationToken { get; set; }
 
@@ -41,7 +41,11 @@ public partial class User
 
     public virtual ICollection<CompetitionEntry> CompetitionEntries { get; set; } = new List<CompetitionEntry>();
 
+    public virtual ICollection<Competition> Competitions { get; set; } = new List<Competition>();
+
     public virtual ICollection<Contact> Contacts { get; set; } = new List<Contact>();
+
+    public virtual ICollection<GradeTest> GradeTests { get; set; } = new List<GradeTest>();
 
     public virtual ICollection<Seminar> Seminars { get; set; } = new List<Seminar>();
 

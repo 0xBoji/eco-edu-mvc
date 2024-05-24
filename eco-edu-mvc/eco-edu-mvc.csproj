@@ -36,4 +36,8 @@
     <None Include="wwwroot\login\scss\bootstrap\.DS_Store" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\NewFolder\" />
+  </ItemGroup>
+
 </Project>

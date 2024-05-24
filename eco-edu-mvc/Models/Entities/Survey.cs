@@ -11,9 +11,9 @@ public partial class Survey
 
     public string Topic { get; set; } = null!;
 
-    public DateTime CreateDate { get; set; }
+    public DateTime? CreateDate { get; set; }
 
-    public DateTime EndDate { get; set; }
+    public DateTime? EndDate { get; set; }
 
     public string TargetAudience { get; set; } = null!;
 
