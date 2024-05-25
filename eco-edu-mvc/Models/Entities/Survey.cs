@@ -11,9 +11,9 @@ public partial class Survey
 
     public string Topic { get; set; } = null!;
 
-    public DateTime? CreateDate { get; set; }
+    public DateTime CreateDate { get; set; }
 
-    public DateTime? EndDate { get; set; }
+    public DateTime EndDate { get; set; }
 
     public string TargetAudience { get; set; } = null!;
 
@@ -22,6 +22,4 @@ public partial class Survey
     public bool Active { get; set; }
 
     public virtual ICollection<Question> Questions { get; set; } = new List<Question>();
-
-    public virtual ICollection<User> Users { get; set; } = new List<User>();
 }
