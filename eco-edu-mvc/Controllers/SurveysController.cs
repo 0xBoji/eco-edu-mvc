@@ -21,10 +21,8 @@ public class SurveysController(EcoEduContext context) : Controller
 
     public ActionResult Post()
     {
-        if (HttpContext.Session.GetString("Role") == "Admin")
-        {
-            return View();
-        }
+        if (HttpContext.Session.GetString("Role") == "Admin") return View();
+        
         TempData["PermissionDenied"] = true;
         return RedirectToAction("index", "home");
     }

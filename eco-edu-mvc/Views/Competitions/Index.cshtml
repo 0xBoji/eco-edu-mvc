@@ -1,13 +1,13 @@
 @model IEnumerable<eco_edu_mvc.Models.Entities.Competition>
 
 @{
-    ViewData["Title"] = "Competitions";
+    Layout = "_Layout";
 }
 
 <h1>Competitions</h1>
 
 <p>
-    <a class="btn btn-primary" asp-action="CreateCompetition">Create New Competition</a>
+    <a class="btn btn-primary" asp-action="Create">Create New Competition</a>
 </p>
 
 <table class="table">
@@ -41,4 +41,10 @@
             </tr>
         }
     </tbody>
+    @if (TempData["PermissionDenied"] != null && (bool)TempData["PermissionDenied"])
+    {
+        <div class="alert alert-danger" role="alert">
+            You do not have permission to perform this action.
+        </div>
+    }
 </table>

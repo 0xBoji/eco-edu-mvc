@@ -1,5 +1,6 @@
 using eco_edu_mvc.Models;
 using eco_edu_mvc.Models.Entities;
+using eco_edu_mvc.Models.HomeViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -7,23 +8,24 @@ using System.Diagnostics;
 namespace eco_edu_mvc.Controllers;
 public class HomeController(EcoEduContext context) : Controller
 {
+    private readonly ILogger<CompetitionsController> _logger;
     private readonly EcoEduContext _context = context;
 
-    public ActionResult Index() => View();
-
-    public ActionResult About() => View();
-
-    public ActionResult Contact() => View();
-
-    public async Task<IActionResult> Survey()
+    public async Task<IActionResult> Index()
     {
-        if (HttpContext.Session.GetString("Role") == "Admin")
+		var surveys = await _context.Surveys.Where(s=> s.Active == true).OrderByDescending(s => s.CreateDate).Take(4).ToListAsync();
+        var competitions = await _context.Competitions.ToListAsync();
+
+        var model = new HomeModel
         {
-            return View(await _context.Surveys.ToListAsync());
-        }
-        TempData["PermissionDenied"] = true;
-        return RedirectToAction("index", "home");
+            Surveys = surveys,
+            Competitions = competitions
+        };
+
+        return View(model);
     }
+
+    public async Task<IActionResult> Survey() => View(await _context.Surveys.ToListAsync());
 
     public async Task<IActionResult> SurveyDetail(int id)
     {
@@ -37,8 +39,24 @@ public class HomeController(EcoEduContext context) : Controller
         TempData["PermissionDenied"] = true;
         return RedirectToAction("index", "home");
     }
+    public async Task<IActionResult> Competition() => View(await _context.Competitions.ToListAsync());
+    
+    public async Task<IActionResult> CompetitionDetail(int id)
+    {
+        if (HttpContext.Session.GetString("Is_Accept") == "True")
+        {
+            var competition = await _context.Competitions.FirstOrDefaultAsync(c => c.CompetitionId == id);
+            if (competition == null) return NotFound();
 
-   public ActionResult Competition() => View();
+            return View(competition);
+        }
+        TempData["PermissionDenied"] = true;
+        return RedirectToAction("index", "home");
+    }
+
+    public ActionResult About() => View();
+
+    public ActionResult Contact() => View();
 
     public ActionResult FAQ() => View();
 

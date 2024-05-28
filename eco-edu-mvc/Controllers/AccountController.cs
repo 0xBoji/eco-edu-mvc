@@ -175,9 +175,9 @@ public class AccountController : Controller
             if (existingIdentity)
             {
                 ModelState.AddModelError("Citizen_Id", "Citizen Id is already taken.");
-				return View(model);
-			}
-			var user = await context.Users.FindAsync(userId);
+                return View(model);
+            }
+            var user = await context.Users.FindAsync(userId);
             if (user == null)
             {
                 return NotFound();
@@ -200,7 +200,7 @@ public class AccountController : Controller
             user.Fullname = model.FullName;
             user.CitizenId = model.Citizen_Id;
 
-			context.Users.Update(user);
+            context.Users.Update(user);
             await context.SaveChangesAsync();
 
             return RedirectToAction("profile");
@@ -291,7 +291,7 @@ public class AccountController : Controller
 
     public IActionResult ForgotPassword() => View();
 
-	[HttpPost]
+    [HttpPost]
     public async Task<IActionResult> ForgotPassword(CheckOnlyEmail model)
     {
         try
@@ -319,8 +319,8 @@ public class AccountController : Controller
                 await emailSender.SendEmailAsync(reiceiver, subject, message);
                 return RedirectToAction("CheckRecoveryCode");
             }
-			ModelState.AddModelError("email", "Email Does not exists.");
-			return View(model);
+            ModelState.AddModelError("email", "Email Does not exists.");
+            return View(model);
         }
         catch (Exception ex)
         {
@@ -361,8 +361,8 @@ public class AccountController : Controller
                 }
                 return View(model);
             }
-			ModelState.AddModelError("code", "Invalid Code");
-			return View(model);
+            ModelState.AddModelError("code", "Invalid Code");
+            return View(model);
         }
         catch (Exception ex)
         {

@@ -17,7 +17,7 @@ public partial class User
 
     public bool IsAccept { get; set; }
 
-    public DateTime? EntryDate { get; set; }
+    public DateTime EntryDate { get; set; }
 
     public string? Email { get; set; }
 

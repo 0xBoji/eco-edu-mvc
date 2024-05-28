@@ -1,4 +1,5 @@
-﻿@{
+﻿@model eco_edu_mvc.Models.HomeViewModel.HomeModel
+@{
     Layout = "_LayoutEcoEdu";
 }
 
@@ -46,20 +47,23 @@
     <div class="services-bar">
         <h1 class="my-4">Survey</h1>
         <div class="row">
-            @* @foreach (var item in Model)
+            @foreach (var item in Model.Surveys)
             {
-                <a href="@Url.Action("details", "surveys")" class="col-4 mb-4">
-                    <div class="card h-100">
-                        <h4 class="card-header">@item.Title</h4>
-                        <div class="card-img">
-                            <img class="img-fluid" src="~Images/@item.Images" alt="Survey Pictures" />
+                if (item.Active == true)
+                {
+                    <a href="@Url.Action("details", "surveys", new { id = item.SurveyId })" class="col-4 mb-4">
+                        <div class="card h-100">
+                            <h4 class="card-header">@item.Title</h4>
+                            <div class="card-img">
+                                <img class="img-fluid" src="~/Images/@item.Images" alt="Survey Pictures" />
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">Topic: @item.Topic</p>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <p class="card-text">Topic: @item.Topic</p>
-                        </div>
-                    </div>
-                </a>
-            } *@
+                    </a>
+                }
+            }
         </div>
     </div>
 
