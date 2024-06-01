@@ -108,8 +108,8 @@ public class AdminController : Controller
 		context.CompetitionEntries.RemoveRange(competitionEntries);
 		var response = context.Responses.Where(rs => rs.UserId == id);
 		context.Responses.RemoveRange(response);
-		var seminars = context.Seminars.Where(s => s.UserId == id);
-		context.Seminars.RemoveRange(seminars);
+		var seminars = context.SeminarMembers.Where(s => s.UserId == id);
+		context.SeminarMembers.RemoveRange(seminars);
 
 		context.Users.Remove(user);
 		await context.SaveChangesAsync();

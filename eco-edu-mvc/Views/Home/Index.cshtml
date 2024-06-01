@@ -17,7 +17,7 @@
 					<p>An institute for you to learn about plants and how to treat them in correct ways.</p>
 				</div>
 			</div>
-			<div class="carousel-item" style="background-image: url('assets/images/slider-02.jpg')">
+			<div class="carousel-item" style="background-image: url('assets/images/slider-02')">
 				<div class="carousel-caption d-none d-md-block">
 					<h3>A Wonderful Garden</h3>
 					<p>Needs a mindful gardener.</p>
@@ -93,24 +93,28 @@
 	<div class="portfolio-main">
 		<h2>Contest</h2>
 		<div class="row">
-			@* @foreach ()
+			@foreach (var item in Model.Competitions)
 			{
-			<div class="col-lg-4 col-sm-6 portfolio-item">
-			<div class="card h-100">
-			<div class="card-img">
-			<a href="#">
-			<img class="card-img-top" src="~/assets/images/portfolio-img-01.jpg" alt="" />
-			<div class="overlay"><i class="fas fa-arrows-alt"></i></div>
-			</a>
-			</div>
-			<div class="card-body">
-			<h4 class="card-title">
-			<a href="#">Lawn & garden care</a>
-			</h4>
-			</div>
-			</div>
-			</div>
-			} *@
+				<div class="col-lg-4 col-sm-6 portfolio-item">
+					<div class="card h-100">
+						<div class="card-img">
+							<a href="#">
+								<img class="card-img-top" src="~/Images/@item.Images" alt="competition image" />
+								<div class="overlay">
+									<p>Description: @item.Description</p>
+									<p>EndDate: @item.EndDate</p>
+									<h2>Prize: @item.Prizes</h2>
+								</div>
+							</a>
+						</div>
+						<div class="card-body">
+							<h4 class="card-title">
+								<a href="#">@item.Title</a>
+							</h4>
+						</div>
+					</div>
+				</div>
+			}
 		</div>
 	</div>
 

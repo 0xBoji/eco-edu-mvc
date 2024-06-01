@@ -7,7 +7,7 @@ public partial class Seminar
 {
     public int SeminarId { get; set; }
 
-    public int UserId { get; set; }
+    public int SmId { get; set; }
 
     public string Title { get; set; } = null!;
 
@@ -17,5 +17,5 @@ public partial class Seminar
 
     public DateTime? OccursDate { get; set; }
 
-    public virtual User User { get; set; } = null!;
+    public virtual SeminarMember Sm { get; set; } = null!;
 }

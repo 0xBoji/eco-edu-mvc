@@ -14,7 +14,7 @@ public class HomeController(EcoEduContext context) : Controller
     public async Task<IActionResult> Index()
     {
 		var surveys = await _context.Surveys.Where(s=> s.Active == true).OrderByDescending(s => s.CreateDate).Take(4).ToListAsync();
-        var competitions = await _context.Competitions.ToListAsync();
+        var competitions = await _context.Competitions.Where(c => c.Active == true).OrderByDescending(s => s.StartDate).Take(6).ToListAsync();
 
 		var model = new HomeModel
 		{
