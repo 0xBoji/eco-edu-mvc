@@ -17,5 +17,7 @@ public partial class Seminar
 
     public DateTime? OccursDate { get; set; }
 
+    public bool Active { get; set; }
+
     public virtual SeminarMember Sm { get; set; } = null!;
 }

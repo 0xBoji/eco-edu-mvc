@@ -21,10 +21,8 @@ public class SurveysController(EcoEduContext context) : Controller
 
     public ActionResult Post()
     {
-        if (HttpContext.Session.GetString("Role") == "Admin")
-        {
-            return View();
-        }
+        if (HttpContext.Session.GetString("Role") == "Admin") return View();
+        
         TempData["PermissionDenied"] = true;
         return RedirectToAction("index", "home");
     }
@@ -47,6 +45,13 @@ public class SurveysController(EcoEduContext context) : Controller
             TargetAudience = model.TargetAudience,
             Active = model.Active
         };
+
+        // Catch EndDate
+        if (model.EndDate < DateTime.Now)
+        {
+            ModelState.AddModelError("EndDate", "EndDate must be in the future!");
+            return View(model);
+        }
 
         if (file != null && file.Length > 0)
         {
@@ -119,9 +124,16 @@ public class SurveysController(EcoEduContext context) : Controller
         {
             survey.Title = model.Title;
             survey.Topic = model.Topic;
-            survey.EndDate = model.EndDate;
             survey.TargetAudience = model.TargetAudience;
             survey.Active = model.Active;
+
+            // Catch EndDate
+            if ((survey.EndDate = model.EndDate) < DateTime.Now)
+            {
+                ModelState.AddModelError("EndDate", "EndDate must be in the future!");
+                return View(model);
+            }
+
             if (file != null && file.Length > 0)
             {
                 var fileName = DateTime.Now.Ticks + Path.GetExtension(file.FileName);
