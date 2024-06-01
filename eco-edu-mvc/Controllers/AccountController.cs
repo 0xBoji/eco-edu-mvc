@@ -47,6 +47,7 @@ public class AccountController : Controller
                 }
                 return View(model);
             }
+
             User user = new()
             {
                 Username = model.Username,
@@ -56,6 +57,7 @@ public class AccountController : Controller
                 IsAccept = false,
                 EmailVerify = false,
                 CreateDate = DateTime.Now,
+                Role = model.UserCode.ToLower().StartsWith("st") ? "Student" : "Staff",
             };
             context.Users.Add(user);
             await context.SaveChangesAsync();

@@ -30,8 +30,12 @@ public class SurveysController(EcoEduContext context) : Controller
     [HttpPost]
     public async Task<IActionResult> Post(SurveyModel model, IFormFile file)
     {
-        if (!ModelState.IsValid) return View(model);
-
+        if(!ModelState.IsValid) return View(model);
+        if (model.EndDate<DateTime.Now)
+        {
+            ModelState.AddModelError("EndDate", "Invalid Date");
+            return View(model);
+        }
         Survey survey = new()
         {
             Title = model.Title,
@@ -68,7 +72,7 @@ public class SurveysController(EcoEduContext context) : Controller
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("Error", "File upload failed: " + ex.Message);
+                ModelState.AddModelError("Images", "File upload failed: " + ex.Message);
                 return View(model);
             }
         }
@@ -109,6 +113,12 @@ public class SurveysController(EcoEduContext context) : Controller
 
         var survey = await _context.Surveys.FindAsync(id);
         if (survey == null) return NotFound();
+
+        if (model.EndDate < DateTime.Now)
+        {
+            ModelState.AddModelError("EndDate", "Invalid Date");
+            return View(model);
+        }
 
         try
         {
@@ -151,7 +161,7 @@ public class SurveysController(EcoEduContext context) : Controller
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError("Error", "File upload failed: " + ex.Message);
+                    ModelState.AddModelError("Images", "File upload failed: " + ex.Message);
                     return View(model);
                 }
             }

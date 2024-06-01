@@ -112,15 +112,13 @@ public class AdminController(EcoEduContext context) : Controller
         var user = await _context.Users.FindAsync(id);
         if (user == null) return NotFound();
 
-        //check and delete the relationship
-        var competitionEntries = _context.CompetitionEntries.Where(ce => ce.UserId == id);
-        _context.CompetitionEntries.RemoveRange(competitionEntries);
-       
-        var response = _context.Responses.Where(rs => rs.UserId == id);
-        _context.Responses.RemoveRange(response);
-        
-        var seminars = _context.SeminarMembers.Where(s => s.UserId == id);
-        _context.SeminarMembers.RemoveRange(seminars);
+		//check and delete the relationship
+		var competitionEntries = context.CompetitionEntries.Where(ce => ce.UserId == id);
+		context.CompetitionEntries.RemoveRange(competitionEntries);
+		var response = context.Responses.Where(rs => rs.UserId == id);
+		context.Responses.RemoveRange(response);
+		var seminars = context.SeminarMembers.Where(s => s.UserId == id);
+		context.SeminarMembers.RemoveRange(seminars);
 
         _context.Users.Remove(user);
         await _context.SaveChangesAsync();
