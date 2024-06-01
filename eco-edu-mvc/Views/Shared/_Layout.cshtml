@@ -32,7 +32,7 @@
         }
 
         body {
-            background-color: #F6EEC9;
+            background-color: antiquewhite;
         }
     </style>
 </head>
@@ -56,10 +56,16 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="admin" asp-action="userlist">UserList</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Surveys" asp-action="Index">Survey</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Competitions" asp-action="Index">Competition</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Admin" asp-action="RequestShow">Request</a>
                         </li>
                     </ul>
                 </div>
