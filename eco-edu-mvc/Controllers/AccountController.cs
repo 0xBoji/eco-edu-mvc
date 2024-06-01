@@ -55,7 +55,7 @@ public class AccountController : Controller
                 UserCode = model.UserCode,
                 IsAccept = false,
                 EmailVerify = false,
-                CreateDate = DateTime.Now
+                CreateDate = DateTime.Now,
             };
             context.Users.Add(user);
             await context.SaveChangesAsync();
@@ -117,7 +117,7 @@ public class AccountController : Controller
             Username = user.Username,
             FullName = user.Fullname,
             User_Code = user.UserCode,
-            Entry_Date = user.EntryDate,
+            Entry_Date = user.EntryDate.HasValue ? user.EntryDate.Value.ToShortDateString() : string.Empty,
             Email = user.Email,
             Section = user.Section,
             Class = user.Class,

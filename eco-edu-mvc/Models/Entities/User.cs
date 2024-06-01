@@ -17,7 +17,7 @@ public partial class User
 
     public bool IsAccept { get; set; }
 
-    public DateTime EntryDate { get; set; }
+    public DateTime? EntryDate { get; set; }
 
     public string? Email { get; set; }
 
@@ -43,7 +43,7 @@ public partial class User
 
     public virtual ICollection<Contact> Contacts { get; set; } = new List<Contact>();
 
-    public virtual ICollection<Seminar> Seminars { get; set; } = new List<Seminar>();
+    public virtual ICollection<Response> Responses { get; set; } = new List<Response>();
 
-    public virtual ICollection<Survey> Surveys { get; set; } = new List<Survey>();
+    public virtual ICollection<SeminarMember> SeminarMembers { get; set; } = new List<SeminarMember>();
 }

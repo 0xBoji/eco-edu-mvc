@@ -1,8 +1,9 @@
-﻿@{
+﻿@model eco_edu_mvc.Models.AdminViewModel.AdminModel
+
+@{
     Layout = "_Layout";
 }
 
-<!-- Some meaningless charts -->
 <div class="main">
     <div class="container-fluid">
         <div class="row">
@@ -30,8 +31,8 @@
                         <div class="stat-widget-one">
                             <div class="stat-icon dib"><i class="ti-money color-success border-success"></i></div>
                             <div class="stat-content dib">
-                                <div class="stat-text">Revenue</div>
-                                <div class="stat-digit">1,012</div>
+                                <div class="stat-text">Surveys</div>
+                                <div class="stat-digit">@Model.Surveys</div>
                             </div>
                         </div>
                     </div>
@@ -41,8 +42,8 @@
                         <div class="stat-widget-one">
                             <div class="stat-icon dib"><i class="ti-user color-primary border-primary"></i></div>
                             <div class="stat-content dib">
-                                <div class="stat-text">Customers</div>
-                                <div class="stat-digit">961</div>
+                                <div class="stat-text">Competitions</div>
+                                <div class="stat-digit">@Model.Competitions</div>
                             </div>
                         </div>
                     </div>
@@ -52,8 +53,8 @@
                         <div class="stat-widget-one">
                             <div class="stat-icon dib"><i class="ti-layout-grid2 color-pink border-pink"></i></div>
                             <div class="stat-content dib">
-                                <div class="stat-text">Staffs</div>
-                                <div class="stat-digit">4</div>
+                                <div class="stat-text">Seminar</div>
+                                <div class="stat-digit">@Model.Seminars</div>
                             </div>
                         </div>
                     </div>
@@ -63,8 +64,8 @@
                         <div class="stat-widget-one">
                             <div class="stat-icon dib"><i class="ti-link color-danger border-danger"></i></div>
                             <div class="stat-content dib">
-                                <div class="stat-text">Students</div>
-                                <div class="stat-digit">489</div>
+                                <div class="stat-text">Users</div>
+                                <div class="stat-digit">@Model.Users</div>
                             </div>
                         </div>
                     </div>
