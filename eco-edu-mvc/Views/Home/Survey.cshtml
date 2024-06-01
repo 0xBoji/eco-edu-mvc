@@ -12,9 +12,9 @@
             <a href="@Url.Action("details", "surveys")" class="col-3 mb-4">
                 <div class="card h-100">
                     <h4 class="card-header">@item.Title</h4>
-                    @* <div class="card-img">
-                <img class="img-fluid" src="@item.Image" alt="Survey Pictures" />
-                </div> *@
+                    <div class="card-img">
+                <img class="img-fluid" src="~/Images/@item.Images" alt="Survey Pictures" />
+                </div>
                     <div class="card-body">
                         <p class="card-text">Topic: @item.Topic</p>
                     </div>
