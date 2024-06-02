@@ -13,6 +13,6 @@ public class ProfileViewModel
     public string Class { get; set; }
     public string Citizen_Id { get; set; }
     public string Images { get; set; }
-    public DateTime CreateDate { get; set; }
+    public DateTime? CreateDate { get; set; }
     public bool? Email_Verify { get; set; }
 }

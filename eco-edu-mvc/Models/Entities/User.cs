@@ -31,7 +31,7 @@ public partial class User
 
     public string? CitizenId { get; set; }
 
-    public DateTime CreateDate { get; set; }
+    public DateTime? CreateDate { get; set; }
 
     public string? VerificationToken { get; set; }
 
