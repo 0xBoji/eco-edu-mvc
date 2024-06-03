@@ -366,3 +366,4 @@ Models/Entities/EcoEduContext.cs
 .gitattributes
 Properties/launchSettings.json
 /eco-edu-mvc/Models/Entities/EcoEduContext.cs
+/eco-edu-mvc/wwwroot/Images
