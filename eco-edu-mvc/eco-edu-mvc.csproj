@@ -41,6 +41,8 @@
 
   <ItemGroup>
     <Folder Include="Models\Entities\" />
+    <Folder Include="wwwroot\Images\" />
+    <Folder Include="wwwroot\Competitions\" />
     <Folder Include="wwwroot\NewFolder\" />
   </ItemGroup>
 
