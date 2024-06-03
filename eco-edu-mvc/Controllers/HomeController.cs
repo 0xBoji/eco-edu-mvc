@@ -25,7 +25,7 @@ public class HomeController(EcoEduContext context) : Controller
         TempData["PermissionDenied"] = true;
         return RedirectToAction("index", "home");
     }
- 
+
     public async Task<IActionResult> SurveyDetail(int id)
     {
         if (HttpContext.Session.GetString("Role") == "Admin")
