@@ -1,31 +1,26 @@
 ﻿@model eco_edu_mvc.Models.Entities.GradeTest
 
 @{
-    Layout = "_Layout";
+	Layout = "_LayoutEcoEdu";
 }
-
-<h2>Grade Entry</h2>
-
-<h4>Competition Entry ID: @Model.EntryId</h4>
-
-<form asp-action="Grade">
-    <div class="form-group">
-        <label asp-for="Score" class="control-label"></label>
-        <input asp-for="Score" class="form-control" />
-        <span asp-validation-for="Score" class="text-danger"></span>
-    </div>
-    <input type="hidden" asp-for="EntryId" />
-    <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-primary" />
-    </div>
-</form>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+	<h2 style="padding-top: 1vw; display:inline-flex;">Grade Entry</h2>
+	<a asp-action="Index" class="btn btn-primary" style="display: inline-flex; margin-left:79vw;">Back to List</a>
 </div>
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
+<h4 style="padding-left:42vw;">Competition Entry ID: @Model.EntryId</h4>
+
+<form asp-action="Grade">
+	<div class="form-group">
+		<label asp-for="Score" class="control-label" style="font-size:3vh; padding-left:49vw;"></label>
+		<input asp-for="Score" class="form-control" style="width: 36vw; margin-left: 33vw; text-align:center;" />
+		<span asp-validation-for="Score" class="text-danger" style="padding-left: 40vw;"></span>
+	</div>
+	<input type="hidden" asp-for="EntryId" />
+	<div class="form-group">
+		<input type="submit" value="Save" class="btn btn-primary" style="margin-left: 48vw; width:7vw;" />
+	</div>
+</form>
+
+

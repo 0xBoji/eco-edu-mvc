@@ -41,6 +41,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\CompetitionsViewModel\" />
     <Folder Include="wwwroot\Images\" />
     <Folder Include="wwwroot\Competitions\" />
   </ItemGroup>

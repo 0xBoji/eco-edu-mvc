@@ -42,7 +42,7 @@ public class CompetitionsController : Controller
 
     // POST: Admin/CreateCompetition
     [HttpPost]
-    public async Task<IActionResult> Create([Bind("CompetitionId,Title,Description,StartDate,EndDate,Prizes,Images")] Competition competition)
+    public async Task<IActionResult> Create([Bind("Title,Description,StartDate,EndDate,Prizes,Images")] Competition competition, IFormFile file)
     {
         if (HttpContext.Session.GetString("Role") != "Admin")
         {
@@ -59,6 +59,29 @@ public class CompetitionsController : Controller
         {
             try
             {
+                if (competition.StartDate < DateTime.Now)
+                {
+                    ModelState.AddModelError("StartDate", "Invalid StartDate!!");
+                    return View(competition);
+                }
+
+                if (competition.EndDate < DateTime.Now && competition.EndDate < competition.StartDate)
+                {
+                    ModelState.AddModelError("EndDate", "Invalid EndDate!!");
+                    return View(competition);
+                }
+
+                if (file != null && file.Length > 0)
+                {
+                    var filename = DateTime.Now.Ticks + Path.GetExtension(file.FileName);
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images", filename);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                    competition.Images = filename;
+                }
+
                 competition.Active = true;
                 _context.Add(competition);
                 await _context.SaveChangesAsync();
@@ -121,19 +144,19 @@ public class CompetitionsController : Controller
                     return NotFound();
                 }
 
-                if(competition.StartDate < DateTime.Now)
+                if (competition.StartDate < DateTime.Now)
                 {
                     ModelState.AddModelError("StartDate", "Invalid StartDate!!");
                     return View(competition);
-				}
-                
-                if(competition.EndDate < DateTime.Now && competition.EndDate < competition.StartDate)
+                }
+
+                if (competition.EndDate < DateTime.Now && competition.EndDate < competition.StartDate)
                 {
                     ModelState.AddModelError("EndDate", "Invalid EndDate!!");
                     return View(competition);
                 }
 
-				existingCompetition.Title = competition.Title;
+                existingCompetition.Title = competition.Title;
                 existingCompetition.Description = competition.Description;
                 existingCompetition.StartDate = competition.StartDate;
                 existingCompetition.EndDate = competition.EndDate;
