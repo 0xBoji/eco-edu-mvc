@@ -1,4 +1,5 @@
-﻿using eco_edu_mvc.Models.AdminViewModel;
+﻿using eco_edu_mvc.Models.AccountsViewModel;
+using eco_edu_mvc.Models.AdminViewModel;
 using eco_edu_mvc.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -82,7 +83,7 @@ public class AdminController(EcoEduContext context) : Controller
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
             if (user == null) return NotFound();
-            if (model.EntryDate <= DateTime.Now)
+            if (model.EntryDate >= DateTime.Now)
             {
                 user.EntryDate = model.EntryDate;
                 _context.Users.Update(user);
@@ -123,5 +124,38 @@ public class AdminController(EcoEduContext context) : Controller
         _context.Users.Remove(user);
         await _context.SaveChangesAsync();
         return RedirectToAction("RequestShow");
+    }
+
+    public IActionResult ChangePasswordAdmin() => View();
+
+    [HttpPost]
+    public async Task<IActionResult> ChangePasswordAdmin([Bind("Password")] ChangePasswordModel model)
+    {
+        try
+        {
+            if (HttpContext.Session.GetString("Role") != "Admin")
+            {
+                TempData["PermissionDenied"] = true;
+                return RedirectToAction("Index", "Home");
+            }
+
+            var userId = int.Parse(HttpContext.Session.GetString("UserId"));
+            var user = await context.Users.FindAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.Password = BCrypt.Net.BCrypt.HashPassword(model.Password);
+            context.Users.Update(user);
+            await context.SaveChangesAsync();
+            return RedirectToAction("index");
+        }
+        catch (Exception ex)
+        {
+            ModelState.AddModelError("Error", ex.Message);
+            return View(model);
+        }
     }
 }

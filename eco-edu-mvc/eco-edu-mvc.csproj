@@ -9,9 +9,13 @@
 
   <ItemGroup>
     <Compile Remove="Models\Survey\**" />
+    <Compile Remove="wwwroot\NewFolder\**" />
     <Content Remove="Models\Survey\**" />
+    <Content Remove="wwwroot\NewFolder\**" />
     <EmbeddedResource Remove="Models\Survey\**" />
+    <EmbeddedResource Remove="wwwroot\NewFolder\**" />
     <None Remove="Models\Survey\**" />
+    <None Remove="wwwroot\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,7 +43,6 @@
   <ItemGroup>
     <Folder Include="wwwroot\Images\" />
     <Folder Include="wwwroot\Competitions\" />
-    <Folder Include="wwwroot\NewFolder\" />
   </ItemGroup>
 
 </Project>

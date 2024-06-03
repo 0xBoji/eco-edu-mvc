@@ -60,15 +60,10 @@ namespace eco_edu_mvc.Controllers
                 TempData["PermissionDenied"] = true;
                 return RedirectToAction("Index", "Home");
             }
-
-            if (ModelState.IsValid)
-            {
-                gradeTest.GradeDate = DateTime.Now;
-                _context.Add(gradeTest);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(gradeTest);
+            gradeTest.GradeDate = DateTime.Now;
+            _context.Add(gradeTest);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
     }
 }

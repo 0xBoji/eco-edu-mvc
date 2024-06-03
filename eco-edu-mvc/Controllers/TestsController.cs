@@ -64,14 +64,10 @@ namespace eco_edu_mvc.Controllers
             competitionEntry.UserId = userId;
             competitionEntry.SubmissionDate = DateTime.Now;
 
-            if (ModelState.IsValid)
-            {
+            
                 _context.Add(competitionEntry);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
-
-            return View(competitionEntry);
         }
     }
 }
