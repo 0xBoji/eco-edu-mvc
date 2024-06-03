@@ -4,6 +4,12 @@
     Layout = "_Layout";
 }
 
+<style>
+    .darker {
+        background-color: #000;
+    }
+</style>
+
 <div class="row">
     <h1 class="col-lg-10 col-md-8 col-sm-6">Create new survey</h1>
     <a asp-controller="surveys" asp-action="index" class="btn btn-primary col-lg-2 col-md-4 col-sm-6 create-a">
@@ -11,7 +17,7 @@
     </a>
 </div>
 
-<hr />
+<hr class="darker" />
 <form asp-controller="Surveys" asp-action="Post" method="post" class="row" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group col-lg-12 my-2">
