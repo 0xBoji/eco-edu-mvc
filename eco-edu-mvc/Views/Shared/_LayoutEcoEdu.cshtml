@@ -57,6 +57,13 @@
                             <a class="nav-link" href="@Url.Action("Competition", "Home")">Competitions</a>
                         </li>
                     }
+
+                    @if(Context.Session.GetString("Role") == "Staff")
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Index", "grades")">Grade</a>
+                        </li>
+                    }
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             More
@@ -109,7 +116,7 @@
         @RenderBody()
     </div>
 
-    <footer class="footer">
+    <footer class="footer" style="margin-top:13vw;">
         <div class="container bottom_border">
             <div class="row">
                 <div class="col-6">
@@ -157,7 +164,30 @@
 {
     <script>
         Swal.fire({
-            title: 'This is Admin',
+            title: 'This is for Admin',
+            text: "You don't have the permission to enter!",
+            icon: 'warning',
+            confirmButtonText: 'OK'
+        });
+    </script>
+}
+@if (TempData["StaffPermissionDenied"] != null)
+{
+    <script>
+        Swal.fire({
+            title: 'This is for staff',
+            text: "You don't have the permission to enter!",
+            icon: 'warning',
+            confirmButtonText: 'OK'
+        });
+    </script>
+}
+
+@if (TempData["StudentPermissionDenied"] != null)
+{
+    <script>
+        Swal.fire({
+            title: 'This is for student',
             text: "You don't have the permission to enter!",
             icon: 'warning',
             confirmButtonText: 'OK'

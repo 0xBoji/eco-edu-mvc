@@ -17,7 +17,7 @@ public partial class CompetitionEntry
 
     public virtual Competition Competition { get; set; } = null!;
 
-    public virtual ICollection<GradeTest> GradeTests { get; set; } = new List<GradeTest>();
+	public virtual ICollection<GradeTest> GradeTests { get; set; } = new List<GradeTest>();
 
     public virtual User User { get; set; } = null!;
 }

@@ -14,25 +14,12 @@ namespace eco_edu_mvc.Controllers
             _context = context;
         }
 
-        // GET: Tests
-        public async Task<IActionResult> Index()
-        {
-            if (HttpContext.Session.GetString("Role") != "Student" || !string.Equals(HttpContext.Session.GetString("Is_Accept"), "true", StringComparison.OrdinalIgnoreCase))
-            {
-                TempData["PermissionDenied"] = true;
-                return RedirectToAction("Index", "Home");
-            }
-
-            var competitions = await _context.Competitions.Where(c => c.Active == true).ToListAsync();
-            return View(competitions);
-        }
-
         // GET: Tests/Join/5
         public async Task<IActionResult> Join(int? id)
         {
             if (HttpContext.Session.GetString("Role") != "Student" || !string.Equals(HttpContext.Session.GetString("Is_Accept"), "true", StringComparison.OrdinalIgnoreCase))
             {
-                TempData["PermissionDenied"] = true;
+                TempData["StudentPermissionDenied"] = true;
                 return RedirectToAction("Index", "Home");
             }
 
@@ -56,7 +43,7 @@ namespace eco_edu_mvc.Controllers
         {
             if (HttpContext.Session.GetString("Role") != "Student" || !string.Equals(HttpContext.Session.GetString("Is_Accept"), "true", StringComparison.OrdinalIgnoreCase))
             {
-                TempData["PermissionDenied"] = true;
+                TempData["StudentPermissionDenied"] = true;
                 return RedirectToAction("Index", "Home");
             }
 
@@ -64,14 +51,10 @@ namespace eco_edu_mvc.Controllers
             competitionEntry.UserId = userId;
             competitionEntry.SubmissionDate = DateTime.Now;
 
-            if (ModelState.IsValid)
-            {
+            
                 _context.Add(competitionEntry);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-
-            return View(competitionEntry);
+                return RedirectToAction("competition", "home");
         }
     }
 }
