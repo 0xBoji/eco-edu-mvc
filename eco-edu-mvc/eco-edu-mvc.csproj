@@ -8,13 +8,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\CompetitionsViewModel\**" />
     <Compile Remove="Models\Survey\**" />
+    <Compile Remove="wwwroot\Competitions\**" />
     <Compile Remove="wwwroot\NewFolder\**" />
+    <Content Remove="Models\CompetitionsViewModel\**" />
     <Content Remove="Models\Survey\**" />
+    <Content Remove="wwwroot\Competitions\**" />
     <Content Remove="wwwroot\NewFolder\**" />
+    <EmbeddedResource Remove="Models\CompetitionsViewModel\**" />
     <EmbeddedResource Remove="Models\Survey\**" />
+    <EmbeddedResource Remove="wwwroot\Competitions\**" />
     <EmbeddedResource Remove="wwwroot\NewFolder\**" />
+    <None Remove="Models\CompetitionsViewModel\**" />
     <None Remove="Models\Survey\**" />
+    <None Remove="wwwroot\Competitions\**" />
     <None Remove="wwwroot\NewFolder\**" />
   </ItemGroup>
 
@@ -44,10 +52,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\CompetitionsViewModel\" />
     <Folder Include="Models\Entities\" />
     <Folder Include="wwwroot\Images\" />
-    <Folder Include="wwwroot\Competitions\" />
   </ItemGroup>
 
 </Project>

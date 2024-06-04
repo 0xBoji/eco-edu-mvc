@@ -1,0 +1,24 @@
+﻿@model eco_edu_mvc.Models.Entities.Seminar
+
+@{
+    Layout = "_LayoutEcoEdu";
+}
+
+<h2>Seminar Details</h2>
+
+<div>
+    <h4>@Model.Title</h4>
+    <p><strong>Location:</strong> @Model.Location</p>
+    <p><strong>Date:</strong> @Model.OccursDate?.ToString("dd MMM yyyy")</p>
+    <p><strong>Participants:</strong> @Model.Participants</p>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    <a asp-action="Join" asp-route-id="@Model.SeminarId" class="btn btn-primary">Join</a>
+</div>
+
+@if (TempData["JoinError"] != null)
+{
+    <div class="alert alert-danger">@TempData["JoinError"]</div>
+}
