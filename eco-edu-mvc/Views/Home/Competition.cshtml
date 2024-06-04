@@ -5,24 +5,27 @@
 }
 
 <div class="services-bar">
-    <h1 class="my-4">All Competitions</h1>
+    <h1 class="my-4" style="padding-left:1vw;">All Competitions</h1>
     <div class="row">
         @foreach (var item in Model)
         {
-            <a href="@Url.Action("CompetitionDetail", "Home", new { id = item.CompetitionId })" class="col-3 mb-4">
-                <div class="card h-100">
-                    <h4 class="card-header">@item.Title</h4>
-                    <div class="card-img">
-                        <img class="img-fluid" src="@item.Images" alt="Competition Pictures" />
+            @if (Context.Session.GetString("UserId") != null && !item.CompetitionEntries.Any(entry => entry.UserId == int.Parse(Context.Session.GetString("UserId"))))
+            {
+                <a asp-action="Join" asp-route-id="@item.CompetitionId" asp-controller="tests" class="col-3 mb-4" style="margin-left:1vw;">
+                    <div class="card h-100">
+                        <h4 class="card-header">@item.Title</h4>
+                        <div class="card-img">
+                            <img class="img-fluid" src="~/Images/@item.Images" alt="Competition Pictures" />
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Description: @item.Description</p>
+                            <p class="card-text">Prizes: @item.Prizes</p>
+                            <p class="card-text">Start Date: @item.StartDate</p>
+                            <p class="card-text">End Date: @item.EndDate</p>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <p class="card-text">Description: @item.Description</p>
-                        <p class="card-text">Prizes: @item.Prizes</p>
-                        <p class="card-text">Start Date: @item.StartDate</p>
-                        <p class="card-text">End Date: @item.EndDate</p>
-                    </div>
-                </div>
-            </a>
+                </a>
+            }
         }
     </div>
 </div>

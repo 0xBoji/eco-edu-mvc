@@ -24,14 +24,18 @@
 				<td>@item.EntryId</td>
 				<td>@item.User.Username</td>
 				<td>@item.Competition.Title</td>
-				<td>@item.GradeTests.FirstOrDefault().Score</td>
-				@if (item.GradeTests != null && item.GradeTests.FirstOrDefault()?.Score == null)
+				<td>@item.GradeTests.FirstOrDefault()?.Score</td>
+				@if (item.GradeTests.FirstOrDefault() != null && item.GradeTests.FirstOrDefault().EntryId == item.EntryId)
+				{
+
+					<td>Already been marked</td>
+				}
+				else
 				{
 					<td>
 						<a asp-controller="grades" asp-action="Grade" asp-route-id="@item.EntryId" class="btn btn-outline-secondary">Mark</a>
 					</td>
 				}
-				<td>Already been marked</td>
 			</tr>
 		}
 	</tbody>

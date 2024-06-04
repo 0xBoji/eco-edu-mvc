@@ -116,7 +116,7 @@
         @RenderBody()
     </div>
 
-    <footer class="footer">
+    <footer class="footer" style="margin-top:13vw;">
         <div class="container bottom_border">
             <div class="row">
                 <div class="col-6">
@@ -176,6 +176,18 @@
     <script>
         Swal.fire({
             title: 'This is for staff',
+            text: "You don't have the permission to enter!",
+            icon: 'warning',
+            confirmButtonText: 'OK'
+        });
+    </script>
+}
+
+@if (TempData["StudentPermissionDenied"] != null)
+{
+    <script>
+        Swal.fire({
+            title: 'This is for student',
             text: "You don't have the permission to enter!",
             icon: 'warning',
             confirmButtonText: 'OK'

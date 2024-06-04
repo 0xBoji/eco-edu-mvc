@@ -1,30 +1,23 @@
 ﻿@model eco_edu_mvc.Models.Entities.CompetitionEntry
 
 @{
-    Layout = "_LayoutEcoEdu";
+	Layout = "_LayoutEcoEdu";
 }
-
-<h1>Join Competition</h1>
-
-<h4>Competition Entry</h4>
-
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Join">
-            <div class="form-group">
-                <label asp-for="SubmissionText" class="control-label"></label>
-                <textarea asp-for="SubmissionText" class="form-control"></textarea>
-                <span asp-validation-for="SubmissionText" class="text-danger"></span>
-            </div>
-            <input type="hidden" asp-for="CompetitionId" />
-            <div class="form-group">
-                <input type="submit" value="Submit" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+<div style="display: flex; justify-content: space-between; align-items: center; padding-top:1vw;">
+	<h2 style="padding-left:40vw;">Competition Entry</h2>
+	<a asp-action="competition" asp-controller="home" class="btn btn-primary" style="margin-right:1vw;">Back to List</a>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+	<div class="col-md-4">
+		<form asp-action="Join">
+			<div class="form-group">
+				<label asp-for="SubmissionText" class="control-label" style="padding-left:45vw;"></label>
+				<textarea asp-for="SubmissionText" class="form-control" style="margin-left:33vw;"></textarea>
+				<span asp-validation-for="SubmissionText" class="text-danger"></span>
+			</div>
+			<input type="hidden" asp-for="CompetitionId" />
+			<div class="form-group">
+				<input type="submit" value="Submit" class="btn btn-primary" style="margin-left:46vw; margin-bottom:3vw;" />
+			</div>
+		</form>
+	</div>

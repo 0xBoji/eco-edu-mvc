@@ -35,7 +35,7 @@
                 <td>
                     @if (!string.IsNullOrEmpty(item.Images))
                     {
-                        <img src="@Url.Content("~/Images/" + item.Images)" alt="competition Image" style="max-width: 50px; max-height: 50px;" />
+                        <img src="~/Images/@item.Images" alt="competition Image" style="max-width: 50px; max-height: 50px;" />
                     }
                     else
                     {

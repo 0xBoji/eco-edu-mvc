@@ -13,8 +13,8 @@ public class HomeController(EcoEduContext context) : Controller
 
     public async Task<IActionResult> Index()
     {
-		var surveys = await _context.Surveys.Where(s=> s.Active == true).OrderByDescending(s => s.CreateDate).Take(4).ToListAsync();
-        var competitions = await _context.Competitions.Where(c => c.Active == true).OrderByDescending(s => s.StartDate).Take(6).ToListAsync();
+		var surveys = await _context.Surveys.Where(s=> s.Active == true).Where(s => s.EndDate < DateTime.Now).OrderByDescending(s => s.CreateDate).Take(4).ToListAsync();
+        var competitions = await _context.Competitions.Where(c => c.Active == true).Where(c=> c.EndDate<DateTime.Now).OrderByDescending(s => s.StartDate).Take(6).ToListAsync();
 
         var model = new HomeModel
         {
@@ -39,8 +39,20 @@ public class HomeController(EcoEduContext context) : Controller
         TempData["PermissionDenied"] = true;
         return RedirectToAction("index", "home");
     }
-    public async Task<IActionResult> Competition() => View(await _context.Competitions.ToListAsync());
-    
+
+    public async Task<IActionResult> Competition()
+    {
+        if (HttpContext.Session.GetString("Role") != "Student" || !string.Equals(HttpContext.Session.GetString("Is_Accept"), "true", StringComparison.OrdinalIgnoreCase))
+        {
+            TempData["StudentPermissionDenied"] = true;
+            return RedirectToAction("Index", "Home");
+        }
+
+        var competitions = await _context.Competitions.Where(c => c.Active == true).Include(u => u.CompetitionEntries).ToListAsync();
+        return View(competitions);
+    }
+
+
     public async Task<IActionResult> CompetitionDetail(int id)
     {
         if (HttpContext.Session.GetString("Is_Accept") == "True")
