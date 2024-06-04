@@ -30,6 +30,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Contact\Contact.cshtml" />
+    <None Include="Views\FAQs\FAQ.cshtml" />
+    <None Include="wwwroot\faq\FAQs.js" />
     <None Include="wwwroot\login\css\.DS_Store" />
     <None Include="wwwroot\login\css\bootstrap\.DS_Store" />
     <None Include="wwwroot\login\css\bootstrap\mixins\.DS_Store" />
@@ -42,6 +45,7 @@
 
   <ItemGroup>
     <Folder Include="Models\CompetitionsViewModel\" />
+    <Folder Include="Models\Entities\" />
     <Folder Include="wwwroot\Images\" />
     <Folder Include="wwwroot\Competitions\" />
   </ItemGroup>

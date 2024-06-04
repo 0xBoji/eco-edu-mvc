@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewData["Title"] = "Contact";
+    Layout = "~/Views/Shared/_LayoutEcoEdu.cshtml";
+}
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="~/contact/Contact.css">
+</head>
+<body>
+    <section class="contact" style="padding:150px 100px;">
+        <div class="content">
+            <h2>CONTACT US</h2>
+            <p> Please contact us if you need any assistance, thank you</p>
+        </div>
+
+        <div class="container">
+            <div class="contactInfo">
+                <div class="box">
+                    <div class="icon"><i class="fa-solid fa-school"></i></div>
+                    <div class="text">
+                        <h3>Address</h3>
+                        <p>Tòa nhà APTECH, Số 285 Đội Cấn, Quận Ba Đình, Hà Nội</p>
+                    </div>
+                </div>
+
+                <div class="box">
+                    <div class="icon"><i class="fa-solid fa-envelope"></i></div>
+                    <div class="text">
+                        <h3>Email</h3>
+                        <p>abc@gmai.com</p>
+                    </div>
+                </div>
+
+                <div class="box">
+                    <div class="icon"><i class="fa-solid fa-headset"></i></div>
+                    <div class="text">
+                        <h3>Hotline</h3>
+                        <p>+93213213</p>
+                    </div>
+                </div>
+            </div>
+            <div class="contactForm">
+                <form>
+                    <h2>Send Mail</h2>
+                    <div class="inputBox">
+                        <input type="text" name="" required="required">
+                        <span>Full name</span>
+                    </div>
+                    <div class="inputBox">
+                        <input type="text" name="" required="required">
+                        <span>Email</span>
+                    </div>
+                    <div class="inputBox">
+                        <textarea name="" id="" cols="30" rows="10" required="required"></textarea>
+                        <span>Type your Message</span>
+                    </div>
+                    <div class="inputBox">
+                        <input type="submit" name="" value="Send">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</body>
