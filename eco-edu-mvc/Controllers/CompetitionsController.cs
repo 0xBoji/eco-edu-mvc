@@ -1,4 +1,5 @@
 ﻿using eco_edu_mvc.Models.Entities;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -42,7 +43,7 @@ public class CompetitionsController : Controller
 
     // POST: Admin/CreateCompetition
     [HttpPost]
-    public async Task<IActionResult> Create([Bind("CompetitionId,Title,Description,StartDate,EndDate,Prizes,Images")] Competition competition)
+    public async Task<IActionResult> Create([Bind("Title,Description,StartDate,EndDate,Prizes,Images")] Competition competition, IFormFile file)
     {
         if (HttpContext.Session.GetString("Role") != "Admin")
         {
@@ -59,6 +60,29 @@ public class CompetitionsController : Controller
         {
             try
             {
+                if (competition.StartDate < DateTime.Now)
+                {
+                    ModelState.AddModelError("StartDate", "Invalid StartDate!!");
+                    return View(competition);
+                }
+
+                if (competition.EndDate < DateTime.Now && competition.EndDate < competition.StartDate)
+                {
+                    ModelState.AddModelError("EndDate", "Invalid EndDate!!");
+                    return View(competition);
+                }
+
+                if (file != null && file.Length > 0)
+                {
+                    var filename = DateTime.Now.Ticks + Path.GetExtension(file.FileName);
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images", filename);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                    competition.Images = filename;
+                }
+
                 competition.Active = true;
                 _context.Add(competition);
                 await _context.SaveChangesAsync();
@@ -98,7 +122,7 @@ public class CompetitionsController : Controller
 
     // POST: Admin/EditCompetition/5
     [HttpPost]
-    public async Task<IActionResult> Edit(int id, [Bind("CompetitionId,Title,Description,StartDate,EndDate,Prizes,Images,Active")] Competition competition)
+    public async Task<IActionResult> Edit(int id, [Bind("CompetitionId,Title,Description,StartDate,EndDate,Prizes,Images")] Competition competition, IFormFile file)
     {
         if (HttpContext.Session.GetString("Role") != "Admin")
         {
@@ -115,7 +139,42 @@ public class CompetitionsController : Controller
         {
             try
             {
-                _context.Update(competition);
+                var existingCompetition = await _context.Competitions.FindAsync(id);
+                if (existingCompetition == null)
+                {
+                    return NotFound();
+                }
+
+                if (competition.StartDate < DateTime.Now)
+                {
+                    ModelState.AddModelError("StartDate", "Invalid StartDate!!");
+                    return View(competition);
+                }
+
+                if (competition.EndDate < DateTime.Now && competition.EndDate < competition.StartDate)
+                {
+                    ModelState.AddModelError("EndDate", "Invalid EndDate!!");
+                    return View(competition);
+                }
+
+                existingCompetition.Title = competition.Title;
+                existingCompetition.Description = competition.Description;
+                existingCompetition.StartDate = competition.StartDate;
+                existingCompetition.EndDate = competition.EndDate;
+                existingCompetition.Prizes = competition.Prizes;
+
+                if (file != null && file.Length > 0)
+                {
+                    var filename = DateTime.Now.Ticks + Path.GetExtension(file.FileName);
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images", filename);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                    existingCompetition.Images = filename;
+                }
+
+                _context.Update(existingCompetition);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

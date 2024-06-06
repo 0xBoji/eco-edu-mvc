@@ -1,282 +1,283 @@
 ﻿@model eco_edu_mvc.Models.AdminViewModel.AdminModel
 
 @{
-    Layout = "_Layout";
+	Layout = "_Layout";
 }
 
 <div class="main">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-8 p-r-0 title-margin-right">
-                <div class="page-header">
-                    <div class="page-title">
-                        <h1>Welcome back, User!</h1>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 p-l-0 title-margin-left">
-                <div class="page-header">
-                    <div class="page-title">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item active">Dashboard</li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <section id="main-content">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="card">
-                        <div class="stat-widget-one">
-                            <div class="stat-icon dib"><i class="ti-money color-success border-success"></i></div>
-                            <div class="stat-content dib">
-                                <div class="stat-text">Surveys</div>
-                                <div class="stat-digit">@Model.Surveys</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="card">
-                        <div class="stat-widget-one">
-                            <div class="stat-icon dib"><i class="ti-layout-grid2 color-primary border-primary"></i></div>
-                            <div class="stat-content dib">
-                                <div class="stat-text">Competitions</div>
-                                <div class="stat-digit">@Model.Competitions</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="card">
-                        <div class="stat-widget-one">
-                            <div class="stat-icon dib"><i class="ti-link color-pink border-pink"></i></div>
-                            <div class="stat-content dib">
-                                <div class="stat-text">Seminar</div>
-                                <div class="stat-digit">@Model.Seminars</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="card">
-                        <div class="stat-widget-one">
-                            <div class="stat-icon dib"><i class="ti-user color-danger border-danger"></i></div>
-                            <div class="stat-content dib">
-                                <div class="stat-text">Users</div>
-                                <div class="stat-digit">@Model.Users</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-8 p-r-0 title-margin-right">
+				<div class="page-header">
+					<div class="page-title">
+						<h1>Welcome back, User!</h1>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4 p-l-0 title-margin-left">
+				<div class="page-header">
+					<div class="page-title">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item active">Dashboard</li>
+						</ol>
+					</div>
+				</div>
+				<a asp-action="changepasswordadmin" asp-controller="admin" class="btn btn-danger" style="margin-left:22vw;">Channge Password</a>
+			</div>
+		</div>
+		<section id="main-content">
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="card">
+						<div class="stat-widget-one">
+							<div class="stat-icon dib"><i class="ti-money color-success border-success"></i></div>
+							<div class="stat-content dib">
+								<div class="stat-text">Surveys</div>
+								<div class="stat-digit">@Model.Surveys</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="card">
+						<div class="stat-widget-one">
+							<div class="stat-icon dib"><i class="ti-user color-primary border-primary"></i></div>
+							<div class="stat-content dib">
+								<div class="stat-text">Competitions</div>
+								<div class="stat-digit">@Model.Competitions</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="card">
+						<div class="stat-widget-one">
+							<div class="stat-icon dib"><i class="ti-layout-grid2 color-pink border-pink"></i></div>
+							<div class="stat-content dib">
+								<div class="stat-text">Seminar</div>
+								<div class="stat-digit">@Model.Seminars</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="card">
+						<div class="stat-widget-one">
+							<div class="stat-icon dib"><i class="ti-link color-danger border-danger"></i></div>
+							<div class="stat-content dib">
+								<div class="stat-text">Users</div>
+								<div class="stat-digit">@Model.Users</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="card">
-                        <div class="card-title">
-                            <h4>Notice Board</h4>
-                        </div>
-                        <div class="recent-comment m-t-15">
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#"><img class="media-object" src="assets/images/avatar/1.jpg" alt="..."></a>
-                                </div>
-                                <div class="media-body">
-                                    <h4 class="media-heading color-primary">john doe</h4>
-                                    <p>Cras sit amet nibh libero, in gravida nulla.</p>
-                                    <p class="comment-date">10 min ago</p>
-                                </div>
-                            </div>
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#"><img class="media-object" src="assets/images/avatar/2.jpg" alt="..."></a>
-                                </div>
-                                <div class="media-body">
-                                    <h4 class="media-heading color-success">Mr. John</h4>
-                                    <p>Cras sit amet nibh libero, in gravida nulla.</p>
-                                    <p class="comment-date">1 hour ago</p>
-                                </div>
-                            </div>
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#"><img class="media-object" src="assets/images/avatar/3.jpg" alt="..."></a>
-                                </div>
-                                <div class="media-body">
-                                    <h4 class="media-heading color-danger">Mr. John</h4>
-                                    <p>Cras sit amet nibh libero, in gravida nulla.</p>
-                                    <div class="comment-date">Yesterday</div>
-                                </div>
-                            </div>
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#"><img class="media-object" src="assets/images/avatar/1.jpg" alt="..."></a>
-                                </div>
-                                <div class="media-body">
-                                    <h4 class="media-heading color-primary">john doe</h4>
-                                    <p>Cras sit amet nibh libero, in gravida nulla.</p>
-                                    <p class="comment-date">10 min ago</p>
-                                </div>
-                            </div>
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#"><img class="media-object" src="assets/images/avatar/2.jpg" alt="..."></a>
-                                </div>
-                                <div class="media-body">
-                                    <h4 class="media-heading color-success">Mr. John</h4>
-                                    <p>Cras sit amet nibh libero, in gravida nulla.</p>
-                                    <p class="comment-date">1 hour ago</p>
-                                </div>
-                            </div>
-                            <div class="media no-border">
-                                <div class="media-left">
-                                    <a href="#"><img class="media-object" src="assets/images/avatar/3.jpg" alt="..."></a>
-                                </div>
-                                <div class="media-body">
-                                    <h4 class="media-heading color-info">Mr. John</h4>
-                                    <p>Cras sit amet nibh libero, in gravida nulla.</p>
-                                    <div class="comment-date">Yesterday</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /# card -->
-                </div>
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="card">
+						<div class="card-title">
+							<h4>Notice Board</h4>
+						</div>
+						<div class="recent-comment m-t-15">
+							<div class="media">
+								<div class="media-left">
+									<a href="#"><img class="media-object" src="assets/images/avatar/1.jpg" alt="..."></a>
+								</div>
+								<div class="media-body">
+									<h4 class="media-heading color-primary">john doe</h4>
+									<p>Cras sit amet nibh libero, in gravida nulla.</p>
+									<p class="comment-date">10 min ago</p>
+								</div>
+							</div>
+							<div class="media">
+								<div class="media-left">
+									<a href="#"><img class="media-object" src="assets/images/avatar/2.jpg" alt="..."></a>
+								</div>
+								<div class="media-body">
+									<h4 class="media-heading color-success">Mr. John</h4>
+									<p>Cras sit amet nibh libero, in gravida nulla.</p>
+									<p class="comment-date">1 hour ago</p>
+								</div>
+							</div>
+							<div class="media">
+								<div class="media-left">
+									<a href="#"><img class="media-object" src="assets/images/avatar/3.jpg" alt="..."></a>
+								</div>
+								<div class="media-body">
+									<h4 class="media-heading color-danger">Mr. John</h4>
+									<p>Cras sit amet nibh libero, in gravida nulla.</p>
+									<div class="comment-date">Yesterday</div>
+								</div>
+							</div>
+							<div class="media">
+								<div class="media-left">
+									<a href="#"><img class="media-object" src="assets/images/avatar/1.jpg" alt="..."></a>
+								</div>
+								<div class="media-body">
+									<h4 class="media-heading color-primary">john doe</h4>
+									<p>Cras sit amet nibh libero, in gravida nulla.</p>
+									<p class="comment-date">10 min ago</p>
+								</div>
+							</div>
+							<div class="media">
+								<div class="media-left">
+									<a href="#"><img class="media-object" src="assets/images/avatar/2.jpg" alt="..."></a>
+								</div>
+								<div class="media-body">
+									<h4 class="media-heading color-success">Mr. John</h4>
+									<p>Cras sit amet nibh libero, in gravida nulla.</p>
+									<p class="comment-date">1 hour ago</p>
+								</div>
+							</div>
+							<div class="media no-border">
+								<div class="media-left">
+									<a href="#"><img class="media-object" src="assets/images/avatar/3.jpg" alt="..."></a>
+								</div>
+								<div class="media-body">
+									<h4 class="media-heading color-info">Mr. John</h4>
+									<p>Cras sit amet nibh libero, in gravida nulla.</p>
+									<div class="comment-date">Yesterday</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- /# card -->
+				</div>
 
-                <div class="col-lg-6">
-                    <div class="card">
-                        <div class="card-title">
-                            <h4>My Timeline</h4>
-                        </div>
-                        <div class="card-body">
-                            <ul class="timeline">
-                                <li>
-                                    <div class="timeline-badge primary"><i class="fa fa-smile-o"></i></div>
-                                    <div class="timeline-panel">
-                                        <div class="timeline-heading">
-                                            <h5 class="timeline-title">School project is done</h5>
-                                        </div>
-                                        <div class="timeline-body">
-                                            <p>10 minutes ago</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="timeline-badge success"><i class="fa fa-check-circle-o"></i></div>
-                                    <div class="timeline-panel">
-                                        <div class="timeline-heading">
-                                            <h5 class="timeline-title">Designed survey's details</h5>
-                                        </div>
-                                        <div class="timeline-body">
-                                            <p>23/05/2024</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="timeline-badge success"><i class="fa fa-check-circle-o"></i></div>
-                                    <div class="timeline-panel">
-                                        <div class="timeline-heading">
-                                            <h5 class="timeline-title">Designed survey & admin page</h5>
-                                        </div>
-                                        <div class="timeline-body">
-                                            <p>23/05/2024</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="timeline-badge success"><i class="fa fa-check-circle-o"></i></div>
-                                    <div class="timeline-panel">
-                                        <div class="timeline-heading">
-                                            <h5 class="timeline-title">Designed survey, question, response CRUD - Views</h5>
-                                        </div>
-                                        <div class="timeline-body">
-                                            <p>19/05/2024 - 20/05/2024</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="timeline-badge success"><i class="fa fa-check-circle-o"></i></div>
-                                    <div class="timeline-panel">
-                                        <div class="timeline-heading">
-                                            <h5 class="timeline-title">Designed database and improved it</h5>
-                                        </div>
-                                        <div class="timeline-body">
-                                            <p>06/05/2024 - 23/05/2024</p>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- /# card -->
-                </div>
-            </div>
+				<div class="col-lg-6">
+					<div class="card">
+						<div class="card-title">
+							<h4>My Timeline</h4>
+						</div>
+						<div class="card-body">
+							<ul class="timeline">
+								<li>
+									<div class="timeline-badge primary"><i class="fa fa-smile-o"></i></div>
+									<div class="timeline-panel">
+										<div class="timeline-heading">
+											<h5 class="timeline-title">School project is done</h5>
+										</div>
+										<div class="timeline-body">
+											<p>10 minutes ago</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<div class="timeline-badge success"><i class="fa fa-check-circle-o"></i></div>
+									<div class="timeline-panel">
+										<div class="timeline-heading">
+											<h5 class="timeline-title">Designed survey's details</h5>
+										</div>
+										<div class="timeline-body">
+											<p>23/05/2024</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<div class="timeline-badge success"><i class="fa fa-check-circle-o"></i></div>
+									<div class="timeline-panel">
+										<div class="timeline-heading">
+											<h5 class="timeline-title">Designed survey & admin page</h5>
+										</div>
+										<div class="timeline-body">
+											<p>23/05/2024</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<div class="timeline-badge success"><i class="fa fa-check-circle-o"></i></div>
+									<div class="timeline-panel">
+										<div class="timeline-heading">
+											<h5 class="timeline-title">Designed survey, question, response CRUD - Views</h5>
+										</div>
+										<div class="timeline-body">
+											<p>19/05/2024 - 20/05/2024</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<div class="timeline-badge success"><i class="fa fa-check-circle-o"></i></div>
+									<div class="timeline-panel">
+										<div class="timeline-heading">
+											<h5 class="timeline-title">Designed database and improved it</h5>
+										</div>
+										<div class="timeline-body">
+											<p>06/05/2024 - 23/05/2024</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<!-- /# card -->
+				</div>
+			</div>
 
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="card p-0">
-                        <div class="stat-widget-three home-widget-three">
-                            <div class="stat-icon bg-facebook">
-                                <i class="ti-facebook"></i>
-                            </div>
-                            <div class="stat-content">
-                                <div class="stat-digit">8,268</div>
-                                <div class="stat-text">Likes</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="card p-0">
-                        <div class="stat-widget-three home-widget-three">
-                            <div class="stat-icon bg-youtube">
-                                <i class="ti-youtube"></i>
-                            </div>
-                            <div class="stat-content">
-                                <div class="stat-digit">12,545</div>
-                                <div class="stat-text">Subscribes</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="card p-0">
-                        <div class="stat-widget-three home-widget-three">
-                            <div class="stat-icon bg-twitter">
-                                <i class="ti-twitter"></i>
-                            </div>
-                            <div class="stat-content">
-                                <div class="stat-digit">7,982</div>
-                                <div class="stat-text">Tweets</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="card p-0">
-                        <div class="stat-widget-three home-widget-three">
-                            <div class="stat-icon bg-danger">
-                                <i class="ti-linkedin"></i>
-                            </div>
-                            <div class="stat-content">
-                                <div class="stat-digit">9,658</div>
-                                <div class="stat-text">Followers</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="card p-0">
+						<div class="stat-widget-three home-widget-three">
+							<div class="stat-icon bg-facebook">
+								<i class="ti-facebook"></i>
+							</div>
+							<div class="stat-content">
+								<div class="stat-digit">8,268</div>
+								<div class="stat-text">Likes</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="card p-0">
+						<div class="stat-widget-three home-widget-three">
+							<div class="stat-icon bg-youtube">
+								<i class="ti-youtube"></i>
+							</div>
+							<div class="stat-content">
+								<div class="stat-digit">12,545</div>
+								<div class="stat-text">Subscribes</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="card p-0">
+						<div class="stat-widget-three home-widget-three">
+							<div class="stat-icon bg-twitter">
+								<i class="ti-twitter"></i>
+							</div>
+							<div class="stat-content">
+								<div class="stat-digit">7,982</div>
+								<div class="stat-text">Tweets</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="card p-0">
+						<div class="stat-widget-three home-widget-three">
+							<div class="stat-icon bg-danger">
+								<i class="ti-linkedin"></i>
+							</div>
+							<div class="stat-content">
+								<div class="stat-digit">9,658</div>
+								<div class="stat-text">Followers</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="footer">
-                        <p class="copyright text-center">
-                            All Rights Reserved. &copy; 2024 <a href="@Url.Action("index", "admin")" style="color:#4eae3a">Green World</a> - Designed by Thai
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="footer">
+						<p class="copyright text-center">
+							All Rights Reserved. &copy; 2024 <a href="@Url.Action("index", "admin")" style="color:#4eae3a">Green World</a> - Designed by Thai
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
 </div>

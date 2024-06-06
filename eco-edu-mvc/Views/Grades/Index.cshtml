@@ -1,43 +1,43 @@
 ﻿@model IEnumerable<eco_edu_mvc.Models.Entities.CompetitionEntry>
 
 @{
-    ViewData["Title"] = "Grades";
+    Layout = "_LayoutEcoEdu";
 }
 
-<h2>Competition Entries</h2>
+<h2 style="padding:2vw 0 1vw 1vw;">Competition Entries</h2>
+
+@if (TempData["AlreadyGraded"] != null)
+{
+    <div class="alert alert-warning">@TempData["AlreadyGraded"]</div>
+}
 
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.EntryId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User.Username)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Competition.Title)
-            </th>
-            <th>
-                Actions
-            </th>
+            <th>Entry ID</th>
+            <th>UserName</th>
+            <th>Title</th>
+            <th>Score</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
+                <td>@item.EntryId</td>
+                <td>@item.User.Username</td>
+                <td>@item.Competition.Title</td>
+                <td>@item.GradeTests.FirstOrDefault()?.Score</td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.EntryId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.User.Username)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Competition.Title)
-                </td>
-                <td>
-                    <a asp-action="Grade" asp-route-id="@item.EntryId">Grade</a>
+                    @if (item.GradeTests.Any())
+                    {
+                        <span>Already Graded</span>
+                    }
+                    else
+                    {
+                        <a asp-controller="grades" asp-action="Grade" asp-route-id="@item.EntryId" class="btn btn-outline-secondary">Grade</a>
+                    }
                 </td>
             </tr>
         }

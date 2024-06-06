@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace eco_edu_mvc.Controllers
@@ -20,11 +21,27 @@ namespace eco_edu_mvc.Controllers
         {
             if (HttpContext.Session.GetString("Role") != "Staff")
             {
-                TempData["PermissionDenied"] = true;
+                TempData["StaffPermissionDenied"] = true;
                 return RedirectToAction("Index", "Home");
             }
 
-            var entries = await _context.CompetitionEntries.Include(e => e.User).Include(e => e.Competition).ToListAsync();
+            var entries = await _context.CompetitionEntries.Include(e => e.User)
+                                                           .Include(e => e.Competition)
+                                                           .Include(e => e.GradeTests)
+                                                           .ToListAsync();
+            return View(entries);
+        }
+
+        public async Task<IActionResult> Ranking()
+        {
+            var entries = await _context.CompetitionEntries
+                                        .Include(e => e.User)
+                                        .Include(e => e.Competition)
+                                        .Include(e => e.GradeTests)
+                                        .Where(e => e.GradeTests.Any())
+                                        .OrderByDescending(e => e.GradeTests.FirstOrDefault().Score)
+                                        .ToListAsync();
+
             return View(entries);
         }
 
@@ -33,7 +50,7 @@ namespace eco_edu_mvc.Controllers
         {
             if (HttpContext.Session.GetString("Role") != "Staff")
             {
-                TempData["PermissionDenied"] = true;
+                TempData["StaffPermissionDenied"] = true;
                 return RedirectToAction("Index", "Home");
             }
 
@@ -42,10 +59,19 @@ namespace eco_edu_mvc.Controllers
                 return NotFound();
             }
 
-            var entry = await _context.CompetitionEntries.Include(e => e.User).Include(e => e.Competition).FirstOrDefaultAsync(m => m.EntryId == id);
-            if (entry == null)
+            var entry = await _context.CompetitionEntries
+                                      .Include(e => e.User)
+                                      .Include(e => e.Competition)
+                                      .FirstOrDefaultAsync(m => m.EntryId == id);
+            if (entry == null || !entry.User.IsAccept)
             {
                 return NotFound();
+            }
+
+            if (entry.GradeTests.Any())
+            {
+                TempData["AlreadyGraded"] = "This entry has already been graded.";
+                return RedirectToAction(nameof(Index));
             }
 
             return View(new GradeTest { EntryId = entry.EntryId });
@@ -53,22 +79,36 @@ namespace eco_edu_mvc.Controllers
 
         // POST: Grades/Grade/5
         [HttpPost]
+        [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> Grade([Bind("EntryId,Score")] GradeTest gradeTest)
         {
             if (HttpContext.Session.GetString("Role") != "Staff")
             {
-                TempData["PermissionDenied"] = true;
+                TempData["StaffPermissionDenied"] = true;
                 return RedirectToAction("Index", "Home");
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                gradeTest.GradeDate = DateTime.Now;
-                _context.Add(gradeTest);
-                await _context.SaveChangesAsync();
+                return View(gradeTest);
+            }
+
+            var entry = await _context.CompetitionEntries
+                                      .Include(e => e.GradeTests)
+                                      .Include(e => e.User)
+                                      .FirstOrDefaultAsync(e => e.EntryId == gradeTest.EntryId);
+
+            if (entry == null || !entry.User.IsAccept || entry.GradeTests.Any())
+            {
+                TempData["AlreadyGraded"] = "This entry has already been graded or is not accepted.";
                 return RedirectToAction(nameof(Index));
             }
-            return View(gradeTest);
+
+            gradeTest.GradeDate = DateTime.Now;
+            _context.Add(gradeTest);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
     }
 }

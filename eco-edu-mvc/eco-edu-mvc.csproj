@@ -8,10 +8,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\CompetitionsViewModel\**" />
     <Compile Remove="Models\Survey\**" />
+    <Compile Remove="wwwroot\Competitions\**" />
+    <Compile Remove="wwwroot\NewFolder\**" />
+    <Content Remove="Models\CompetitionsViewModel\**" />
     <Content Remove="Models\Survey\**" />
+    <Content Remove="wwwroot\Competitions\**" />
+    <Content Remove="wwwroot\NewFolder\**" />
+    <EmbeddedResource Remove="Models\CompetitionsViewModel\**" />
     <EmbeddedResource Remove="Models\Survey\**" />
+    <EmbeddedResource Remove="wwwroot\Competitions\**" />
+    <EmbeddedResource Remove="wwwroot\NewFolder\**" />
+    <None Remove="Models\CompetitionsViewModel\**" />
     <None Remove="Models\Survey\**" />
+    <None Remove="wwwroot\Competitions\**" />
+    <None Remove="wwwroot\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +38,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Contact\Contact.cshtml" />
+    <None Include="Views\FAQs\FAQ.cshtml" />
+    <None Include="wwwroot\faq\FAQs.js" />
     <None Include="wwwroot\login\css\.DS_Store" />
     <None Include="wwwroot\login\css\bootstrap\.DS_Store" />
     <None Include="wwwroot\login\css\bootstrap\mixins\.DS_Store" />
@@ -37,9 +52,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\Entities\" />
     <Folder Include="wwwroot\Images\" />
-    <Folder Include="wwwroot\Competitions\" />
-    <Folder Include="wwwroot\NewFolder\" />
   </ItemGroup>
 
 </Project>
