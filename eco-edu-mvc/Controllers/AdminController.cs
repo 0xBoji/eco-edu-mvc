@@ -97,22 +97,5 @@ public class AdminController : Controller
 		return RedirectToAction("index", "home");
 	}
 
-	[HttpPost]
-	public async Task<IActionResult> RemoveUser(int id)
-	{
-		var user = await context.Users.FindAsync(id);
-		if (user == null) return NotFound();
 
-		//check and delete the relationship
-		var competitionEntries = context.CompetitionEntries.Where(ce => ce.UserId == id);
-		context.CompetitionEntries.RemoveRange(competitionEntries);
-		var response = context.Responses.Where(rs => rs.UserId == id);
-		context.Responses.RemoveRange(response);
-		var seminars = context.Seminars.Where(s => s.UserId == id);
-		context.Seminars.RemoveRange(seminars);
-
-		context.Users.Remove(user);
-		await context.SaveChangesAsync();
-		return RedirectToAction("RequestShow");
-	}
 }

@@ -1,4 +1,4 @@
-﻿
+﻿@model eco_edu_mvc.Models.ContactViewModel.ContactModel
 @{
     ViewData["Title"] = "Contact";
     Layout = "~/Views/Shared/_LayoutEcoEdu.cshtml";
@@ -47,24 +47,50 @@
                 </div>
             </div>
             <div class="contactForm">
-                <form>
-                    <h2>Send Mail</h2>
+               @*  <form>
+                    @using (Html.BeginForm("SendContact", "Contact"))
+                    {
+                        <h2>Send Mail</h2>
+                        <div class="inputBox">
+                            <input type="text" name="FullName" required="required">
+                            <span>Full name</span>
+                        </div>
+                        <div class="inputBox">
+                            <input type="text" name="Email" required="required">
+                            <span>Email</span>
+                        </div>
+                        <div class="inputBox">
+                            <textarea name="Message" id="" cols="30" rows="10" required="required"></textarea>
+                            <span>Type your Message</span>
+                        </div>
+                        <div class="inputBox">
+                            <input type="submit" name="" value="submit">
+                        </div>
+                        
+                    }
+                   
+                </form> *@
+
+                <form asp-action="SendContact" class="signin-form" method="post">
+                    <div asp-validation-summary="All" class="text-warning"></div>
                     <div class="inputBox">
-                        <input type="text" name="" required="required">
+                        <input type="text"  asp-for="FullName" required>
                         <span>Full name</span>
                     </div>
                     <div class="inputBox">
-                        <input type="text" name="" required="required">
+                        <input  type="text" asp-for="Email" required>
                         <span>Email</span>
                     </div>
                     <div class="inputBox">
-                        <textarea name="" id="" cols="30" rows="10" required="required"></textarea>
+                        <textarea cols="30" rows="10" required="required" asp-for="Message"></textarea>
                         <span>Type your Message</span>
                     </div>
                     <div class="inputBox">
-                        <input type="submit" name="" value="Send">
+                        <button type="submit" class="form-control btn btn-primary submit px-3">Send Email</button>
                     </div>
+               
                 </form>
+
             </div>
         </div>
     </section>
