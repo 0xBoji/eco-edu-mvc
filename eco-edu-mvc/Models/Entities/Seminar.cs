@@ -7,7 +7,7 @@ public partial class Seminar
 {
     public int SeminarId { get; set; }
 
-    public int SmId { get; set; }
+    public int? SmId { get; set; }
 
     public string Title { get; set; } = null!;
 
@@ -19,5 +19,5 @@ public partial class Seminar
 
     public bool? Active { get; set; }
 
-    public virtual SeminarMember Sm { get; set; } = null!;
+    public virtual SeminarMember? Sm { get; set; }
 }
