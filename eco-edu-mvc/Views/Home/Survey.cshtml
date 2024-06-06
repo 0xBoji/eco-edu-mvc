@@ -15,23 +15,20 @@
     <div class="row ">
         @foreach (var item in Model)
         {
-            if (item.Active == true)
-            {
-                <a href="@Url.Action("details", "surveys", new {id = item.SurveyId }) " class="col-lg-2 col-md-2 col-sm-1 mb-4 thisCard">
-                    <div class="card h-100">
-                        <h4 class="card-header">@item.Title</h4>
-                        <div class="card-img">
-                            <img class="img-fluid" src="~/Images/@item.Images" alt="Survey Pictures" />
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text">Topic: @item.Topic</p>
-                        </div>
-                        <div class="card-footer">
-                            <p class="card-text">End Date: @item.EndDate.ToShortDateString()</p>
-                        </div>
+            <a href="@Url.Action("details", "surveys", new {id = item.SurveyId }) " class="col-lg-2 col-md-2 col-sm-1 mb-4 thisCard">
+                <div class="card h-100">
+                    <h4 class="card-header">@item.Title</h4>
+                    <div class="card-img">
+                        <img class="img-fluid" src="~/Images/@item.Images" alt="Survey Pictures" />
                     </div>
-                </a>
-            }
+                    <div class="card-body">
+                        <p class="card-text">Topic: @item.Topic</p>
+                    </div>
+                    <div class="card-footer">
+                        <p class="card-text">End Date: @item.EndDate</p>
+                    </div>
+                </div>
+            </a>
         }
     </div>
 </div>

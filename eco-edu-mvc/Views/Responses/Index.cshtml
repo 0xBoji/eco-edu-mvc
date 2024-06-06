@@ -19,6 +19,7 @@
     <thead>
         <tr>
             <th>ID</th>
+            <th>Username</th>
             <th>Survey Title</th>
             <th>Question</th>
             <th>User's Answer</th>
@@ -30,6 +31,7 @@
         {
             <tr>
                 <td>@rep.ResponseId</td>
+                <td>@rep.User.Username</td>
                 <td>@rep.Question.Survey.Title</td>
                 <td>@rep.Question.QuestionText</td>
                 <td>@rep.Answer</td>

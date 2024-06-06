@@ -1,3 +1,89 @@
-﻿@{
+﻿@model eco_edu_mvc.Models.HomeViewModel.SurveyDetailModel
+
+@{
     Layout = "_LayoutEcoEdu";
 }
+
+<style>
+    form {
+        background-color: lightyellow !important;
+    }
+
+    .choices {
+        background-color: transparent !important;
+        border: none;
+    }
+
+    .no-resize {
+        resize: none;
+    }
+</style>
+
+<div class="container-fluid py-5 px-5">
+    <h2>@Model.Survey.Title</h2>
+    <form class="form-control row py-3 px-5" asp-controller="Home" asp-action="SubmitDetail" method="post">
+        <input type="hidden" name="SurveyId" value="@Model.Survey.SurveyId" />
+        <input type="hidden" name="QuestionId" value="@Model.Questions.FirstOrDefault().QuestionId" />
+        @foreach (var item2 in Model.Questions)
+        {
+            if (item2.QuestionType == "Text")
+            {
+                <div class="row form-group py-3 px-4">
+                    <label class="control-label">@item2.QuestionText</label>
+                    <input class="form-control" type="text" asp-for="@item2.QuestionText" required />
+                </div>
+            }
+            else if (item2.QuestionType == "MultipleChoices")
+            {
+                <div class="form-group py-3 px-4">
+                    <label style="margin-left:-0.75rem;">@item2.QuestionText</label>
+
+                    @{
+                        // Determine if the question is a Yes/No question
+                        bool isYesNoQuestion = item2.Answer1 == "Yes" && item2.Answer2 == "No" && string.IsNullOrEmpty(item2.Answer3);
+                        string inputType = isYesNoQuestion ? "radio" : (item2.CorrectAnswer == null ? "checkbox" : "radio");
+                    }
+
+                    @if (!string.IsNullOrEmpty(item2.Answer1))
+                    {
+                        <div style="margin-left:.5rem; padding-bottom:1rem;">
+                            <input class="form-check-input" type="@inputType" id="@item2.QuestionId" value="@item2.Answer1" />
+                            <label class="form-check-label">@item2.Answer1</label>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(item2.Answer2))
+                    {
+                        <div style="margin-left:.5rem; padding-bottom:1rem;">
+                            <input class="form-check-input" type="@inputType" id="@item2.QuestionId" value="@item2.Answer2" />
+                            <label class="form-check-label">@item2.Answer2</label>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(item2.Answer3))
+                    {
+                        <div style="margin-left:.5rem; padding-bottom:1rem;">
+                            <input class="form-check-input" type="@inputType" id="@item2.QuestionId" value="@item2.Answer3" />
+                            <label class="form-check-label">@item2.Answer3</label>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(item2.CorrectAnswer) && !isYesNoQuestion)
+                    {
+                        <div style="margin-left:.5rem; padding-bottom:1rem;">
+                            <input class="form-check-input" type="radio" id="@item2.QuestionId" value="@item2.CorrectAnswer" />
+                            <label class="form-check-label">@item2.CorrectAnswer</label>
+                        </div>
+                    }
+                </div>
+            }
+            else if (item2.QuestionType == "Other")
+            {
+                <div class="row form-group py-3 px-4">
+                    <label class="control-label">@item2.QuestionText</label>
+                    <textarea class="form-control no-resize" for="@item2.QuestionText" id="@item2.QuestionId" cols="50" rows="5"></textarea>
+                </div>
+            }
+        }
+        <div class="form-group px-2">
+            <button class="btn btn-outline-success" type="submit">Submit</button>
+        </div>
+    </form>
+</div>

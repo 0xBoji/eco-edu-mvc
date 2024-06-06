@@ -19,17 +19,6 @@ public class SurveysController(EcoEduContext context) : Controller
         return RedirectToAction("index", "home");
     }
 
-    [HttpGet]
-    public async Task<IActionResult> Details(int id)
-    {
-        if (HttpContext.Session.GetString("Is_Accept") == "True")
-        {
-            return View(await _context.Surveys.FirstOrDefaultAsync(s => s.SurveyId == id));
-        }
-        TempData["PermissionDenied"] = true;
-        return RedirectToAction("index", "home");
-    }
-
     public ActionResult Post()
     {
         if (HttpContext.Session.GetString("Role") == "Admin")

@@ -66,7 +66,7 @@
             {
                 if (item.Active == true)
                 {
-                    <a href="@Url.Action("details", "surveys", new { id = item.SurveyId })" class="col-4 mb-4 thisCard">
+                    <a href="@Url.Action("SurveyDetail", "Home", new { id = item.SurveyId })" class="col-4 mb-4 thisCard">
                         <div class="card h-100">
                             <h4 class="card-header">@item.Title</h4>
                             <div class="card-img">

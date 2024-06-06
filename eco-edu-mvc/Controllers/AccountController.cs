@@ -80,18 +80,28 @@ public class AccountController : Controller
                 HttpContext.Session.SetString("Username", user.Username);
                 HttpContext.Session.SetString("User_Code", user.UserCode);
                 HttpContext.Session.SetString("Is_Accept", user.IsAccept.ToString().ToLower());
-                // Use to catch the Admin
+                HttpContext.Session.SetString("Role", user.Role.ToString());
+
+                // Redirect based on role
                 if (user.Role == "Admin")
                 {
-                    HttpContext.Session.SetString("Role", user.Role.ToString());
+                    return RedirectToAction("Index", "Admin");
                 }
-                return RedirectToAction("Index", "Home");
+                else if (user.Role == "Student")
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else if (user.Role == "Staff")
+                {
+                    return RedirectToAction("Index", "Home");
+                }
             }
             ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             return View(model);
         }
         return View(model);
     }
+
 
     [HttpPost]
     public IActionResult logout()
