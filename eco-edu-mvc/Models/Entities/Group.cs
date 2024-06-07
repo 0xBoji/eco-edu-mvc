@@ -9,7 +9,5 @@ public partial class Group
 
     public string Name { get; set; } = null!;
 
-    public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
-
     public virtual ICollection<User> Users { get; set; } = new List<User>();
 }

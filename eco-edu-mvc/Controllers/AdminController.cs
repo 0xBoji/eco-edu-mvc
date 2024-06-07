@@ -113,16 +113,56 @@ public class AdminController(EcoEduContext context) : Controller
         var user = await _context.Users.FindAsync(id);
         if (user == null) return NotFound();
 
-		//check and delete the relationship
-		var competitionEntries = context.CompetitionEntries.Where(ce => ce.UserId == id);
-		context.CompetitionEntries.RemoveRange(competitionEntries);
-		var response = context.Responses.Where(rs => rs.UserId == id);
-		context.Responses.RemoveRange(response);
-		var seminars = context.Seminars.Where(s => s.UserId == id);
-		context.Seminars.RemoveRange(seminars);
+        //check and delete the relationship
+        var competitionEntries = context.CompetitionEntries.Where(ce => ce.UserId == id);
+        context.CompetitionEntries.RemoveRange(competitionEntries);
+        var response = context.Responses.Where(rs => rs.UserId == id);
+        context.Responses.RemoveRange(response);
+        var seminars = context.SeminarMembers.Where(s => s.UserId == id);
+        context.SeminarMembers.RemoveRange(seminars);
 
-		context.Users.Remove(user);
-		await context.SaveChangesAsync();
-		return RedirectToAction("RequestShow");
-	}
+        context.Users.Remove(user);
+        await context.SaveChangesAsync();
+        return RedirectToAction("RequestShow");
+    }
+
+    public IActionResult ChangePasswordAdmin()
+    {
+        if (HttpContext.Session.GetString("Role") != "Admin")
+        {
+            TempData["PermissionDenied"] = true;
+            return RedirectToAction("index", "home");
+        }
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> ChangePasswordAdmin(ChangePasswordModel model)
+    {
+        try
+        {
+            if (HttpContext.Session.GetString("Role") != "Admin")
+            {
+                TempData["PermissionDenied"] = true;
+                return RedirectToAction("index", "home");
+            }
+            var userId = int.Parse(HttpContext.Session.GetString("UserId"));
+            var user = await context.Users.FindAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.Password = BCrypt.Net.BCrypt.HashPassword(model.Password);
+            context.Users.Update(user);
+            await context.SaveChangesAsync();
+            return RedirectToAction("login", "account");
+        }
+        catch (Exception ex)
+        {
+            ModelState.AddModelError("Error", ex.Message);
+            return View();
+        }
+    }
 }

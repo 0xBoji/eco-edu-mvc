@@ -18,6 +18,4 @@ public partial class Message
     public virtual FileMsg? FileMsg { get; set; }
 
     public virtual User User { get; set; } = null!;
-
-    public virtual ICollection<Group> Groups { get; set; } = new List<Group>();
 }
