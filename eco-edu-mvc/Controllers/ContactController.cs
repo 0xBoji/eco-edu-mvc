@@ -2,9 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using System.Net.Mail;
-using MailKit.Net.Smtp;
 using MimeKit;
-using MailKit.Security;
 using eco_edu_mvc.Models.ContactViewModel;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 

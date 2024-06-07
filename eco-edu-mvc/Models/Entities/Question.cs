@@ -21,6 +21,8 @@ public partial class Question
 
     public string? CorrectAnswer { get; set; }
 
+    public string? SelectedAnswer { get; set; }
+
     public virtual ICollection<Response> Responses { get; set; } = new List<Response>();
 
     public virtual Survey Survey { get; set; } = null!;
