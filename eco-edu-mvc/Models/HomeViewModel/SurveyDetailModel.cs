@@ -5,6 +5,5 @@ namespace eco_edu_mvc.Models.HomeViewModel;
 public class SurveyDetailModel
 {
     public Survey Survey { get; set; }
-    public Response Response { get; set; }
     public List<Question> Questions { get; set; }
 }

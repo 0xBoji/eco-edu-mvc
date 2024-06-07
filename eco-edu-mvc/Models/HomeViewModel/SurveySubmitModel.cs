@@ -1,6 +1,4 @@
-﻿using eco_edu_mvc.Models.Entities;
-
-namespace eco_edu_mvc.Models.HomeViewModel;
+﻿namespace eco_edu_mvc.Models.HomeViewModel;
 public class SurveySubmitModel
 {
     public int ResponseId { get; set; }

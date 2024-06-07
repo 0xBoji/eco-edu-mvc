@@ -22,63 +22,62 @@
 <div class="container-fluid py-5 px-5">
     <h2>@Model.Survey.Title</h2>
     <form class="form-control row py-3 px-5" asp-controller="Home" asp-action="SubmitDetail" method="post">
-        <input type="hidden" name="SurveyId" value="@Model.Survey.SurveyId" />
-        <input type="hidden" name="QuestionId" value="@Model.Questions.FirstOrDefault().QuestionId" />
-        @foreach (var item2 in Model.Questions)
+        <input type="hidden" asp-for="Survey.SurveyId" name="SurveyId" value="@Model.Survey.SurveyId" />
+        @for (int i = 0; i < Model.Questions.Count; i++)
         {
-            if (item2.QuestionType == "Text")
+            <input type="hidden" name="Questions[@i].QuestionId" value="@Model.Questions[i].QuestionId" />
+            if (Model.Questions[i].QuestionType == "Text")
             {
                 <div class="row form-group py-3 px-4">
-                    <label class="control-label">@item2.QuestionText</label>
-                    <input class="form-control" type="text" asp-for="@item2.QuestionText" required />
+                    <label class="control-label">@Model.Questions[i].QuestionText</label>
+                    <input class="form-control" type="text" name="Questions[@i].SelectedAnswer" required />
                 </div>
             }
-            else if (item2.QuestionType == "MultipleChoices")
+            else if (Model.Questions[i].QuestionType == "MultipleChoices")
             {
                 <div class="form-group py-3 px-4">
-                    <label style="margin-left:-0.75rem;">@item2.QuestionText</label>
+                    <label style="margin-left:-0.75rem;">@Model.Questions[i].QuestionText</label>
 
                     @{
-                        // Determine if the question is a Yes/No question
-                        bool isYesNoQuestion = item2.Answer1 == "Yes" && item2.Answer2 == "No" && string.IsNullOrEmpty(item2.Answer3);
-                        string inputType = isYesNoQuestion ? "radio" : (item2.CorrectAnswer == null ? "checkbox" : "radio");
+                        bool isYesNoQuestion = Model.Questions[i].Answer1 == "Yes" && Model.Questions[i].Answer2 == "No" && string.IsNullOrEmpty(Model.Questions[i].Answer3);
+                        string inputType = isYesNoQuestion ? "radio" : "radio";
                     }
 
-                    @if (!string.IsNullOrEmpty(item2.Answer1))
+                    @if (!string.IsNullOrEmpty(Model.Questions[i].Answer1))
                     {
                         <div style="margin-left:.5rem; padding-bottom:1rem;">
-                            <input class="form-check-input" type="@inputType" id="@item2.QuestionId" value="@item2.Answer1" />
-                            <label class="form-check-label">@item2.Answer1</label>
+                            <input class="form-check-input" type="radio" name="Questions[@i].SelectedAnswer" value="@Model.Questions[i].Answer1" required />
+                            <label class="form-check-label">@Model.Questions[i].Answer1</label>
                         </div>
                     }
-                    @if (!string.IsNullOrEmpty(item2.Answer2))
+                    @if (!string.IsNullOrEmpty(Model.Questions[i].Answer2))
                     {
                         <div style="margin-left:.5rem; padding-bottom:1rem;">
-                            <input class="form-check-input" type="@inputType" id="@item2.QuestionId" value="@item2.Answer2" />
-                            <label class="form-check-label">@item2.Answer2</label>
+                            <input class="form-check-input" type="radio" name="Questions[@i].SelectedAnswer" value="@Model.Questions[i].Answer2" required />
+                            <label class="form-check-label">@Model.Questions[i].Answer2</label>
                         </div>
                     }
-                    @if (!string.IsNullOrEmpty(item2.Answer3))
+                    @if (!string.IsNullOrEmpty(Model.Questions[i].Answer3))
                     {
                         <div style="margin-left:.5rem; padding-bottom:1rem;">
-                            <input class="form-check-input" type="@inputType" id="@item2.QuestionId" value="@item2.Answer3" />
-                            <label class="form-check-label">@item2.Answer3</label>
+                            <input class="form-check-input" type="radio" name="Questions[@i].SelectedAnswer" value="@Model.Questions[i].Answer3" required />
+                            <label class="form-check-label">@Model.Questions[i].Answer3</label>
                         </div>
                     }
-                    @if (!string.IsNullOrEmpty(item2.CorrectAnswer) && !isYesNoQuestion)
+                    @if (!string.IsNullOrEmpty(Model.Questions[i].CorrectAnswer) && !isYesNoQuestion)
                     {
                         <div style="margin-left:.5rem; padding-bottom:1rem;">
-                            <input class="form-check-input" type="radio" id="@item2.QuestionId" value="@item2.CorrectAnswer" />
-                            <label class="form-check-label">@item2.CorrectAnswer</label>
+                            <input class="form-check-input" type="radio" name="Questions[@i].SelectedAnswer" value="@Model.Questions[i].CorrectAnswer" required />
+                            <label class="form-check-label">@Model.Questions[i].CorrectAnswer</label>
                         </div>
                     }
                 </div>
             }
-            else if (item2.QuestionType == "Other")
+            else if (Model.Questions[i].QuestionType == "Other")
             {
                 <div class="row form-group py-3 px-4">
-                    <label class="control-label">@item2.QuestionText</label>
-                    <textarea class="form-control no-resize" for="@item2.QuestionText" id="@item2.QuestionId" cols="50" rows="5"></textarea>
+                    <label class="control-label">@Model.Questions[i].QuestionText</label>
+                    <textarea class="form-control no-resize" name="Questions[@i].SelectedAnswer" id="@Model.Questions[i].QuestionId" cols="50" rows="5"></textarea>
                 </div>
             }
         }

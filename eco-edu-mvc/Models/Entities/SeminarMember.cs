@@ -14,4 +14,6 @@ public partial class SeminarMember
     public virtual ICollection<Seminar> Seminars { get; set; } = new List<Seminar>();
 
     public virtual User User { get; set; } = null!;
+    public virtual Seminar Seminar { get; set; } = null!;
+
 }

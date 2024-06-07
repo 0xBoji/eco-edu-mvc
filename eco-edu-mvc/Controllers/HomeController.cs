@@ -30,6 +30,7 @@ public class HomeController(EcoEduContext context) : Controller
         return View(model);
     }
 
+
     public async Task<IActionResult> Survey() => View(await _context.Surveys.ToListAsync());
 
     public async Task<IActionResult> SurveyDetail(int id)
@@ -49,31 +50,26 @@ public class HomeController(EcoEduContext context) : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> SubmitDetail(SurveySubmitModel model, int id)
+    public async Task<IActionResult> SubmitDetail(SurveyDetailModel model)
     {
-        if (!ModelState.IsValid) return View(model);
+        var id = int.Parse(HttpContext.Session.GetString("UserId"));
 
-        // Check if the user exists
-        var userExists = _context.Responses.FirstOrDefaultAsync(u => u.UserId == id);
-        if (userExists == null)
+        foreach (var question in model.Questions)
         {
-            ModelState.AddModelError("UserId", "User does not exist.");
-            return View(model);
+            Response rep = new()
+            {
+                UserId = id,
+                QuestionId = question.QuestionId,
+                Answer = question.SelectedAnswer
+            };
+            _context.Responses.Add(rep);
         }
-
-        Response rep = new()
-        {
-            UserId = model.UserId,
-            ResponseId = model.ResponseId,
-            QuestionId = model.QuestionId,
-            Answer = model.Answer
-        };
-        _context.Responses.Add(rep);
         await _context.SaveChangesAsync();
 
         TempData["SubmissionSuccess"] = "Your responses have been submitted successfully!";
         return RedirectToAction("Index", "Home");
     }
+
 
     public async Task<IActionResult> Competition()
     {
@@ -106,7 +102,10 @@ public class HomeController(EcoEduContext context) : Controller
 
     public ActionResult FAQ() => View();
 
-    public ActionResult Seminar() => View();
+    public async Task<IActionResult> Seminar() => View(await _context.Seminars
+                                     .Include(s => s.Sm)
+                                     .ThenInclude(sm => sm.User)
+                                     .ToListAsync());
 
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
