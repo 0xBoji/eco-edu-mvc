@@ -81,7 +81,10 @@ public class HomeController(EcoEduContext context) : Controller
 
     public ActionResult FAQ() => View();
 
-    public ActionResult Seminar() => View();
+    public async Task<IActionResult> Seminar() => View(await _context.Seminars
+                                     .Include(s => s.Sm)
+                                     .ThenInclude(sm => sm.User)
+                                     .ToListAsync());
 
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
