@@ -119,6 +119,10 @@ public class AccountController : Controller
         }
         var userId = int.Parse(HttpContext.Session.GetString("UserId"));
         var user = await context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
+
+        var surveys = await context.Surveys.Where(s => s.Questions.Any(q => q.Responses.Any(r => r.UserId == userId))).ToListAsync();
+        var competitions = await context.CompetitionEntries.Where(u => u.UserId == userId).Select(c => c.Competition).ToListAsync();
+        var seminars = await context.SeminarMembers.Where(u => u.UserId == userId).Select(s => s.Seminar).ToListAsync();
         if (user == null)
         {
             return NotFound();
@@ -136,7 +140,10 @@ public class AccountController : Controller
             Citizen_Id = user.CitizenId,
             Images = user.Images,
             Email_Verify = user.EmailVerify,
-            CreateDate = user.CreateDate
+            CreateDate = user.CreateDate,
+            Surveys = surveys,
+            Competitions = competitions,
+            Seminars = seminars
         };
 
         return View(profile);

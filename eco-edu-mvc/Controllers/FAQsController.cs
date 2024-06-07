@@ -75,8 +75,8 @@ public class FAQsController : Controller
     }
 
     // POST: Admin/Faq/id
-    [HttpPost, ActionName("DeleteFAQs")]
-    public async Task<IActionResult> DeleteCompetitionConfirmed(int id)
+    [HttpPost, ActionName("Delete")]
+    public async Task<IActionResult> Delete(int id)
     {
         if (HttpContext.Session.GetString("Role") != "Admin")
         {

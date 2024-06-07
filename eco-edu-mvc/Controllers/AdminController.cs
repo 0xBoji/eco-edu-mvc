@@ -118,44 +118,11 @@ public class AdminController(EcoEduContext context) : Controller
 		context.CompetitionEntries.RemoveRange(competitionEntries);
 		var response = context.Responses.Where(rs => rs.UserId == id);
 		context.Responses.RemoveRange(response);
-		var seminars = context.SeminarMembers.Where(s => s.UserId == id);
-		context.SeminarMembers.RemoveRange(seminars);
+		var seminars = context.Seminars.Where(s => s.UserId == id);
+		context.Seminars.RemoveRange(seminars);
 
-        _context.Users.Remove(user);
-        await _context.SaveChangesAsync();
-        return RedirectToAction("RequestShow");
-    }
-
-    public IActionResult ChangePasswordAdmin() => View();
-
-    [HttpPost]
-    public async Task<IActionResult> ChangePasswordAdmin([Bind("Password")] ChangePasswordModel model)
-    {
-        try
-        {
-            if (HttpContext.Session.GetString("Role") != "Admin")
-            {
-                TempData["PermissionDenied"] = true;
-                return RedirectToAction("Index", "Home");
-            }
-
-            var userId = int.Parse(HttpContext.Session.GetString("UserId"));
-            var user = await context.Users.FindAsync(userId);
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            user.Password = BCrypt.Net.BCrypt.HashPassword(model.Password);
-            context.Users.Update(user);
-            await context.SaveChangesAsync();
-            return RedirectToAction("index");
-        }
-        catch (Exception ex)
-        {
-            ModelState.AddModelError("Error", ex.Message);
-            return View(model);
-        }
-    }
+		context.Users.Remove(user);
+		await context.SaveChangesAsync();
+		return RedirectToAction("RequestShow");
+	}
 }

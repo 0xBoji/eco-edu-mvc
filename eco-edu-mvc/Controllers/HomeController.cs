@@ -30,6 +30,7 @@ public class HomeController(EcoEduContext context) : Controller
         return View(model);
     }
 
+
     public async Task<IActionResult> Survey() => View(await _context.Surveys.ToListAsync());
 
     public async Task<IActionResult> SurveyDetail(int id)
@@ -106,7 +107,10 @@ public class HomeController(EcoEduContext context) : Controller
 
     public ActionResult FAQ() => View();
 
-    public ActionResult Seminar() => View();
+    public async Task<IActionResult> Seminar() => View(await _context.Seminars
+                                     .Include(s => s.Sm)
+                                     .ThenInclude(sm => sm.User)
+                                     .ToListAsync());
 
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

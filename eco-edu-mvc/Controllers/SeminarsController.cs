@@ -18,6 +18,12 @@ namespace eco_edu_mvc.Controllers
         // GET: Seminars
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("Role") != "Admin")
+            {
+                TempData["PermissionDenied"] = true;
+                return RedirectToAction("Index", "Home");
+            }
+
             var seminars = await _context.Seminars
                                          .Include(s => s.Sm)
                                          .ThenInclude(sm => sm.User)
@@ -67,13 +73,15 @@ namespace eco_edu_mvc.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            if (ModelState.IsValid)
-            {
+            
+                if(seminar.OccursDate < DateTime.Now)
+                {
+                    ModelState.AddModelError("OccursDate", "Invalid OccursDate!!");
+                    return View(seminar);
+                }
                 _context.Add(seminar);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
-            return View(seminar);
         }
 
         // GET: Seminars/Edit/5
@@ -114,9 +122,13 @@ namespace eco_edu_mvc.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (seminar.OccursDate < DateTime.Now)
             {
-                try
+                ModelState.AddModelError("OccursDate", "Invalid OccursDate!!");
+                return View(seminar);
+            }
+
+            try
                 {
                     _context.Update(seminar);
                     await _context.SaveChangesAsync();
@@ -133,8 +145,6 @@ namespace eco_edu_mvc.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
-            }
-            return View(seminar);
         }
 
         // GET: Seminars/Delete/5
@@ -143,7 +153,7 @@ namespace eco_edu_mvc.Controllers
             if (HttpContext.Session.GetString("Role") != "Admin")
             {
                 TempData["PermissionDenied"] = true;
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home" );
             }
 
             if (id == null)
