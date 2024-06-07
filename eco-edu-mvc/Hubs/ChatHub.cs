@@ -20,7 +20,7 @@ public class ChatHub : Hub
             CreatedAt = DateTime.Now
         };
 
-        _context.Messages.Add(message);
+        //_context.Messages.Add(message);
         await _context.SaveChangesAsync();
 
         await Clients.All.SendAsync("ReceiveMessage", username, content);

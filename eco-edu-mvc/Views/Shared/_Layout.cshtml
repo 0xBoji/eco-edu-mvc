@@ -34,6 +34,14 @@
         body {
             background-color: antiquewhite;
         }
+
+        .vertical-line {
+            display: inline-block;
+            width: 1px;
+            height: 32px;
+            background-color: #000;
+            margin: 0 10px;
+        }
     </style>
 </head>
 <body>
@@ -56,17 +64,29 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="admin" asp-action="userlist">UserList</a>
+                            <a class="nav-link text-dark" asp-controller="Surveys" asp-action="Index">Surveys</a>
                         </li>
+
+                        <hr class="vertical-line" />
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Surveys" asp-action="Index">Survey</a>
+                            <a class="nav-link text-dark" asp-controller="Competitions" asp-action="Index">Competitions</a>
                         </li>
+
+                        <hr class="vertical-line" />
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Competitions" asp-action="Index">Competition</a>
+                            <a class="nav-link text-dark" asp-controller="Admin" asp-action="RequestShow">Requests</a>
                         </li>
+
+                        <hr class="vertical-line" />
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Admin" asp-action="RequestShow">Request</a>
+                            <a class="nav-link text-dark" asp-controller="admin" asp-action="userlist">Users</a>
                         </li>
+
+                        <hr class="vertical-line" />
+
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="seminars" asp-action="index">Seminar</a>
                         </li>
@@ -75,6 +95,7 @@
             </div>
         </nav>
     </header>
+
 
     <div class="container-fluid content-wrap pb-3">
         @RenderBody()

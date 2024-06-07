@@ -22,8 +22,10 @@ public class SurveysController(EcoEduContext context) : Controller
 
     public ActionResult Post()
     {
-        if (HttpContext.Session.GetString("Role") == "Admin") return View();
-        
+        if (HttpContext.Session.GetString("Role") == "Admin")
+        {
+            return View();
+        }
         TempData["PermissionDenied"] = true;
         return RedirectToAction("index", "home");
     }
@@ -31,12 +33,8 @@ public class SurveysController(EcoEduContext context) : Controller
     [HttpPost]
     public async Task<IActionResult> Post(SurveyModel model, IFormFile file)
     {
-        if(!ModelState.IsValid) return View(model);
-        if (model.EndDate<DateTime.Now)
-        {
-            ModelState.AddModelError("EndDate", "Invalid Date");
-            return View(model);
-        }
+        if (!ModelState.IsValid) return View(model);
+        
         Survey survey = new()
         {
             Title = model.Title,
@@ -54,6 +52,7 @@ public class SurveysController(EcoEduContext context) : Controller
             return View(model);
         }
 
+        // Catch image files
         if (file != null && file.Length > 0)
         {
             var fileName = DateTime.Now.Ticks + Path.GetExtension(file.FileName);
@@ -115,12 +114,6 @@ public class SurveysController(EcoEduContext context) : Controller
         var survey = await _context.Surveys.FindAsync(id);
         if (survey == null) return NotFound();
 
-        if (model.EndDate < DateTime.Now)
-        {
-            ModelState.AddModelError("EndDate", "Invalid Date");
-            return View(model);
-        }
-
         try
         {
             survey.Title = model.Title;
@@ -135,6 +128,7 @@ public class SurveysController(EcoEduContext context) : Controller
                 return View(model);
             }
 
+            // Catch image files
             if (file != null && file.Length > 0)
             {
                 var fileName = DateTime.Now.Ticks + Path.GetExtension(file.FileName);

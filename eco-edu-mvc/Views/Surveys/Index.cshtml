@@ -4,6 +4,12 @@
     Layout = "_Layout";
 }
 
+<style>
+    .darker {
+        background-color: #000;
+    }
+</style>
+
 <div class="row">
     <h1 class="col-lg-10 col-md-8 col-sm-6">Survey List</h1>
     <a asp-controller="Surveys" asp-action="Post" class="btn btn-primary col-lg-2 col-md-4 col-sm-6 create-a">
@@ -11,7 +17,7 @@
     </a>
 </div>
 
-<hr />
+<hr class="darker" />
 <table class="table">
     <thead>
         <tr>
@@ -55,6 +61,7 @@
     </tbody>
 </table>
 
-<hr />
+<hr class="darker" />
+
 <a asp-controller="Questions" asp-action="Index" class="btn btn-info">To question list</a>
 <a asp-controller="Responses" asp-action="Index" class="btn btn-info">To response list</a>

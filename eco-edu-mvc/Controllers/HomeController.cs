@@ -8,28 +8,25 @@ using System.Diagnostics;
 namespace eco_edu_mvc.Controllers;
 public class HomeController(EcoEduContext context) : Controller
 {
-    private readonly ILogger<CompetitionsController> _logger;
     private readonly EcoEduContext _context = context;
 
     public async Task<IActionResult> Index()
     {
-        var surveys = await _context.Surveys.Where(s => s.Active == true && s.EndDate > DateTime.Now).OrderByDescending(s => s.CreateDate).Take(4).ToListAsync();
-        var competitions = await _context.Competitions.Where(c => c.Active == true && c.EndDate > DateTime.Now).OrderByDescending(s => s.StartDate).Take(6).ToListAsync();
+        var surveys = await _context.Surveys.Where(s => s.Active == true).OrderByDescending(s => s.CreateDate).Take(4).ToListAsync();
+        var competitions = await _context.Competitions.Where(c => c.Active == true).OrderByDescending(s => s.StartDate).Take(6).ToListAsync();
+        var winners = await _context.GradeTests.Include(g => g.Entry).ThenInclude(e => e.User).OrderByDescending(w => w.Score).ToListAsync();
 
-        if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
-        {
-            return RedirectToAction("Login", "Account");
-        }
+        // I have to seperate these so the program wont go wrong.
+        var topWinner = winners.FirstOrDefault();
+        var nextWinners = winners.Skip(1).Take(3).ToList();
 
-
-        var model = new HomeModel
+        HomeModel model = new()
         {
             Surveys = surveys,
             Competitions = competitions,
-            Username = HttpContext.Session.GetString("Username"),
-            UserId = HttpContext.Session.GetString("UserId")
+            TopWinner = topWinner,
+            NextWinners = nextWinners
         };
-
         return View(model);
     }
 
@@ -38,16 +35,41 @@ public class HomeController(EcoEduContext context) : Controller
 
     public async Task<IActionResult> SurveyDetail(int id)
     {
-        if (HttpContext.Session.GetString("Is_Accept") == "True")
+        if (HttpContext.Session.GetString("Is_Accept") == "true")
         {
-            var survey = await _context.Surveys.FirstOrDefaultAsync(s => s.SurveyId == id);
-            if (survey == null) return NotFound();
-
-            return View(survey);
+            var survey = await _context.Surveys.Include(s => s.Questions).FirstOrDefaultAsync(s => s.SurveyId == id);
+            SurveyDetailModel model = new()
+            {
+                Survey = survey,
+                Questions = [.. survey.Questions]
+            };
+            return View(model);
         }
         TempData["PermissionDenied"] = true;
         return RedirectToAction("index", "home");
     }
+
+    [HttpPost]
+    public async Task<IActionResult> SubmitDetail(SurveyDetailModel model)
+    {
+        var id = int.Parse(HttpContext.Session.GetString("UserId"));
+
+        foreach (var question in model.Questions)
+        {
+            Response rep = new()
+            {
+                UserId = id,
+                QuestionId = question.QuestionId,
+                Answer = question.SelectedAnswer
+            };
+            _context.Responses.Add(rep);
+        }
+        await _context.SaveChangesAsync();
+
+        TempData["SubmissionSuccess"] = "Your responses have been submitted successfully!";
+        return RedirectToAction("Index", "Home");
+    }
+
 
     public async Task<IActionResult> Competition()
     {
@@ -60,7 +82,6 @@ public class HomeController(EcoEduContext context) : Controller
         var competitions = await _context.Competitions.Where(c => c.Active == true).Include(u => u.CompetitionEntries).ToListAsync();
         return View(competitions);
     }
-
 
     public async Task<IActionResult> CompetitionDetail(int id)
     {

@@ -1,4 +1,4 @@
-﻿using eco_edu_mvc.Models.AccountsViewModel;
+using eco_edu_mvc.Models.AccountsViewModel;
 using eco_edu_mvc.Models.AdminViewModel;
 using eco_edu_mvc.Models.Entities;
 using Microsoft.AspNetCore.Mvc;

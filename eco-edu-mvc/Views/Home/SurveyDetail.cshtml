@@ -1,3 +1,88 @@
-﻿@{
+﻿@model eco_edu_mvc.Models.HomeViewModel.SurveyDetailModel
+
+@{
     Layout = "_LayoutEcoEdu";
 }
+
+<style>
+    form {
+        background-color: lightyellow !important;
+    }
+
+    .choices {
+        background-color: transparent !important;
+        border: none;
+    }
+
+    .no-resize {
+        resize: none;
+    }
+</style>
+
+<div class="container-fluid py-5 px-5">
+    <h2>@Model.Survey.Title</h2>
+    <form class="form-control row py-3 px-5" asp-controller="Home" asp-action="SubmitDetail" method="post">
+        <input type="hidden" asp-for="Survey.SurveyId" name="SurveyId" value="@Model.Survey.SurveyId" />
+        @for (int i = 0; i < Model.Questions.Count; i++)
+        {
+            <input type="hidden" name="Questions[@i].QuestionId" value="@Model.Questions[i].QuestionId" />
+            if (Model.Questions[i].QuestionType == "Text")
+            {
+                <div class="row form-group py-3 px-4">
+                    <label class="control-label">@Model.Questions[i].QuestionText</label>
+                    <input class="form-control" type="text" name="Questions[@i].SelectedAnswer" required />
+                </div>
+            }
+            else if (Model.Questions[i].QuestionType == "MultipleChoices")
+            {
+                <div class="form-group py-3 px-4">
+                    <label style="margin-left:-0.75rem;">@Model.Questions[i].QuestionText</label>
+
+                    @{
+                        bool isYesNoQuestion = Model.Questions[i].Answer1 == "Yes" && Model.Questions[i].Answer2 == "No" && string.IsNullOrEmpty(Model.Questions[i].Answer3);
+                        string inputType = isYesNoQuestion ? "radio" : "radio";
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.Questions[i].Answer1))
+                    {
+                        <div style="margin-left:.5rem; padding-bottom:1rem;">
+                            <input class="form-check-input" type="radio" name="Questions[@i].SelectedAnswer" value="@Model.Questions[i].Answer1" required />
+                            <label class="form-check-label">@Model.Questions[i].Answer1</label>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Questions[i].Answer2))
+                    {
+                        <div style="margin-left:.5rem; padding-bottom:1rem;">
+                            <input class="form-check-input" type="radio" name="Questions[@i].SelectedAnswer" value="@Model.Questions[i].Answer2" required />
+                            <label class="form-check-label">@Model.Questions[i].Answer2</label>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Questions[i].Answer3))
+                    {
+                        <div style="margin-left:.5rem; padding-bottom:1rem;">
+                            <input class="form-check-input" type="radio" name="Questions[@i].SelectedAnswer" value="@Model.Questions[i].Answer3" required />
+                            <label class="form-check-label">@Model.Questions[i].Answer3</label>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Questions[i].CorrectAnswer) && !isYesNoQuestion)
+                    {
+                        <div style="margin-left:.5rem; padding-bottom:1rem;">
+                            <input class="form-check-input" type="radio" name="Questions[@i].SelectedAnswer" value="@Model.Questions[i].CorrectAnswer" required />
+                            <label class="form-check-label">@Model.Questions[i].CorrectAnswer</label>
+                        </div>
+                    }
+                </div>
+            }
+            else if (Model.Questions[i].QuestionType == "Other")
+            {
+                <div class="row form-group py-3 px-4">
+                    <label class="control-label">@Model.Questions[i].QuestionText</label>
+                    <textarea class="form-control no-resize" name="Questions[@i].SelectedAnswer" id="@Model.Questions[i].QuestionId" cols="50" rows="5"></textarea>
+                </div>
+            }
+        }
+        <div class="form-group px-2">
+            <button class="btn btn-outline-success" type="submit">Submit</button>
+        </div>
+    </form>
+</div>

@@ -1,10 +1,9 @@
-﻿using eco_edu_mvc.Models.Entities;
+
+using eco_edu_mvc.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using System.Net.Mail;
-using MimeKit;
 using eco_edu_mvc.Models.ContactViewModel;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace eco_edu_mvc.Controllers;
 public class ContactController : Controller

@@ -4,42 +4,57 @@
 
 }
 
+<style>
+    .thisCard:hover {
+        text-decoration: none;
+    }
+
+    .darker {
+        background-color: #000;
+    }
+
+    .green-topic {
+        color: #4eae3a;
+        font-size: 15px;
+    }
+</style>
+
 <header class="slider-main">
-	<div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-ride="carousel">
-		<ol class="carousel-indicators">
-			<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-			<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-			<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-		</ol>
-		<div class="carousel-inner" role="listbox">
-			<div class="carousel-item active" style="background-image: url('assets/images/slider-01.jpg')">
-				<div class="carousel-caption d-none d-md-block">
-					<h3>Welcome to Green World</h3>
-					<p>An institute for you to learn about plants and how to treat them in correct ways.</p>
-				</div>
-			</div>
-			<div class="carousel-item" style="background-image: url('assets/images/slider-02.png')">
-				<div class="carousel-caption d-none d-md-block">
-					<h3>A Wonderful Garden</h3>
-					<p>Needs a mindful gardener.</p>
-				</div>
-			</div>
-			<div class="carousel-item" style="background-image: url('assets/images/slider-03.jpg')">
-				<div class="carousel-caption d-none d-md-block">
-					<h3>Planting is good!</h3>
-					<p>It helps you relieve stress.</p>
-				</div>
-			</div>
-		</div>
-		<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-			<span class="sr-only">Previous</span>
-		</a>
-		<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-			<span class="carousel-control-next-icon" aria-hidden="true"></span>
-			<span class="sr-only">Next</span>
-		</a>
-	</div>
+    <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+            <div class="carousel-item active" style="background-image: url('assets/images/slider-01.jpg')">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>Welcome To Green World</h3>
+                    <p>An institute where you can gain knowledge about plants and how to take care of them correctly.</p>
+                </div>
+            </div>
+            <div class="carousel-item" style="background-image: url('assets/images/slider-02.png')">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>To Maintain A Healthy Environment</h3>
+                    <p>Everyone must help pick up the waste.</p>
+                </div>
+            </div>
+            <div class="carousel-item" style="background-image: url('assets/images/slider-03.jpg')">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>Try Planting!</h3>
+                    <p>It helps you reduce tension and improves your consistency.</p>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
 </header>
 
 <!-- Contents -->
@@ -52,14 +67,14 @@
             {
                 if (item.Active == true)
                 {
-                    <a href="@Url.Action("details", "surveys", new { id = item.SurveyId })" class="col-4 mb-4">
+                    <a href="@Url.Action("SurveyDetail", "Home", new { id = item.SurveyId })" class="col-4 mb-4 thisCard">
                         <div class="card h-100">
                             <h4 class="card-header">@item.Title</h4>
                             <div class="card-img">
-                                <img class="img-fluid" src="~/Images/@item.Images" alt="Survey Pictures" />
+                                <img class="img-fluid" src="~/Images/@item.Images" alt="Survey Image" />
                             </div>
                             <div class="card-body">
-                                <p class="card-text">Topic: @item.Topic</p>
+                                <h5 class="green-topic">Topic: @item.Topic</h5>
                             </div>
                         </div>
                     </a>
@@ -68,99 +83,75 @@
         </div>
     </div>
 
-    <!-- About Section -->
+    <hr class="darker" />
+
+    <!-- Competitions Section -->
+    <div class="portfolio-main">
+        <h2>Competition</h2>
+        <div class="row">
+            @foreach (var item in Model.Competitions)
+            {
+                <div class="col-lg-4 col-sm-6 portfolio-item">
+                    <div class="card h-100">
+                        <div class="card-img">
+                            <a href="#">
+                                <img class="card-img-top" src="~/Images/@item.Images" alt="Competition Image" />
+                                <div class="overlay">
+                                    <p>Description: @item.Description</p>
+                                    <p>EndDate: @item.EndDate</p>
+                                    <h2>Prize: @item.Prizes</h2>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                <a href="#">@item.Title</a>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <hr class="darker" />
+
+    <!-- Competition - Winner Section -->
     <div class="about-main">
         <div class="row">
             <div class="col-lg-6">
-                <h2>About Us</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                <h5>Our smart approach</h5>
-                <ul>
-                    <li>Sed at tellus eu quam posuere mattis.</li>
-                    <li>Phasellus quis erat et enim laoreet posuere ac porttitor ipsum.</li>
-                    <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
-                    <li>Duis porttitor odio pellentesque mollis vulputate.</li>
-                    <li>Quisque ac eros non ex hendrerit vehicula.</li>
-                </ul>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis, omnis doloremque non cum id reprehenderit, quisquam totam aspernatur tempora minima unde aliquid ea culpa sunt. Reiciendis quia dolorum ducimus unde.</p>
+                <h2>Competition Winner</h2>
+                @if (Model.TopWinner != null)
+                {
+                    <p>This is the winner of the @Model.TopWinner.Entry?.Competition?.Title competition!</p>
+                    <h5>Our winner</h5>
+                    <ul>
+                        <li><strong>User:</strong> @Model.TopWinner.Entry?.User?.Fullname</li>
+                        <li><strong>Score:</strong> @Model.TopWinner.Score</li>
+                    </ul>
+                    <p>And these are the rest of the competitors:</p>
+                    <ul>
+                        @foreach (var contestor in Model.NextWinners.Take(3))
+                        {
+                            <li><strong>User:</strong> @contestor.Entry?.User?.Fullname - <strong>Score:</strong> @contestor.Score</li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p>There are no winners at the moment.</p>
+                }
             </div>
             <div class="col-lg-6">
-                <img class="img-fluid rounded" src="~/assets/images/about-img.jpg" alt="" />
+                @if (Model.TopWinner != null && !string.IsNullOrEmpty(Model.TopWinner.Entry?.User?.Images))
+                {
+                    <img class="img-fluid rounded" src="~/Images/@Model.TopWinner.Entry.User.Images" alt="User Image" />
+                }
             </div>
         </div>
     </div>
 
-	<!-- Competitions Section -->
-	<div class="portfolio-main">
-		<h2>Contest</h2>
-		<div class="row">
-			@foreach (var item in Model.Competitions)
-			{
-				<div class="col-lg-4 col-sm-6 portfolio-item">
-					<div class="card h-100">
-						<div class="card-img">
-							<a href="#">
-								<img class="card-img-top" src="~/Images/@item.Images" alt="competition image" />
-								<div class="overlay">
-									<p>Description: @item.Description</p>
-									<p>EndDate: @item.EndDate</p>
-									<h2>Prize: @item.Prizes</h2>
-								</div>
-							</a>
-						</div>
-						<div class="card-body">
-							<h4 class="card-title">
-								<a href="#">@item.Title</a>
-							</h4>
-						</div>
-					</div>
-				</div>
-			}
-		</div>
-	</div>
-
-    <hr />
-    <!-- Chat Section -->
-    <div id="chatSection" class="chat-section">
-        <h2>Chat</h2>
-        <div>
-            <input type="hidden" id="username" value="@Model.Username" />
-            <input type="hidden" id="userId" value="@Model.UserId" />
-            <input type="text" id="message" placeholder="Your message" />
-            <button id="sendButton">Send</button>
-        </div>
-        <ul id="messagesList"></ul>
-    </div>
-
-    <hr />
-    @section Scripts {
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.11/signalr.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
-
-                connection.on("ReceiveMessage", function (username, content) {
-                    var li = document.createElement("li");
-                    document.getElementById("messagesList").appendChild(li);
-                    li.textContent = `${username}: ${content}`;
-                });
-
-                connection.start().catch(function (err) {
-                    return console.error(err.toString());
-                });
-
-                document.getElementById("sendButton").addEventListener("click", function (event) {
-                    var userId = document.getElementById("userId").value;
-                    var username = document.getElementById("username").value;
-                    var content = document.getElementById("message").value;
-                    connection.invoke("SendMessage", userId, username, content).catch(function (err) {
-                        return console.error(err.toString());
-                    });
-                    event.preventDefault();
-                });
-            });
-        </script>
-    }
+    <hr class="darker" />
 
     <!-- Contact Section -->
     <div class="row mb-4">

@@ -159,7 +159,20 @@
     <script src="~/assets/vendor/jquery/jquery.min.js"></script>
     <script src="~/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    @RenderSection("Scripts", required: false)
+
+    <script>
+        $(document).ready(function () {
+            var submissionSuccess = '@TempData["SubmissionSuccess"]';
+            if (submissionSuccess) {
+                Swal.fire({
+                    title: 'Success!',
+                    text: submissionSuccess,
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
+    </script>
 </body>
 @if (TempData["PermissionDenied"] != null)
 {
@@ -191,29 +204,6 @@
             title: 'This is for student',
             text: "You don't have the permission to enter!",
             icon: 'warning',
-            confirmButtonText: 'OK'
-        });
-    </script>
-}
-</html>
-@if (TempData["SendEmail"] !=null)
-{
-    <script>
-        Swal.fire({
-            title: 'Success',
-            text: "Send Email success",
-            icon: 'success',
-            confirmButtonText: 'OK'
-        });
-    </script>
-}
-@if (TempData["SendEmailError"] != null)
-{
-    <script>
-        Swal.fire({
-            title: 'Error',
-            text: "Send Email Error",
-            icon: 'Error',
             confirmButtonText: 'OK'
         });
     </script>
