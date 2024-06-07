@@ -143,7 +143,7 @@ namespace eco_edu_mvc.Controllers
             if (HttpContext.Session.GetString("Role") != "Admin")
             {
                 TempData["PermissionDenied"] = true;
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home" );
             }
 
             if (id == null)
