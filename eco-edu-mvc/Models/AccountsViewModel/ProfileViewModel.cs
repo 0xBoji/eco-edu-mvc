@@ -1,4 +1,5 @@
-﻿using System.Reflection.Metadata.Ecma335;
+﻿using eco_edu_mvc.Models.Entities;
+using System.Reflection.Metadata.Ecma335;
 
 namespace eco_edu_mvc.Models.AccountsViewModel;
 
@@ -15,4 +16,7 @@ public class ProfileViewModel
     public string Images { get; set; }
     public DateTime? CreateDate { get; set; }
     public bool? Email_Verify { get; set; }
+	public List<Seminar> Seminars { get; set; }
+	public List<Competition> Competitions { get; set; }
+	public List<Survey> Surveys { get; set; }
 }

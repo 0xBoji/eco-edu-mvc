@@ -1,6 +1,7 @@
 ﻿@model eco_edu_mvc.Models.HomeViewModel.HomeModel
 @{
     Layout = "_LayoutEcoEdu";
+
 }
 
 <header class="slider-main">
@@ -119,6 +120,47 @@
 	</div>
 
     <hr />
+    <!-- Chat Section -->
+    <div id="chatSection" class="chat-section">
+        <h2>Chat</h2>
+        <div>
+            <input type="hidden" id="username" value="@Model.Username" />
+            <input type="hidden" id="userId" value="@Model.UserId" />
+            <input type="text" id="message" placeholder="Your message" />
+            <button id="sendButton">Send</button>
+        </div>
+        <ul id="messagesList"></ul>
+    </div>
+
+    <hr />
+    @section Scripts {
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.11/signalr.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+
+                connection.on("ReceiveMessage", function (username, content) {
+                    var li = document.createElement("li");
+                    document.getElementById("messagesList").appendChild(li);
+                    li.textContent = `${username}: ${content}`;
+                });
+
+                connection.start().catch(function (err) {
+                    return console.error(err.toString());
+                });
+
+                document.getElementById("sendButton").addEventListener("click", function (event) {
+                    var userId = document.getElementById("userId").value;
+                    var username = document.getElementById("username").value;
+                    var content = document.getElementById("message").value;
+                    connection.invoke("SendMessage", userId, username, content).catch(function (err) {
+                        return console.error(err.toString());
+                    });
+                    event.preventDefault();
+                });
+            });
+        </script>
+    }
 
     <!-- Contact Section -->
     <div class="row mb-4">

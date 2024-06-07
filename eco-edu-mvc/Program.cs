@@ -10,6 +10,7 @@ builder.Services.AddMemoryCache();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSignalR();  // Add SignalR
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(option =>
@@ -46,5 +47,7 @@ app.UseSession();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapHub<ChatHub>("/chatHub");  // Map SignalR hubs
+
 
 app.Run();

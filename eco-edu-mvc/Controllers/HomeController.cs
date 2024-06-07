@@ -13,17 +13,26 @@ public class HomeController(EcoEduContext context) : Controller
 
     public async Task<IActionResult> Index()
     {
-		var surveys = await _context.Surveys.Where(s=> s.Active == true).Where(s => s.EndDate < DateTime.Now).OrderByDescending(s => s.CreateDate).Take(4).ToListAsync();
-        var competitions = await _context.Competitions.Where(c => c.Active == true).Where(c=> c.EndDate<DateTime.Now).OrderByDescending(s => s.StartDate).Take(6).ToListAsync();
+        var surveys = await _context.Surveys.Where(s => s.Active == true && s.EndDate > DateTime.Now).OrderByDescending(s => s.CreateDate).Take(4).ToListAsync();
+        var competitions = await _context.Competitions.Where(c => c.Active == true && c.EndDate > DateTime.Now).OrderByDescending(s => s.StartDate).Take(6).ToListAsync();
+
+        if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+        {
+            return RedirectToAction("Login", "Account");
+        }
+
 
         var model = new HomeModel
         {
             Surveys = surveys,
-            Competitions = competitions
+            Competitions = competitions,
+            Username = HttpContext.Session.GetString("Username"),
+            UserId = HttpContext.Session.GetString("UserId")
         };
 
         return View(model);
     }
+
 
     public async Task<IActionResult> Survey() => View(await _context.Surveys.ToListAsync());
 
@@ -72,7 +81,10 @@ public class HomeController(EcoEduContext context) : Controller
 
     public ActionResult FAQ() => View();
 
-    public ActionResult Seminar() => View();
+    public async Task<IActionResult> Seminar() => View(await _context.Seminars
+                                     .Include(s => s.Sm)
+                                     .ThenInclude(sm => sm.User)
+                                     .ToListAsync());
 
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -1,5 +1,4 @@
-﻿﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -46,7 +45,7 @@
                         <a class="nav-link" href="@Url.Action("Index", "Home")">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Index", "Seminars")">Seminars</a>
+                        <a class="nav-link" href="@Url.Action("seminar", "home")">Seminars</a>
                     </li>
                     @if (!string.IsNullOrEmpty(Context.Session.GetString("Username")) && Context.Session.GetString("Is_Accept") == "true" || Context.Session.GetString("Role") == "Admin")
                     {
@@ -129,9 +128,9 @@
                 <div class="col-6">
                     <h5 class="headin5_amrc col_white_amrc pt2">Quick links</h5>
                     <ul class="footer_ul_amrc row">
-                        <li class="col-6"><a href="@Url.Action("survey", "home")">Surveys</a></liclass>
+                        <li class="col-6"><a href="@Url.Action("survey", "home")">Surveys</a></li>class>
                         <li class="col-6"><a href="@Url.Action("competition", "home")">Competitions</a></li>
-                        <li class="col-6"><a href="@Url.Action("seminar", "home")">Seminar</a></li>
+                        <li class="col-6"><a href="@Url.Action("Seminar", "home")">Seminar</a></li>
                         <li class="col-6"><a href="@Url.Action("about", "home")">About Us</a></li>
                         <li class="col-6"><a href="@Url.Action("faq", "home")">FAQ</a></li>
                         <li class="col-6"><a href="@Url.Action("contact", "home")">Contact</a></li>
@@ -160,6 +159,7 @@
     <script src="~/assets/vendor/jquery/jquery.min.js"></script>
     <script src="~/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 @if (TempData["PermissionDenied"] != null)
 {
@@ -195,6 +195,7 @@
         });
     </script>
 }
+</html>
 @if (TempData["SendEmail"] !=null)
 {
     <script>
