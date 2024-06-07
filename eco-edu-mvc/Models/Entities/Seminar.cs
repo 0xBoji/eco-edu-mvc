@@ -20,4 +20,7 @@ public partial class Seminar
     public bool Active { get; set; }
 
     public virtual SeminarMember Sm { get; set; } = null!;
+
+    public virtual Seminar seminar {  get; set; } = null!;
+    public int UserId { get; internal set; }
 }
