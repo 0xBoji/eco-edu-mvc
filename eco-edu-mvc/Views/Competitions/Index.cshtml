@@ -7,7 +7,7 @@
 <h1>Competitions</h1>
 
 <p>
-    <a class="btn btn-primary" asp-action="CreateCompetition">Create New Competition</a>
+    <a class="btn btn-primary" asp-action="Create">Create New Competition</a>
 </p>
 
 <table class="table">
@@ -18,8 +18,9 @@
             <th>Start Date</th>
             <th>End Date</th>
             <th>Active</th>
+            <th>Image</th>
             <th>Prizes</th>
-            <th></th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -31,9 +32,20 @@
                 <td>@item.StartDate</td>
                 <td>@item.EndDate</td>
                 <td>@item.Active</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.Images))
+                    {
+                        <img src="~/Images/@item.Images" alt="competition Image" style="max-width: 50px; max-height: 50px;" />
+                    }
+                    else
+                    {
+                        <span>None</span>
+                    }
+                </td>
                 <td>@item.Prizes</td>
                 <td>
-                    <form asp-action="DeleteCompetition" method="post" onsubmit="return confirm('Are you sure you want to delete this competition?');">
+                    <a asp-action="Edit" asp-route-id="@item.CompetitionId" class="btn btn-warning">Edit</a>
+                    <form asp-action="DeleteCompetition" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this competition?');">
                         <input type="hidden" name="id" value="@item.CompetitionId" />
                         <input type="submit" value="Delete" class="btn btn-danger" />
                     </form>

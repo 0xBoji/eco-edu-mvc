@@ -1,0 +1,34 @@
+﻿@model IEnumerable<eco_edu_mvc.Models.Entities.Seminar>
+
+@{
+    Layout = "_LayoutEcoEdu";
+}
+
+<h2>Seminars</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Location</th>
+            <th>Date</th>
+            <th>Participants</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var seminar in Model)
+        {
+            <tr>
+                <td>@seminar.Title</td>
+                <td>@seminar.Location</td>
+                <td>@seminar.OccursDate?.ToString("dd MMM yyyy")</td>
+                <td>@seminar.Participants</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@seminar.SeminarId" class="btn btn-info">Details</a>
+                    <a asp-action="Join" asp-route-id="@seminar.SeminarId" class="btn btn-primary">Join</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
