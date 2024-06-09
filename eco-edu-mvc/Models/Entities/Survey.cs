@@ -13,7 +13,7 @@ public partial class Survey
 
     public DateTime? CreateDate { get; set; }
 
-    public DateTime? EndDate { get; set; }
+    public DateTime EndDate { get; set; }
 
     public string TargetAudience { get; set; } = null!;
 

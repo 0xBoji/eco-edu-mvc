@@ -16,9 +16,7 @@ public class AdminController(EcoEduContext context) : Controller
             var surveys = await _context.Surveys.Where(s => s.Active == true).CountAsync();
             var competitions = await _context.Competitions.Where(c => c.Active == true).CountAsync();
             var users = await _context.Users.Where(u => u.Role == "Staff" && u.Role == "Student").CountAsync();
-            var seminars = await _context.Seminars
-                //.Where(m => m.Active == true)
-                .CountAsync();
+            var seminars = await _context.Seminars.Where(m => m.Active == true).CountAsync();
 
             AdminModel model = new()
             {
