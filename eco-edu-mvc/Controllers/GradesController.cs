@@ -89,8 +89,9 @@ namespace eco_edu_mvc.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            if (!ModelState.IsValid)
+            if (gradeTest.Score > 100 || gradeTest.Score < 0)
             {
+                ModelState.AddModelError("Score", "Score must between 0 and 100");
                 return View(gradeTest);
             }
 

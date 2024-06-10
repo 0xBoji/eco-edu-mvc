@@ -14,24 +14,24 @@ public class HomeController(EcoEduContext context) : Controller
     {
         var surveys = await _context.Surveys.Where(s => s.Active == true).OrderByDescending(s => s.CreateDate).Take(4).ToListAsync();
         var competitions = await _context.Competitions.Where(c => c.Active == true).OrderByDescending(s => s.StartDate).Take(6).ToListAsync();
-        var winners = await _context.GradeTests.Include(g => g.Entry).ThenInclude(e => e.User).OrderByDescending(w => w.Score).ToListAsync();
+        //var winners = await _context.GradeTests.Include(g => g.Entry).ThenInclude(e => e.User).OrderByDescending(w => w.Score).ToListAsync();
 
         // I have to seperate these so the program wont go wrong.
-        var topWinner = winners.FirstOrDefault();
-        var nextWinners = winners.Skip(1).Take(3).ToList();
+        //var topWinner = winners.FirstOrDefault();
+        //var nextWinners = winners.Skip(1).Take(3).ToList();
 
         HomeModel model = new()
         {
             Surveys = surveys,
             Competitions = competitions,
-            TopWinner = topWinner,
-            NextWinners = nextWinners
+            //TopWinner = topWinner,
+            //NextWinners = nextWinners
         };
         return View(model);
     }
 
 
-    public async Task<IActionResult> Survey() => View(await _context.Surveys.ToListAsync());
+    public async Task<IActionResult> Survey() => View(await _context.Surveys.Include(q=>q.Questions).ThenInclude(r => r.Responses).ToListAsync());
 
     public async Task<IActionResult> SurveyDetail(int id)
     {
