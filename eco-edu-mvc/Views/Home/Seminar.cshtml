@@ -21,13 +21,25 @@
     <tbody>
         @foreach (var seminar in Model)
         {
+            var userId = int.Parse(Context.Session.GetString("UserId"));
+            var hasJoined = seminar.SeminarMembers.Any(sm => sm.UserId == userId);
+
             <tr>
                 <td>@seminar.Title</td>
                 <td>@seminar.Location</td>
                 <td>@seminar.OccursDate?.ToString("d")</td>
-                <td>@seminar.Participants</td>
+                <td>@seminar.SeminarMembers.Count / @seminar.Participants participants</td>
                 <td>
-                    <a asp-action="JoinSeminar" asp-controller="Home" asp-route-id="@seminar.SeminarId" class="btn btn-info">Join</a>
+                    @if (seminar.SeminarMembers.Count < seminar.Participants || hasJoined)
+                    {
+                        <a asp-action="JoinSeminar" asp-controller="Home" asp-route-id="@seminar.SeminarId" class="btn @(hasJoined ? "btn-success" : "btn-info")">
+                            @(hasJoined ? "Already Joined" : "Join")
+                        </a>
+                    }
+                    else
+                    {
+                        <button class="btn btn-secondary" disabled>Full</button>
+                    }
                     <a asp-action="Details" asp-controller="Seminars" asp-route-id="@seminar.SeminarId" class="btn btn-info">Detail</a>
                 </td>
             </tr>

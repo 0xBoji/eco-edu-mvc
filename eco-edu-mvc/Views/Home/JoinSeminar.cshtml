@@ -32,15 +32,30 @@
             Participants
         </dt>
         <dd class="col-sm-10">
-            @Model.Participants
+            @Model.SeminarMembers.Count / @Model.Participants participants
         </dd>
     </dl>
 </div>
 
-<form asp-action="JoinSeminar" method="post">
-    <input type="hidden" asp-for="SeminarId" />
-    <div class="form-group">
-        <input type="submit" value="Join" class="btn btn-primary" /> |
-        <a asp-action="Seminar" class="btn btn-secondary">Back to List</a>
+@if (Model.SeminarMembers.Any(sm => sm.UserId == int.Parse(Context.Session.GetString("UserId"))))
+{
+    <div class="alert alert-warning">
+        You have already joined this seminar.
     </div>
-</form>
+}
+else if (Model.SeminarMembers.Count < Model.Participants)
+{
+    <form asp-action="JoinSeminar" method="post">
+        <input type="hidden" asp-for="SeminarId" />
+        <div class="form-group">
+            <input type="submit" value="Join" class="btn btn-primary" /> |
+            <a asp-action="Seminar" class="btn btn-secondary">Back to List</a>
+        </div>
+    </form>
+}
+else
+{
+    <div class="alert alert-warning">
+        This seminar is full. You cannot join.
+    </div>
+}

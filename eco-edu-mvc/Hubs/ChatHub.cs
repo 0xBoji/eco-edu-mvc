@@ -2,7 +2,6 @@
 using eco_edu_mvc.Models.Entities;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using System.Linq;
 
 public class ChatHub : Hub
 {
@@ -38,26 +37,5 @@ public class ChatHub : Hub
         await _context.SaveChangesAsync();
 
         await Clients.Group(groupName).SendAsync("ReceiveMessage", username, content);
-    }
-
-    public async Task AddToGroup(string groupName)
-    {
-        await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
-        await Clients.Group(groupName).SendAsync("ShowWho", $"{Context.ConnectionId} has joined the group {groupName}.");
-    }
-
-    public async Task RemoveFromGroup(string groupName)
-    {
-        await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
-        await Clients.Group(groupName).SendAsync("ShowWho", $"{Context.ConnectionId} has left the group {groupName}.");
-    }
-
-    public async Task CreateGroup(string groupName)
-    {
-        var group = new Group { Name = groupName };
-        _context.Groups.Add(group);
-        await _context.SaveChangesAsync();
-
-        await Clients.Caller.SendAsync("GroupCreated", groupName);
     }
 }

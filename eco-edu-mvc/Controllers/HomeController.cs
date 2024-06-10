@@ -126,7 +126,7 @@ public class HomeController(EcoEduContext context) : Controller
             return NotFound();
         }
 
-        var seminar = await _context.Seminars.FirstOrDefaultAsync(m => m.SeminarId == id);
+        var seminar = await _context.Seminars.Include(s => s.SeminarMembers).FirstOrDefaultAsync(m => m.SeminarId == id);
         if (seminar == null)
         {
             return NotFound();
@@ -144,13 +144,25 @@ public class HomeController(EcoEduContext context) : Controller
             return RedirectToAction("Index");
         }
 
-        var seminar = await _context.Seminars.FirstOrDefaultAsync(m => m.SeminarId == id);
+        var seminar = await _context.Seminars.Include(s => s.SeminarMembers).FirstOrDefaultAsync(m => m.SeminarId == id);
         if (seminar == null)
         {
             return NotFound();
         }
 
         var userId = int.Parse(HttpContext.Session.GetString("UserId"));
+
+        if (seminar.SeminarMembers.Any(sm => sm.UserId == userId))
+        {
+            TempData["AlreadyJoined"] = "You have already joined this seminar!";
+            return RedirectToAction("Seminar");
+        }
+
+        if (seminar.SeminarMembers.Count >= seminar.Participants)
+        {
+            TempData["SeminarFull"] = "The seminar is already full!";
+            return RedirectToAction("Seminar");
+        }
 
         var seminarMember = new SeminarMember
         {
@@ -169,12 +181,29 @@ public class HomeController(EcoEduContext context) : Controller
     public ActionResult Contact() => View();
 
     public async Task<IActionResult> FAQs() => View(await _context.Faqs.ToListAsync());
-    
 
-    public async Task<IActionResult> Seminar() => View(await _context.Seminars
-                                     .Include(s => s.Sm)
-                                     .ThenInclude(sm => sm.User)
-                                     .ToListAsync());
+    public IActionResult Chat()
+    {
+        var userId = HttpContext.Session.GetString("UserId");
+        if (string.IsNullOrEmpty(userId))
+        {
+            TempData["LoginRequired"] = "You must be logged in to access the chat.";
+            return RedirectToAction("Index");
+        }
+
+        return View();
+    }
+
+
+    public async Task<IActionResult> Seminar()
+    {
+        var seminars = await _context.Seminars
+                                      .Include(s => s.SeminarMembers)
+                                      .ThenInclude(sm => sm.User)
+                                      .ToListAsync();
+        return View(seminars);
+    }
+
 
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
