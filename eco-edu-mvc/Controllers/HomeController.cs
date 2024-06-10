@@ -23,8 +23,8 @@ public class HomeController(EcoEduContext context) : Controller
         {
             Surveys = surveys,
             Competitions = competitions,
-            //TopWinner = topWinner,
-            //NextWinners = nextWinners
+            TopWinner = topWinner,
+            NextWinners = nextWinners
         };
         return View(model);
     }
