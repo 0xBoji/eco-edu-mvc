@@ -57,7 +57,7 @@
                         </li>
                     }
 
-                    @if (Context.Session.GetString("Role") == "Staff")
+                    @if (Context.Session.GetString("Role") == "Staff" && Context.Session.GetString("Is_Accept") == "true")
                     {
                         <li class="nav-item">
                             <a class="nav-link" href="@Url.Action("Index", "grades")">Grade</a>

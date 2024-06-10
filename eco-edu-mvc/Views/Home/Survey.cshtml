@@ -11,11 +11,11 @@
 </style>
 
 <div class="services-bar my-4">
-    <h1 class="my-4">All Surveys</h1>
-    <div class="row ">
+    <h1 class="my-4" style="margin-left:1vw">All Surveys</h1>
+    <div class="row" style="margin-left:0vw">
         @foreach (var item in Model)
         {
-            <a href="@Url.Action("details", "surveys", new {id = item.SurveyId }) " class="col-lg-2 col-md-2 col-sm-1 mb-4 thisCard">
+            <a href="@Url.Action("SurveyDetail", "home", new {id = item.SurveyId }) " class="col-lg-2 col-md-2 col-sm-1 mb-4 thisCard">
                 <div class="card h-100">
                     <h4 class="card-header">@item.Title</h4>
                     <div class="card-img">
