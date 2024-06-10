@@ -16,4 +16,5 @@ public partial class SeminarMember
     public virtual User User { get; set; } = null!;
 
     public virtual Seminar Seminar { get; set; } = null!;
+
 }

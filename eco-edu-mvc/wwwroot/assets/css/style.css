@@ -162,37 +162,37 @@ button.btn-secondary {
         background-color: #4e3914;
     }
 
-.about-main {
+.winner {
     padding: 30px 0px;
 }
 
-    .about-main h2 {
+    .winner-main h2 {
         font-size: 24px;
         font-weight: 600;
         margin-bottom: 20px;
     }
 
-    .about-main h5 {
+    .winner-main h5 {
         font-size: 18px;
     }
 
-    .about-main p {
+    .winner-main p {
         font-size: 14px;
         text-transform: capitalize;
     }
 
-    .about-main ul {
+    .winner-main ul {
         padding-left: 20px;
     }
 
-        .about-main ul li {
+        .winner-main ul li {
             position: relative;
             font-weight: 300;
             list-style: none;
             line-height: 29px;
         }
 
-            .about-main ul li:before {
+            .winner-main ul li:before {
                 content: "\f0da";
                 font-family: 'Font Awesome 5 Free';
                 font-weight: 900;

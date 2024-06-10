@@ -88,6 +88,12 @@ namespace eco_edu_mvc.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
+            if (gradeTest.Score > 100 || gradeTest.Score < 0)
+            {
+                ModelState.AddModelError("Score", "Score must between 0 and 100");
+                return View(gradeTest);
+            }
+
             var entry = await _context.CompetitionEntries
                                       .Include(e => e.GradeTests)
                                       .Include(e => e.User)

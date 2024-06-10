@@ -16,9 +16,7 @@ public class AdminController(EcoEduContext context) : Controller
             var surveys = await _context.Surveys.Where(s => s.Active == true).CountAsync();
             var competitions = await _context.Competitions.Where(c => c.Active == true).CountAsync();
             var users = await _context.Users.Where(u => u.Role == "Staff" && u.Role == "Student").CountAsync();
-            var seminars = await _context.Seminars
-                //.Where(m => m.Active == true)
-                .CountAsync();
+            var seminars = await _context.Seminars.Where(m => m.Active == true).CountAsync();
 
             AdminModel model = new()
             {
@@ -114,15 +112,22 @@ public class AdminController(EcoEduContext context) : Controller
         if (user == null) return NotFound();
 
         //check and delete the relationship
-        var competitionEntries = context.CompetitionEntries.Where(ce => ce.UserId == id);
-        context.CompetitionEntries.RemoveRange(competitionEntries);
-        var response = context.Responses.Where(rs => rs.UserId == id);
-        context.Responses.RemoveRange(response);
-        var seminars = context.SeminarMembers.Where(s => s.UserId == id);
-        context.SeminarMembers.RemoveRange(seminars);
+        var competitionEntries = _context.CompetitionEntries.Where(ce => ce.UserId == id).ToList();
 
-        context.Users.Remove(user);
-        await context.SaveChangesAsync();
+        foreach (var entry in competitionEntries)
+        {
+            var gradeTests = _context.GradeTests.Where(gt => gt.EntryId == entry.EntryId);
+            _context.GradeTests.RemoveRange(gradeTests);
+        }
+
+        _context.CompetitionEntries.RemoveRange(competitionEntries);
+        var response = _context.Responses.Where(rs => rs.UserId == id);
+        _context.Responses.RemoveRange(response);
+        var seminars = _context.SeminarMembers.Where(s => s.UserId == id);
+        _context.SeminarMembers.RemoveRange(seminars);
+
+        _context.Users.Remove(user);
+        await _context.SaveChangesAsync();
         return RedirectToAction("RequestShow");
     }
 
