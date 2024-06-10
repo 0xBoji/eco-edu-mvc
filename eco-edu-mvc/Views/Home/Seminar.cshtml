@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<eco_edu_mvc.Models.Entities.Seminar>
 
 @{
-	Layout = "_LayoutEcoEdu";
+    Layout = "_LayoutEcoEdu";
 }
 
 <div class="row">
@@ -27,8 +27,8 @@
                 <td>@seminar.OccursDate?.ToString("d")</td>
                 <td>@seminar.Participants</td>
                 <td>
-                    <a asp-action="join" asp-controller="seminars" asp-route-id="@seminar.SeminarId" class="btn btn-info">Join</a>
-                    <a asp-action="Details" asp-controller="seminars" asp-route-id="@seminar.SeminarId" class="btn btn-info">Detail</a>
+                    <a asp-action="JoinSeminar" asp-controller="Home" asp-route-id="@seminar.SeminarId" class="btn btn-info">Join</a>
+                    <a asp-action="Details" asp-controller="Seminars" asp-route-id="@seminar.SeminarId" class="btn btn-info">Detail</a>
                 </td>
             </tr>
         }

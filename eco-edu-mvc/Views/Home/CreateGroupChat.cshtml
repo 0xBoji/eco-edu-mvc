@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Create Group Chat";
+}
+
+<h2>Create Group Chat</h2>
+
+<div>
+    <input type="text" id="groupName" placeholder="Enter group name" />
+    <button onclick="createGroup()">Create Group</button>
+</div>
+
+@section Scripts {
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/chatHub")
+            .build();
+
+        connection.on("GroupCreated", (groupName) => {
+            alert(`Group '${groupName}' created successfully!`);
+        });
+
+        connection.start().catch(err => console.error(err.toString()));
+
+        function createGroup() {
+            const group = document.getElementById("groupName").value;
+            connection.invoke("CreateGroup", group).catch(err => console.error(err.toString()));
+        }
+    </script>
+}

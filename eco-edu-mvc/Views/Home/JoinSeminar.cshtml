@@ -1,0 +1,46 @@
+﻿@model eco_edu_mvc.Models.Entities.Seminar
+
+@{
+    Layout = "_LayoutEcoEdu";
+}
+
+<h2>Join Seminar</h2>
+
+<div>
+    <h4>Seminar</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Title
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Title
+        </dd>
+        <dt class="col-sm-2">
+            Location
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Location
+        </dd>
+        <dt class="col-sm-2">
+            Date
+        </dt>
+        <dd class="col-sm-10">
+            @Model.OccursDate?.ToString("d")
+        </dd>
+        <dt class="col-sm-2">
+            Participants
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Participants
+        </dd>
+    </dl>
+</div>
+
+<form asp-action="JoinSeminar" method="post">
+    <input type="hidden" asp-for="SeminarId" />
+    <div class="form-group">
+        <input type="submit" value="Join" class="btn btn-primary" /> |
+        <a asp-action="Seminar" class="btn btn-secondary">Back to List</a>
+    </div>
+</form>

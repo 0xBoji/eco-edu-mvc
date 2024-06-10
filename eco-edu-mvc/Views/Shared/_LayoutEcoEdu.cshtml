@@ -6,17 +6,14 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Green World</title>
-    <!-- Bootstrap core CSS -->
     <link href="~/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <!-- Fontawesome CSS -->
     <link href="~/assets/css/all.css" rel="stylesheet" />
-    <!-- Custom styles for this template -->
     <link href="~/assets/css/style.css" rel="stylesheet" />
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.18/signalr.min.js"></script>
 
     <style>
-        .navbar-brand {
+         .navbar-brand {
             color: #4eae3a !important;
             text-decoration: none;
         }
@@ -26,6 +23,56 @@
             border: none;
             background-color: #fff;
             cursor: pointer;
+        }
+        .chat-popup {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            right: 15px;
+            border: 3px solid #f1f1f1;
+            z-index: 9;
+            background-color: white;
+        }
+
+        .chat-container {
+            max-width: 300px;
+            padding: 10px;
+        }
+
+        .chat-messages {
+            height: 200px;
+            overflow-y: scroll;
+            margin-bottom: 10px;
+        }
+
+        .chat-header {
+            padding: 10px;
+            background-color: #4eae3a;
+            color: white;
+            cursor: pointer;
+        }
+
+        .form-container input[type=text] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: none;
+            background: #f1f1f1;
+        }
+
+        .form-container .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
+
+        .form-container .btn:hover {
+            opacity: 1;
         }
     </style>
 </head>
@@ -57,7 +104,7 @@
                         </li>
                     }
 
-                    @if (Context.Session.GetString("Role") == "Staff")
+                    @if (Context.Session.GetString("Role") == "Staff" && Context.Session.GetString("Is_Accept") == "true")
                     {
                         <li class="nav-item">
                             <a class="nav-link" href="@Url.Action("Index", "grades")">Grade</a>
@@ -84,96 +131,146 @@
                             </a>
                         </li>
                     }
-                    else
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Profile", "Account")">
-                                <svg width="30px" height="20px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path fill="#000000" d="M288 320a224 224 0 1 0 448 0 224 224 0 1 0-448 0zm544 608H160a32 32 0 0 1-32-32v-96a160 160 0 0 1 160-160h448a160 160 0 0 1 160 160v96a32 32 0 0 1-32 32z" /></svg>
-                            </a>
-                        </li>
+                    else{
+    <li class="nav-item">
+        <a class="nav-link" href="@Url.Action("Profile", "Account")">
+            <svg width="30px" height="20px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#000000" d="M288 320a224 224 0 1 0 448 0 224 224 0 1 0-448 0zm544 608H160a32 32 0 0 1-32-32v-96a160 160 0 0 1 160-160h448a160 160 0 0 1 160 160v96a32 32 0 0 1-32 32z"/>
+            </svg>
+        </a>
+    </li>
+    <form asp-controller="Account" asp-action="Logout" method="post">
+        <li class="nav-item">
+            <button type="submit" class="nav-link">
+                <svg width="30px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_429_11067)">
+                        <path d="M15 4.00098H5V18.001C5 19.1055 5.89543 20.001 7 20.001H15" stroke="#292929" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M16 15.001L19 12.001M19 12.001L16 9.00098M19 12.001H9" stroke="#292929" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_429_11067">
+                            <rect width="24" height="24" fill="white" transform="translate(0 0.000976562)"/>
+                        </clipPath>
+                    </defs>
+                </svg>
+            </button>
+        </li>
+    </form>
 
-                        <form asp-controller="Account" asp-action="Logout" method="post">
-                        <li class="nav-item">
-                            <button type="submit" class="nav-link">
-                                <svg width="30px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <g clip-path="url(#clip0_429_11067)">
-                                        <path d="M15 4.00098H5V18.001C5 19.1055 5.89543 20.001 7 20.001H15" stroke="#292929" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M16 15.001L19 12.001M19 12.001L16 9.00098M19 12.001H9" stroke="#292929" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-                                    </g>
-                                    <defs><clipPath id="clip0_429_11067"><rect width="24" height="24" fill="white" transform="translate(0 0.000976562)" /></clipPath></defs>
-                                </svg>
-                            </button>
-                        </li>
-                        </form>
-                    }
-                </ul>
-
+    <!-- Chat Popup -->
+    @if (!string.IsNullOrEmpty(Context.Session.GetString("UserId")))
+    {
+        <div class="chat-popup" id="chatPopup">
+            <div class="chat-container">
+                <div class="chat-header" onclick="toggleChat()">
+                    <span>Group Chat</span>
+                </div>
+                <div class="chat-messages" id="chatMessages"></div>
+                <form id="chatForm" class="form-container">
+                    <input type="text" id="messageInput" placeholder="Type message..." required />
+                    <button type="submit" class="btn">Send</button>
+                </form>
             </div>
         </div>
-    </nav>
+    }
+}
 
-    <div>
-        @RenderBody()
+</ul>
+</div>
+</div>
+</nav>
+
+<div>
+    @RenderBody()
+</div>
+
+<footer class="footer" style="margin-top:13vw;">
+    <div class="container bottom_border">
+        <div class="row">
+            <div class="col-6">
+                <h5 class="headin5_amrc col_white_amrc pt2">Contact</h5>
+                <p><i class="fa fa-location-arrow"></i> No.35, D5 Street, 25 Ward, Binh Thanh District, Ho Chi Minh City, Vietnam.</p>
+                <p><i class="fa fa-phone"></i> +91-9999878398</p>
+                <p><i class="fa fa fa-envelope"></i> project@gmail.com</p>
+            </div>
+            <div class="col-6">
+                <h5 class="headin5_amrc col_white_amrc pt2">Quick links</h5>
+                <ul class="footer_ul_amrc row">
+                    <li class="col-6"><a href="@Url.Action("survey", "home")">Surveys</a></li>
+                    <li class="col-6"><a href="@Url.Action("competition", "home")">Competitions</a></li>
+                    <li class="col-6"><a href="@Url.Action("Seminar", "home")">Seminar</a></li>
+                    <li class="col-6"><a href="@Url.Action("about", "home")">About Us</a></li>
+                    <li class="col-6"><a href="@Url.Action("faq", "home")">FAQ</a></li>
+                    <li class="col-6"><a href="@Url.Action("contact", "home")">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="footer-logo">
+                <a class="navbar-brand" href="@Url.Action("Index", "Home")"><h1>Green World</h1></a>
+            </div>
+            <p class="copyright text-center">
+                All Rights Reserved. &copy; 2024 <a href="@Url.Action("Index", "Home")" style="color: #">Green World</a> - Designed by: Hieu & Thai
+            </p>
+            <ul class="social_footer_ul">
+                <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
+                <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+            </ul>
+        </div>
     </div>
+</footer>
 
-    <footer class="footer" style="margin-top:13vw;">
-        <div class="container bottom_border">
-            <div class="row">
-                <div class="col-6">
-                    <h5 class="headin5_amrc col_white_amrc pt2">Contact</h5>
-                    <p><i class="fa fa-location-arrow"></i> No.35, D5 Street, 25 Ward, Binh Thanh District, Ho Chi Minh City, Vietnam.</p>
-                    <p><i class="fa fa-phone"></i> +91-9999878398</p>
-                    <p><i class="fa fa fa-envelope"></i> project@gmail.com</p>
-                </div>
-                <div class="col-6">
-                    <h5 class="headin5_amrc col_white_amrc pt2">Quick links</h5>
-                    <ul class="footer_ul_amrc row">
-                        <li class="col-6"><a href="@Url.Action("survey", "home")">Surveys</a></li>class>
-                        <li class="col-6"><a href="@Url.Action("competition", "home")">Competitions</a></li>
-                        <li class="col-6"><a href="@Url.Action("Seminar", "home")">Seminar</a></li>
-                        <li class="col-6"><a href="@Url.Action("about", "home")">About Us</a></li>
-                        <li class="col-6"><a href="@Url.Action("faq", "home")">FAQ</a></li>
-                        <li class="col-6"><a href="@Url.Action("contact", "home")">Contact</a></li>
-                    </ul>
-                </div>
-            </div>
+<!-- Scripts -->
+<script src="~/assets/vendor/jquery/jquery.min.js"></script>
+<script src="~/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-            <div class="container">
-                <div class="footer-logo">
-                    <a class="navbar-brand" href="@Url.Action("Index", "Home")"><h1>Green World</h1></a>
-                </div>
-                <p class="copyright text-center">
-                    All Rights Reserved. &copy; 2024 <a href="@Url.Action("Index", "Home")" style="color: #">Green World</a> - Designed by: Hieu & Thai
-                </p>
-                <ul class="social_footer_ul">
-                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                    <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
-                    <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                </ul>
-            </div>
-        </div>
-    </footer>
+<script>
+    $(document).ready(function () {
+        var submissionSuccess = '@TempData["SubmissionSuccess"]';
+        if (submissionSuccess) {
+            Swal.fire({
+                title: 'Success!',
+                text: submissionSuccess,
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        }
+    });
 
-    <!-- Scripts -->
-    <script src="~/assets/vendor/jquery/jquery.min.js"></script>
-    <script src="~/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    function toggleChat() {
+        var chatPopup = document.getElementById('chatPopup');
+        if (chatPopup.style.display === 'none' || chatPopup.style.display === '') {
+            chatPopup.style.display = 'block';
+        } else {
+            chatPopup.style.display = 'none';
+        }
+    }
 
-    <script>
-        $(document).ready(function () {
-            var submissionSuccess = '@TempData["SubmissionSuccess"]';
-            if (submissionSuccess) {
-                Swal.fire({
-                    title: 'Success!',
-                    text: submissionSuccess,
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                });
-            }
-        });
-    </script>
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/chathub")
+        .build();
+
+    connection.start().catch(err => console.error(err.toString()));
+
+    document.getElementById("chatForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+        const message = document.getElementById("messageInput").value;
+        connection.invoke("SendMessage", "GroupName", message).catch(err => console.error(err.toString()));
+        document.getElementById("messageInput").value = '';
+    });
+
+    connection.on("ReceiveMessage", function (username, message) {
+        const msg = document.createElement("div");
+        msg.textContent = `${username}: ${message}`;
+        document.getElementById("chatMessages").appendChild(msg);
+    });
+</script>
 </body>
+
 @if (TempData["PermissionDenied"] != null)
 {
     <script>
@@ -196,7 +293,6 @@
         });
     </script>
 }
-
 @if (TempData["StudentPermissionDenied"] != null)
 {
     <script>

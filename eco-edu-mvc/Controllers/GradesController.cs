@@ -80,8 +80,7 @@ namespace eco_edu_mvc.Controllers
         // POST: Grades/Grade/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-
-        public async Task<IActionResult> Grade([Bind("EntryId,Score")] GradeTest gradeTest)
+        public async Task<IActionResult> Grade(GradeTest gradeTest)
         {
             if (HttpContext.Session.GetString("Role") != "Staff")
             {
@@ -89,8 +88,9 @@ namespace eco_edu_mvc.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            if (!ModelState.IsValid)
+            if (gradeTest.Score > 100 || gradeTest.Score < 0)
             {
+                ModelState.AddModelError("Score", "Score must between 0 and 100");
                 return View(gradeTest);
             }
 
@@ -106,7 +106,7 @@ namespace eco_edu_mvc.Controllers
             }
 
             gradeTest.GradeDate = DateTime.Now;
-            _context.Add(gradeTest);
+            _context.GradeTests.Add(gradeTest);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
