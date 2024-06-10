@@ -73,16 +73,21 @@ namespace eco_edu_mvc.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            
-                if(seminar.OccursDate < DateTime.Now)
-                {
-                    ModelState.AddModelError("OccursDate", "Invalid OccursDate!!");
-                    return View(seminar);
-                }
+            if (seminar.OccursDate < DateTime.Now)
+            {
+                ModelState.AddModelError("OccursDate", "Invalid OccursDate!!");
+                return View(seminar);
+            }
+
+            if (ModelState.IsValid)
+            {
                 _context.Add(seminar);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
+            }
+            return View(seminar);
         }
+
 
         // GET: Seminars/Edit/5
         public async Task<IActionResult> Edit(int? id)

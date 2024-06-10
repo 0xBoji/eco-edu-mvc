@@ -20,4 +20,5 @@ public partial class Seminar
     public bool? Active { get; set; }
 
     public virtual SeminarMember? Sm { get; set; }
+
 }

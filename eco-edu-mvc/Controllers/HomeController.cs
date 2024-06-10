@@ -16,7 +16,6 @@ public class HomeController(EcoEduContext context) : Controller
         var competitions = await _context.Competitions.Where(c => c.Active == true).OrderByDescending(s => s.StartDate).Take(6).ToListAsync();
         var winners = await _context.GradeTests.Include(g => g.Entry).ThenInclude(e => e.User).OrderByDescending(w => w.Score).ToListAsync();
 
-        // I have to seperate these so the program wont go wrong.
         var topWinner = winners.FirstOrDefault();
         var nextWinners = winners.Skip(1).Take(3).ToList();
 
@@ -30,6 +29,15 @@ public class HomeController(EcoEduContext context) : Controller
         return View(model);
     }
 
+    public IActionResult GroupChat()
+    {
+        return View();
+    }
+
+    public IActionResult CreateGroupChat()
+    {
+        return View();
+    }
 
     public async Task<IActionResult> Survey() => View(await _context.Surveys.ToListAsync());
 
@@ -94,6 +102,52 @@ public class HomeController(EcoEduContext context) : Controller
         }
         TempData["PermissionDenied"] = true;
         return RedirectToAction("index", "home");
+    }
+
+    // GET: Home/JoinSeminar/5
+    public async Task<IActionResult> JoinSeminar(int? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
+        }
+
+        var seminar = await _context.Seminars.FirstOrDefaultAsync(m => m.SeminarId == id);
+        if (seminar == null)
+        {
+            return NotFound();
+        }
+
+        return View(seminar);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> JoinSeminar(int id)
+    {
+        if (HttpContext.Session.GetString("Role") != "Student" || !string.Equals(HttpContext.Session.GetString("Is_Accept"), "true", StringComparison.OrdinalIgnoreCase))
+        {
+            TempData["StudentPermissionDenied"] = true;
+            return RedirectToAction("Index");
+        }
+
+        var seminar = await _context.Seminars.FirstOrDefaultAsync(m => m.SeminarId == id);
+        if (seminar == null)
+        {
+            return NotFound();
+        }
+
+        var userId = int.Parse(HttpContext.Session.GetString("UserId"));
+
+        var seminarMember = new SeminarMember
+        {
+            UserId = userId,
+            SeminarId = seminar.SeminarId
+        };
+
+        _context.SeminarMembers.Add(seminarMember);
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction("Seminar");
     }
 
     public ActionResult About() => View();

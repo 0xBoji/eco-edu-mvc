@@ -80,18 +80,12 @@ namespace eco_edu_mvc.Controllers
         // POST: Grades/Grade/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-
-        public async Task<IActionResult> Grade([Bind("EntryId,Score")] GradeTest gradeTest)
+        public async Task<IActionResult> Grade(GradeTest gradeTest)
         {
             if (HttpContext.Session.GetString("Role") != "Staff")
             {
                 TempData["StaffPermissionDenied"] = true;
                 return RedirectToAction("Index", "Home");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return View(gradeTest);
             }
 
             var entry = await _context.CompetitionEntries
@@ -106,7 +100,7 @@ namespace eco_edu_mvc.Controllers
             }
 
             gradeTest.GradeDate = DateTime.Now;
-            _context.Add(gradeTest);
+            _context.GradeTests.Add(gradeTest);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

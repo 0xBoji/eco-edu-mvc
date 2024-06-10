@@ -15,6 +15,8 @@ public partial class Message
 
     public DateTime? CreatedAt { get; set; }
 
+    public Guid? GroupId { get; set; }
+
     public virtual FileMsg? FileMsg { get; set; }
 
     public virtual User User { get; set; } = null!;

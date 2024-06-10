@@ -1,0 +1,65 @@
+﻿@{
+    ViewData["Title"] = "Group Chat";
+}
+
+<h2>Group Chat</h2>
+
+<div>
+    <input type="text" id="groupCreate" placeholder="Enter new group name" />
+    <button onclick="createGroup()">Create Group</button>
+</div>
+
+<div>
+    <input type="text" id="groupJoin" placeholder="Enter group name to join" />
+    <button onclick="joinGroup()">Join Group</button>
+    <button onclick="leaveGroup()">Leave Group</button>
+</div>
+
+<div>
+    <input type="text" id="messageInput" placeholder="Enter a message" />
+    <button onclick="sendMessage()">Send Message</button>
+</div>
+
+<ul id="messagesList"></ul>
+
+@section Scripts {
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/chatHub")
+            .build();
+
+        connection.on("ReceiveMessage", (username, message) => {
+            const msg = document.createElement("li");
+            msg.textContent = `${username}: ${message}`;
+            document.getElementById("messagesList").appendChild(msg);
+        });
+
+        connection.on("GroupCreated", (groupName) => {
+            alert(`Group '${groupName}' created successfully!`);
+        });
+
+        connection.start().catch(err => console.error(err.toString()));
+
+        function createGroup() {
+            const groupName = document.getElementById("groupCreate").value;
+            connection.invoke("CreateGroup", groupName).catch(err => console.error(err.toString()));
+        }
+
+        function joinGroup() {
+            const group = document.getElementById("groupJoin").value;
+            connection.invoke("AddToGroup", group).catch(err => console.error(err.toString()));
+        }
+
+        function leaveGroup() {
+            const group = document.getElementById("groupJoin").value;
+            connection.invoke("RemoveFromGroup", group).catch(err => console.error(err.toString()));
+        }
+
+        function sendMessage() {
+            const message = document.getElementById("messageInput").value;
+            const group = document.getElementById("groupJoin").value;
+            connection.invoke("SendMessage", group, message).catch(err => console.error(err.toString()));
+        }
+    </script>
+}
