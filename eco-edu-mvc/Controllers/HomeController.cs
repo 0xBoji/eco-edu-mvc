@@ -31,7 +31,7 @@ public class HomeController(EcoEduContext context) : Controller
     }
 
 
-    public async Task<IActionResult> Survey() => View(await _context.Surveys.ToListAsync());
+    public async Task<IActionResult> Survey() => View(await _context.Surveys.Include(q=>q.Questions).ThenInclude(r => r.Responses).ToListAsync());
 
     public async Task<IActionResult> SurveyDetail(int id)
     {
