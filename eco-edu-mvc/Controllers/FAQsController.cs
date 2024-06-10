@@ -15,11 +15,6 @@ public class FAQsController : Controller
         this._context=context;
         this._logger = logger;
     }
-    public IActionResult FAQ()
-    {
-        var faq = _context.Faqs.ToList();
-        return View(faq);
-    }
 
     //GET: Admin/FAQS
     public async Task<IActionResult> Index()
@@ -75,7 +70,6 @@ public class FAQsController : Controller
     }
 
     // POST: Admin/Faq/id
-    [HttpPost, ActionName("Delete")]
     public async Task<IActionResult> Delete(int id)
     {
         if (HttpContext.Session.GetString("Role") != "Admin")

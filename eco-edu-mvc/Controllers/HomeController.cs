@@ -39,7 +39,22 @@ public class HomeController(EcoEduContext context) : Controller
         return View();
     }
 
-    public async Task<IActionResult> Survey() => View(await _context.Surveys.ToListAsync());
+    public async Task<IActionResult> Survey()
+    {
+        if (HttpContext.Session.GetString("Is_Accept") == "true")
+        {
+            var role = HttpContext.Session.GetString("Role");
+            var surveys = await _context.Surveys.Where(s => (s.Active == true && s.TargetAudience == "Both") ||
+                (s.Active == true && s.TargetAudience.StartsWith("Both")) ||
+                (s.Active == true && s.TargetAudience.StartsWith("Staff") == role.StartsWith("Staff")) ||
+                (s.Active == true && s.TargetAudience.StartsWith("Student") == role.StartsWith("Student")))
+                .OrderByDescending(s => s.CreateDate).ToListAsync();
+
+            return View(surveys);
+        }
+        TempData["PermissionDenied"] = true;
+        return RedirectToAction("index", "home");
+    }
 
     public async Task<IActionResult> SurveyDetail(int id)
     {
@@ -77,7 +92,6 @@ public class HomeController(EcoEduContext context) : Controller
         TempData["SubmissionSuccess"] = "Your responses have been submitted successfully!";
         return RedirectToAction("Index", "Home");
     }
-
 
     public async Task<IActionResult> Competition()
     {
@@ -154,7 +168,8 @@ public class HomeController(EcoEduContext context) : Controller
 
     public ActionResult Contact() => View();
 
-    public ActionResult FAQ() => View();
+    public async Task<IActionResult> FAQs() => View(await _context.Faqs.ToListAsync());
+    
 
     public async Task<IActionResult> Seminar() => View(await _context.Seminars
                                      .Include(s => s.Sm)

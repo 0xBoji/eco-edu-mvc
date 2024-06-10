@@ -39,8 +39,8 @@
                 <td>@survey.SurveyId</td>
                 <td>@survey.Title</td>
                 <td>@survey.Topic</td>
-                <td>@survey.CreateDate</td>
-                <td>@survey.EndDate</td>
+                <td>@survey.CreateDate?.ToString("yyyy/MM/dd")</td>
+                <td>@survey.EndDate.ToString("yyyy/MM/dd")</td>
                 <td>@survey.TargetAudience</td>
                 <td>
                     @if (!string.IsNullOrEmpty(survey.Images))
@@ -54,7 +54,11 @@
                 </td>
                 <td>@(survey.Active ? "Available" : "Unavailable")</td>
                 <td>
-                    <a asp-controller="Surveys" asp-action="Update" asp-route-id="@survey.SurveyId" class="btn btn-outline-secondary">Edit</a>
+                    <a asp-controller="Surveys" asp-action="Update" asp-route-id="@survey.SurveyId" class="btn btn-warning">Edit</a>
+                    <form asp-controller="Surveys" asp-action="Delete" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this survey?');">
+                        <input type="hidden" name="id" value="@survey.SurveyId" />
+                        <input type="submit" value="Delete" class="btn btn-outline-danger" />
+                    </form>
                 </td>
             </tr>
         }

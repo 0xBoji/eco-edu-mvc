@@ -9,6 +9,11 @@
         text-decoration: none;
     }
 
+    .thisImg{
+        width: 350px;
+        height: 350px;
+    }
+
     .darker {
         background-color: #000;
     }
@@ -71,13 +76,17 @@
                         <div class="card h-100">
                             <h4 class="card-header">@item.Title</h4>
                             <div class="card-img">
-                                <img class="img-fluid" src="~/Images/@item.Images" alt="Survey Image" />
+                                <img class="thisImg" src="~/Images/@item.Images" alt="Survey Image" />
                             </div>
                             <div class="card-body">
                                 <h5 class="green-topic">Topic: @item.Topic</h5>
                             </div>
                         </div>
                     </a>
+                }
+                else
+                {
+                    <p>This article is unavailable.</p>
                 }
             }
         </div>
@@ -99,7 +108,7 @@
                                 <div class="overlay">
                                     <p>Description: @item.Description</p>
                                     <p>EndDate: @item.EndDate</p>
-                                    <h2>Prize: @item.Prizes</h2>
+                                    <h2>Prize: @item.Prizes$</h2>
                                 </div>
                             </a>
                         </div>
