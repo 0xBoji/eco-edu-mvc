@@ -4,12 +4,20 @@
     Layout = "_Layout";
 }
 
-<h1>Competitions</h1>
+<style>
+    .darker {
+        background-color: #000;
+    }
+</style>
 
-<p>
-    <a class="btn btn-primary" asp-action="Create">Create New Competition</a>
-</p>
+<div class="row">
+    <h1 class="col-lg-10 col-md-8 col-sm-6">Competition List</h1>
+    <a asp-action="Create" class="btn btn-primary col-lg-2 col-md-4 col-sm-6 create-a">
+        Create new competition
+    </a>
+</div>
 
+<hr class="darker" />
 <table class="table">
     <thead>
         <tr>
@@ -29,8 +37,8 @@
             <tr>
                 <td>@item.Title</td>
                 <td>@item.Description</td>
-                <td>@item.StartDate</td>
-                <td>@item.EndDate</td>
+                <td>@item.StartDate?.ToString("yyyy/MM/dd")</td>
+                <td>@item.EndDate?.ToString("yyyy/MM/dd")</td>
                 <td>@item.Active</td>
                 <td>
                     @if (!string.IsNullOrEmpty(item.Images))
@@ -53,10 +61,4 @@
             </tr>
         }
     </tbody>
-    @* @if (TempData["PermissionDenied"] != null && (bool)TempData["PermissionDenied"])
-    {
-        <div class="alert alert-danger" role="alert">
-            You do not have permission to perform this action.
-        </div>
-    } *@
 </table>
