@@ -182,14 +182,27 @@ public class SurveysController(EcoEduContext context) : Controller
                 var survey = await _context.Surveys.FindAsync(id);
                 if (survey == null) return NotFound();
 
+
                 // Check to delete relationship
-                var response = _context.Responses.Where(r => r.QuestionId == id);
-                _context.Responses.RemoveRange(response);
+                var questions = _context.Questions.Where(q => q.SurveyId == id).ToList();
 
-                var question = _context.Questions.Where(q => q.SurveyId == id);
-                _context.Questions.RemoveRange(question);
+                // Fetch and remove responses related to the questions of the survey
+                foreach (var question in questions)
+                {
+                    var responses = _context.Responses.Where(r => r.QuestionId == question.QuestionId).ToList();
+                    _context.Responses.RemoveRange(responses);
+                }
 
+                // Remove the questions
+                _context.Questions.RemoveRange(questions);
+
+                // Fetch and remove responses directly related to the survey
+                var surveyResponses = _context.Responses.Where(r => r.UserId == id).ToList();
+                _context.Responses.RemoveRange(surveyResponses);
+
+                // Remove the survey
                 _context.Surveys.Remove(survey);
+
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -201,23 +214,4 @@ public class SurveysController(EcoEduContext context) : Controller
         TempData["PermissionDenied"] = true;
         return RedirectToAction("Index", "Home");
     }
-
-    //[HttpPost]
-    //public async Task<IActionResult> RemoveUser(int id)
-    //{
-    //    var user = await _context.Users.FindAsync(id);
-    //    if (user == null) return NotFound();
-
-    //    //check and delete the relationship
-    //    var competitionEntries = context.CompetitionEntries.Where(ce => ce.UserId == id);
-    //    context.CompetitionEntries.RemoveRange(competitionEntries);
-    //    var response = context.Responses.Where(rs => rs.UserId == id);
-    //    context.Responses.RemoveRange(response);
-    //    var seminars = context.SeminarMembers.Where(s => s.UserId == id);
-    //    context.SeminarMembers.RemoveRange(seminars);
-
-    //    context.Users.Remove(user);
-    //    await context.SaveChangesAsync();
-    //    return RedirectToAction("RequestShow");
-    //}
 }
