@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using eco_edu_mvc.Models.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace eco_edu_mvc.Models.SurveyModels;
@@ -14,5 +14,5 @@ public class QuestionModel
     public string? Answer3 { get; set; }
     public string? CorrectAnswer { get; set; }
 
-    public List<SelectListItem> Surveys { get; set; } = [];
+    public string Title { get; set; } 
 }

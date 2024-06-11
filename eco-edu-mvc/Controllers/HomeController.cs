@@ -4,12 +4,14 @@ using eco_edu_mvc.Models.HomeViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Linq;
 
 namespace eco_edu_mvc.Controllers;
 public class HomeController(EcoEduContext context) : Controller
 {
     private readonly EcoEduContext _context = context;
 
+    [HttpGet]
     public async Task<IActionResult> Index()
     {
         var surveys = await _context.Surveys.Where(s => s.Active == true).OrderByDescending(s => s.CreateDate).Take(4).ToListAsync();
@@ -39,6 +41,7 @@ public class HomeController(EcoEduContext context) : Controller
         return View();
     }
 
+    [HttpGet]
     public async Task<IActionResult> Survey()
     {
         if (HttpContext.Session.GetString("Is_Accept") == "true")
@@ -56,11 +59,31 @@ public class HomeController(EcoEduContext context) : Controller
         return RedirectToAction("index", "home");
     }
 
+    [HttpGet]
     public async Task<IActionResult> SurveyDetail(int id)
     {
         if (HttpContext.Session.GetString("Is_Accept") == "true")
         {
             var survey = await _context.Surveys.Include(s => s.Questions).FirstOrDefaultAsync(s => s.SurveyId == id);
+
+            // Randomize answers for each question
+            foreach (var question in survey.Questions)
+            {
+                List<string> answers = [];
+                if (!string.IsNullOrEmpty(question.Answer1)) answers.Add(question.Answer1);
+                if (!string.IsNullOrEmpty(question.Answer2)) answers.Add(question.Answer2);
+                if (!string.IsNullOrEmpty(question.Answer3)) answers.Add(question.Answer3);
+                if (!string.IsNullOrEmpty(question.CorrectAnswer)) answers.Add(question.CorrectAnswer);
+
+                answers = [.. answers.OrderBy(a => Guid.NewGuid())];
+
+                // Reassign shuffled answers
+                question.Answer1 = answers.Count > 0 ? answers[0] : null;
+                question.Answer2 = answers.Count > 1 ? answers[1] : null;
+                question.Answer3 = answers.Count > 2 ? answers[2] : null;
+                question.CorrectAnswer = answers.Count > 3 ? answers[3] : null;
+            }
+
             SurveyDetailModel model = new()
             {
                 Survey = survey,
@@ -71,6 +94,7 @@ public class HomeController(EcoEduContext context) : Controller
         TempData["PermissionDenied"] = true;
         return RedirectToAction("index", "home");
     }
+
 
     [HttpPost]
     public async Task<IActionResult> SubmitDetail(SurveyDetailModel model)
@@ -169,7 +193,7 @@ public class HomeController(EcoEduContext context) : Controller
     public ActionResult Contact() => View();
 
     public async Task<IActionResult> FAQs() => View(await _context.Faqs.ToListAsync());
-    
+
 
     public async Task<IActionResult> Seminar() => View(await _context.Seminars
                                      .Include(s => s.Sm)

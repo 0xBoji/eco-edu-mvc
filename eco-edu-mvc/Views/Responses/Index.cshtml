@@ -1,4 +1,5 @@
-﻿@model IEnumerable<eco_edu_mvc.Models.Entities.Response>
+﻿@model X.PagedList.IPagedList<eco_edu_mvc.Models.Entities.Response>
+@using X.PagedList.Mvc.Core
 
 @{
     Layout = "_Layout";
@@ -40,6 +41,18 @@
         }
     </tbody>
 </table>
+
+<!-- Pagination -->
+<div class="row pt-5">
+    <div class="col-md-12">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions
+   {
+       UlElementClasses = new[] { "pagination justify-content-center" },
+       LiElementClasses = new[] { "page-item" },
+       PageClasses = new[] { "page-link" }
+   })
+    </div>
+</div>
 
 <hr class="darker" />
 <a asp-controller="Surveys" asp-action="Index" class="btn btn-info">To survey list</a>
