@@ -1,8 +1,7 @@
-using eco_edu_mvc.Models;
 using eco_edu_mvc.Models.Entities;
 using eco_edu_mvc.Models.SurveyModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using X.PagedList;
 
 namespace eco_edu_mvc.Controllers;
 public class SurveysController(EcoEduContext context) : Controller
@@ -10,11 +9,15 @@ public class SurveysController(EcoEduContext context) : Controller
     private readonly EcoEduContext _context = context;
 
     [HttpGet]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(int? page)
     {
         if (HttpContext.Session.GetString("Role") == "Admin")
         {
-            return View(await _context.Surveys.ToListAsync());
+            // Pagination
+            int pageSize = 3;
+            int pageNumber = page ?? 1;
+
+            return View(await _context.Surveys.OrderByDescending(s => s.CreateDate).ToPagedListAsync(pageNumber, pageSize));
         }
         TempData["PermissionDenied"] = true;
         return RedirectToAction("index", "home");
@@ -172,46 +175,4 @@ public class SurveysController(EcoEduContext context) : Controller
         return View(model);
     }
 
-    [HttpPost, ActionName("Delete")]
-    public async Task<IActionResult> DeleteConfirmed(int id)
-    {
-        if (HttpContext.Session.GetString("Role") == "Admin")
-        {
-            try
-            {
-                var survey = await _context.Surveys.FindAsync(id);
-                if (survey == null) return NotFound();
-
-
-                // Check to delete relationship
-                var questions = _context.Questions.Where(q => q.SurveyId == id).ToList();
-
-                // Fetch and remove responses related to the questions of the survey
-                foreach (var question in questions)
-                {
-                    var responses = _context.Responses.Where(r => r.QuestionId == question.QuestionId).ToList();
-                    _context.Responses.RemoveRange(responses);
-                }
-
-                // Remove the questions
-                _context.Questions.RemoveRange(questions);
-
-                // Fetch and remove responses directly related to the survey
-                var surveyResponses = _context.Responses.Where(r => r.UserId == id).ToList();
-                _context.Responses.RemoveRange(surveyResponses);
-
-                // Remove the survey
-                _context.Surveys.Remove(survey);
-
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("Delete", "Failed to delete survey: " + ex.Message);
-            }
-            return RedirectToAction(nameof(Index));
-        }
-        TempData["PermissionDenied"] = true;
-        return RedirectToAction("Index", "Home");
-    }
 }
