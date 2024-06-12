@@ -52,7 +52,7 @@ public class HomeController(EcoEduContext context) : Controller
                 (s.Active == true && s.TargetAudience.StartsWith("Both")) ||
                 (s.Active == true && s.TargetAudience.StartsWith("Staff") == role.StartsWith("Staff")) ||
                 (s.Active == true && s.TargetAudience.StartsWith("Student") == role.StartsWith("Student")))
-                .OrderByDescending(s => s.CreateDate).ToListAsync();
+                .OrderByDescending(s => s.CreateDate).Where(s => s.Questions.Any()).ToListAsync();
 
 			var participatedSurveyIds = await _context.Responses
 			.Where(r => r.UserId == userId)
@@ -62,9 +62,7 @@ public class HomeController(EcoEduContext context) : Controller
 
 			ViewBag.ParticipatedSurveyIds = participatedSurveyIds;
 
-            var surveysWithQuestions = surveys.Where(s => s.Questions.Any()).ToList();
-
-            return View(surveysWithQuestions);
+            return View(surveys);
         }
         TempData["PermissionDenied"] = true;
         return RedirectToAction("index", "home");
