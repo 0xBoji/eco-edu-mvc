@@ -7,7 +7,7 @@ public partial class Seminar
 {
     public int SeminarId { get; set; }
 
-    public int? SmId { get; set; }
+    public int SmId { get; set; }
 
     public string Title { get; set; } = null!;
 
