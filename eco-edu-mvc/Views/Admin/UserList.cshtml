@@ -20,7 +20,7 @@
 	<tbody>
 		@foreach (var item in Model)
 		{
-			if (item.Role != "Admin")
+			if (item.Role != "Admin" && item.IsBan != true)
 			{
 				<tr>
 					<td>@item.UserId</td>
@@ -33,11 +33,10 @@
 					<td>@item.IsAccept</td>
 					<td>
 						<a asp-controller="admin" asp-action="Update" asp-route-id="@item.UserId" class="btn btn-outline-secondary">Edit</a>
-						<form asp-action="RemoveUser" asp-controller="admin" method="post" asp-route-id="@item.UserId" style="display: inline-flex">
-							<button type="submit" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to remove this user?')">Remove</button>
+						<form asp-action="BanUser" asp-controller="admin" method="post" asp-route-id="@item.UserId" style="display: inline-flex">
+							<button type="submit" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to ban this user?')">Ban</button>
 						</form>
 					</td>
-
 				</tr>
 			}
 		}

@@ -45,7 +45,7 @@
                 </div>
             </div>
             <div class="contactForm">
-                <form asp-action="CheckVe" class="signin-form" method="post">
+                <form asp-action="SendVerificationCode" class="signin-form" method="post" asp-controller="home">
                     <div asp-validation-summary="All" class="text-warning"></div>
                     <div class="inputBox">
                         <input type="text"  asp-for="FullName" required>

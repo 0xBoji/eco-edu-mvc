@@ -106,29 +106,16 @@ public class AdminController(EcoEduContext context) : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> RemoveUser(int id)
+    public async Task<IActionResult> BanUser(int id)
     {
         var user = await _context.Users.FindAsync(id);
         if (user == null) return NotFound();
 
-        //check and delete the relationship
-        var competitionEntries = _context.CompetitionEntries.Where(ce => ce.UserId == id).ToList();
+        user.IsBan = true;
 
-        foreach (var entry in competitionEntries)
-        {
-            var gradeTests = _context.GradeTests.Where(gt => gt.EntryId == entry.EntryId);
-            _context.GradeTests.RemoveRange(gradeTests);
-        }
-
-        _context.CompetitionEntries.RemoveRange(competitionEntries);
-        var response = _context.Responses.Where(rs => rs.UserId == id);
-        _context.Responses.RemoveRange(response);
-        var seminars = _context.SeminarMembers.Where(s => s.UserId == id);
-        _context.SeminarMembers.RemoveRange(seminars);
-
-        _context.Users.Remove(user);
+        _context.Update(user);
         await _context.SaveChangesAsync();
-        return RedirectToAction("RequestShow");
+        return RedirectToAction("UserList");
     }
 
     public IActionResult ChangePasswordAdmin()
