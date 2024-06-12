@@ -33,14 +33,7 @@ public class EmailSender : IEmailSender
 		}
 		catch (SmtpException ex)
 		{
-			// Log lỗi chi tiết
 			Console.WriteLine($"SMTP Exception: {ex.Message}");
-			throw;
-		}
-		catch (Exception ex)
-		{
-			// Log lỗi chi tiết
-			Console.WriteLine($"General Exception: {ex.Message}");
 			throw;
 		}
 	}
