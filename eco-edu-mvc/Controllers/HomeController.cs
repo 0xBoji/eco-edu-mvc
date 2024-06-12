@@ -1,15 +1,25 @@
 using eco_edu_mvc.Models;
+using eco_edu_mvc.Models.AccountsViewModel;
+using eco_edu_mvc.Models.ContactViewModel;
 using eco_edu_mvc.Models.Entities;
 using eco_edu_mvc.Models.HomeViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using System.Diagnostics;
 using System.Linq;
 
 namespace eco_edu_mvc.Controllers;
-public class HomeController(EcoEduContext context) : Controller
+public class HomeController : Controller
 {
-    private readonly EcoEduContext _context = context;
+    private readonly EcoEduContext _context;
+    private readonly IEmailSender emailSender;
+
+    public HomeController(EcoEduContext context, IEmailSender emailSender)
+    {
+        _context = context;
+        this.emailSender = emailSender;
+    }
 
     [HttpGet]
     public async Task<IActionResult> Index()
@@ -209,7 +219,53 @@ public class HomeController(EcoEduContext context) : Controller
                                      .ThenInclude(sm => sm.User)
                                      .ToListAsync());
 
+    private string GenerateVerificationCode()
+    {
+        return Guid.NewGuid().ToString().Substring(0, 6);
+    }
 
+    [HttpPost]
+    public async Task<IActionResult> SendVerificationCode(ContactModel model)
+    {
+        var verificationCode = GenerateVerificationCode();
+
+        var receiver = model.Email;
+        var subject = "Verification Code confirm Email";
+        var message = verificationCode;
+
+        HttpContext.Session.SetString("code", verificationCode);
+        HttpContext.Session.SetString("name", model.FullName);
+        HttpContext.Session.SetString("mail", model.Email);
+        HttpContext.Session.SetString("Message", model.Message);
+
+
+        await emailSender.SendEmailAsync(receiver, subject, message);
+        return RedirectToAction("CheckVerificationCode", "Home");
+
+    }
+
+    public IActionResult CheckVerificationCode() => View();
+
+
+    [HttpPost]
+    public async Task<IActionResult> CheckVerificationCode(CheckOnlyCode model)
+    {
+        string code = HttpContext.Session.GetString("code");
+        if(model.code == code)
+        {
+            var receiver = "rin04082004@gmail.com";
+            var subject = HttpContext.Session.GetString("name") + " " + HttpContext.Session.GetString("mail") + " Contact";
+            var message = HttpContext.Session.GetString("Message");
+
+            await emailSender.SendEmailAsync(receiver, subject, message);
+            TempData["SendEmail"] = false;
+            return RedirectToAction("Contact", "home");
+        }
+        ModelState.AddModelError("code", "Invalid Code!");
+        return View(model);
+    }
+
+    
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

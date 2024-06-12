@@ -30,8 +30,7 @@ public class AccountController : Controller
         {
             var existingUserWithUsername = await context.Users.AnyAsync(u => u.Username == model.Username);
             var existsingUserCode = await context.Users.AnyAsync(u => u.UserCode == model.UserCode);
-            //var isValidUserCode = model.UserCode.ToLower().StartsWith("st") || model.UserCode.ToLower().StartsWith("tf");
-            if (existingUserWithUsername || existsingUserCode /*|| !isValidUserCode*/)
+            if (existingUserWithUsername || existsingUserCode)
             {
                 if (existingUserWithUsername)
                 {
@@ -41,10 +40,6 @@ public class AccountController : Controller
                 {
                     ModelState.AddModelError("User_Code", "The usercode is already exsits!");
                 }
-                //if (!isValidUserCode)
-                //{
-                //    ModelState.AddModelError("User_Code", "The usercode must start with st for student and tf for staff/faculty");
-                //}
                 return View(model);
             }
 
