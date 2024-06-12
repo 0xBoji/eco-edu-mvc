@@ -17,7 +17,9 @@ public partial class Seminar
 
     public DateTime? OccursDate { get; set; }
 
-    public bool Active { get; set; }
+    public bool? Active { get; set; }
 
     public virtual SeminarMember? Sm { get; set; }
+    public ICollection<SeminarMember> SeminarMembers { get; set; } = new List<SeminarMember>();
+
 }
