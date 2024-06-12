@@ -17,6 +17,8 @@ public partial class User
 
     public bool IsAccept { get; set; }
 
+    public bool? IsBan { get; set; }
+
     public DateTime? EntryDate { get; set; }
 
     public string? Email { get; set; }

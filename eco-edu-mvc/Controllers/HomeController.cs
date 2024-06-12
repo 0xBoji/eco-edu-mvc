@@ -44,13 +44,24 @@ public class HomeController(EcoEduContext context) : Controller
         if (HttpContext.Session.GetString("Is_Accept") == "true")
         {
             var role = HttpContext.Session.GetString("Role");
-            var surveys = await _context.Surveys.Where(s => (s.Active == true && s.TargetAudience == "Both") ||
+            var userId = int.Parse(HttpContext.Session.GetString("UserId"));
+			var surveys = await _context.Surveys.Where(s => (s.Active == true && s.TargetAudience == "Both") ||
                 (s.Active == true && s.TargetAudience.StartsWith("Both")) ||
                 (s.Active == true && s.TargetAudience.StartsWith("Staff") == role.StartsWith("Staff")) ||
                 (s.Active == true && s.TargetAudience.StartsWith("Student") == role.StartsWith("Student")))
                 .OrderByDescending(s => s.CreateDate).ToListAsync();
 
-            return View(surveys);
+			var participatedSurveyIds = await _context.Responses
+			.Where(r => r.UserId == userId)
+			.Select(r => r.Question.SurveyId)
+			.Distinct()
+			.ToListAsync();
+
+			ViewBag.ParticipatedSurveyIds = participatedSurveyIds;
+
+            var surveysWithQuestions = surveys.Where(s => s.Questions.Any()).ToList();
+
+            return View(surveysWithQuestions);
         }
         TempData["PermissionDenied"] = true;
         return RedirectToAction("index", "home");

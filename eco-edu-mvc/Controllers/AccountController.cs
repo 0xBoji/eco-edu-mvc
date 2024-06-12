@@ -30,8 +30,8 @@ public class AccountController : Controller
         {
             var existingUserWithUsername = await context.Users.AnyAsync(u => u.Username == model.Username);
             var existsingUserCode = await context.Users.AnyAsync(u => u.UserCode == model.UserCode);
-            var isValidUserCode = model.UserCode.ToLower().StartsWith("st") || model.UserCode.ToLower().StartsWith("tf");
-            if (existingUserWithUsername || existsingUserCode || !isValidUserCode)
+            //var isValidUserCode = model.UserCode.ToLower().StartsWith("st") || model.UserCode.ToLower().StartsWith("tf");
+            if (existingUserWithUsername || existsingUserCode /*|| !isValidUserCode*/)
             {
                 if (existingUserWithUsername)
                 {
@@ -41,10 +41,10 @@ public class AccountController : Controller
                 {
                     ModelState.AddModelError("User_Code", "The usercode is already exsits!");
                 }
-                if (!isValidUserCode)
-                {
-                    ModelState.AddModelError("User_Code", "The usercode must start with st for student and tf for staff/faculty");
-                }
+                //if (!isValidUserCode)
+                //{
+                //    ModelState.AddModelError("User_Code", "The usercode must start with st for student and tf for staff/faculty");
+                //}
                 return View(model);
             }
 
@@ -57,7 +57,8 @@ public class AccountController : Controller
                 IsAccept = false,
                 EmailVerify = false,
                 CreateDate = DateTime.Now,
-                Role = model.UserCode.ToLower().StartsWith("st") ? "Student" : "Staff",
+                IsBan = false,
+                Role = model.Role,
             };
             context.Users.Add(user);
             await context.SaveChangesAsync();
@@ -74,7 +75,13 @@ public class AccountController : Controller
         if (ModelState.IsValid)
         {
             var user = await context.Users.FirstOrDefaultAsync(u => u.Username == model.Username);
-            if (user != null && BCrypt.Net.BCrypt.Verify(model.Password, user.Password))
+            if (user.IsBan == true)
+            {
+                ModelState.AddModelError("IsBan", "You have been banned from our Website!!");
+                return View(model);
+            }
+
+            if (user != null && BCrypt.Net.BCrypt.Verify(model.Password, user.Password) && user.IsBan == false)
             {
                 HttpContext.Session.SetString("UserId", user.UserId.ToString());
                 HttpContext.Session.SetString("Username", user.Username);
