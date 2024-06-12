@@ -33,6 +33,12 @@
 								<input type="text" class="form-control" placeholder="UserCode" asp-for="UserCode" required>
 							</div>
 							<div class="form-group">
+								<select class="form-control" name="Role">
+									<option value="Student" style="color:black;">Student</option>
+									<option value="Staff" style="color:black;">Staff</option>
+								</select>
+							</div>
+							<div class="form-group">
 								<input id="password-field" type="password" class="form-control" placeholder="Password" asp-for="Password" required>
 								<span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
 							</div>
