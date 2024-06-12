@@ -7,7 +7,7 @@ public partial class Seminar
 {
     public int SeminarId { get; set; }
 
-    public int? SmId { get; set; }
+    public int SmId { get; set; }
 
     public string Title { get; set; } = null!;
 
@@ -23,4 +23,5 @@ public partial class Seminar
     public ICollection<SeminarMember> SeminarMembers { get; set; } = new List<SeminarMember>();
 
 
+    public virtual SeminarMember Sm { get; set; } = null!;
 }
