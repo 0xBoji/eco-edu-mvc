@@ -58,6 +58,23 @@
                 <td>
                     <a asp-controller="Questions" asp-action="Post" asp-route-id="@survey.SurveyId" class="btn btn-primary">Create question</a>
                     <a asp-controller="Surveys" asp-action="Update" asp-route-id="@survey.SurveyId" class="btn btn-warning">Edit</a>
+                    @if (survey.Active)
+                    {
+                        <form asp-controller="Surveys" asp-action="ToggleSurveyStatus" method="post" style="display:inline;"
+                              onsubmit="return confirm('Are you sure you want to deactivate this survey?');">
+                            <input type="hidden" name="id" value="@survey.SurveyId" />
+                            <input type="hidden" name="activate" value="false" />
+                            <input type="submit" value="Deactivate" class="btn btn-outline-danger" />
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-controller="Surveys" asp-action="ToggleSurveyStatus" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@survey.SurveyId" />
+                            <input type="hidden" name="activate" value="true" />
+                            <input type="submit" value="Activate" class="btn btn-outline-info" />
+                        </form>
+                    }
                 </td>
             </tr>
         }

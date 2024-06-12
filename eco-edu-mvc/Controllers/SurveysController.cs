@@ -175,4 +175,25 @@ public class SurveysController(EcoEduContext context) : Controller
         return View(model);
     }
 
+    [HttpPost]
+    public async Task<IActionResult> ToggleSurveyStatus(int id, bool activate)
+    {
+        var survey = await _context.Surveys.FindAsync(id);
+        if (survey != null)
+        {
+            try
+            {
+                survey.Active = activate;
+
+                _context.Surveys.Update(survey);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, $"Failed to update survey status: {ex.Message}");
+            }
+        }
+        return RedirectToAction(nameof(Index));
+    }
+
 }
